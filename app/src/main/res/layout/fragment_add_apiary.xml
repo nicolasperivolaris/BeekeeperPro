@@ -24,7 +24,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:labelFor="@id/apiaryName"
-                android:text="@string/apiary"
+                android:text="@string/apiaryName"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="@string/name"
+                android:text=""
                 android:textSize="20sp" />
         </TableRow>
 
@@ -50,7 +50,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:labelFor="@id/apiaryLocation"
-                android:text="@string/apiary"
+                android:text="@string/location"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="@string/name"
+                android:text=""
                 android:textSize="20sp" />
         </TableRow>
 
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="@string/_50_8476"
+                android:text=""
                 android:textSize="20sp" />
         </TableRow>
 
@@ -125,7 +125,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:labelFor="@id/apiaryLong"
-                android:text="Long :"
+                android:text="@string/longitude"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="4.3572"
+                android:text=""
                 android:textSize="20sp" />
         </TableRow>
 

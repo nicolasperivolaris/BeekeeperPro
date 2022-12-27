@@ -1,4 +1,4 @@
-package com.beekeeperpro.utils;
+package com.beekeeperpro.data;
 
 import android.os.StrictMode;
 import android.util.Log;

@@ -4,16 +4,25 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.beekeeperpro.MainActivity;
+import com.beekeeperpro.data.ApiaryRepository;
+import com.beekeeperpro.data.model.Apiary;
+
+import java.util.List;
+
 public class HomeViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final ApiaryRepository repository;
 
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        repository = ApiaryRepository.getInstance(MainActivity.dataSource);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<Apiary>> getApiaries() {
+        return repository.getApiaries();
+    }
+
+    public void update(){
+        repository.update();
     }
 }

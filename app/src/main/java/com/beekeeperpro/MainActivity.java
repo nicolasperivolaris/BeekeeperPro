@@ -1,29 +1,40 @@
 package com.beekeeperpro;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
+import android.view.View;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.beekeeperpro.data.DataSource;
 import com.beekeeperpro.databinding.ActivityMainBinding;
+import com.beekeeperpro.ui.login.LoginViewModel;
+import com.beekeeperpro.ui.login.LoginViewModelFactory;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    public static final DataSource dataSource = new DataSource();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //todo temp
+        new Thread(()->{
+            LoginViewModel loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
+                    .get(LoginViewModel.class);
+            loginViewModel.login("testuser", "");
+        }).start();
+        //temp
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

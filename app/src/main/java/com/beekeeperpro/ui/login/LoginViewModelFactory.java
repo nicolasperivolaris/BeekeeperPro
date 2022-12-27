@@ -1,10 +1,10 @@
-package com.beekeeperpro.login;
+package com.beekeeperpro.ui.login;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.annotation.NonNull;
 
-import com.beekeeperpro.data.LoginDataSource;
+import com.beekeeperpro.MainActivity;
 import com.beekeeperpro.data.LoginRepository;
 
 /**
@@ -18,7 +18,7 @@ public class LoginViewModelFactory implements ViewModelProvider.Factory {
     @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(LoginViewModel.class)) {
-            return (T) new LoginViewModel(LoginRepository.getInstance(new LoginDataSource()));
+            return (T) new LoginViewModel(LoginRepository.getInstance(MainActivity.dataSource));
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }

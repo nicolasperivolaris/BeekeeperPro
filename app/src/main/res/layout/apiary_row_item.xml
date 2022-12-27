@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,7 +10,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/apiaryImage"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:contentDescription="@string/picture"
@@ -48,7 +47,7 @@
                     android:id="@+id/apiaryLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Apiary Location"
+                    android:hint="@string/apiary_location"
                     android:padding="5dp"
                     android:textSize="20dp" />
 
@@ -57,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Hives count :"
+                    android:text="@string/hives_count"
                     android:textSize="20dp" />
 
                 <TextView

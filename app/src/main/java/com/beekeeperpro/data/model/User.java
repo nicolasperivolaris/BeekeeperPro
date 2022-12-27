@@ -1,15 +1,12 @@
 package com.beekeeperpro.data.model;
 
-/**
- * Data class that captures user information for logged in users retrieved from LoginRepository
- */
-public class LoggedInUser {
+public class User {
 
-    private int id;
-    private String name;
-    private String email;
+    private final int id;
+    private final String name;
+    private final String email;
 
-    public LoggedInUser(int id, String name, String email) {
+    public User(int id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;

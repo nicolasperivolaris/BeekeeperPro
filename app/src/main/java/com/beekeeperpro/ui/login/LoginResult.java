@@ -1,4 +1,4 @@
-package com.beekeeperpro.login;
+package com.beekeeperpro.ui.login;
 
 import androidx.annotation.Nullable;
 
