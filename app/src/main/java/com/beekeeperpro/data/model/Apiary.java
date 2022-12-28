@@ -3,7 +3,6 @@ package com.beekeeperpro.data.model;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Apiary {
@@ -20,7 +19,6 @@ public class Apiary {
         this.name = name;
         this.location = location;
         this.hivesCount = hivesCount;
-        hives = new ArrayList<>();
     }
 
     public int getId() {

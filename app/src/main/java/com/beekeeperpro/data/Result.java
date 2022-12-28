@@ -31,6 +31,13 @@ public class Result<T> {
         public T getData() {
             return this.data;
         }
+
+        @Override
+        public String toString() {
+            return "Success{" +
+                    "data=" + data +
+                    '}';
+        }
     }
 
     // Error sub-class
@@ -43,6 +50,13 @@ public class Result<T> {
 
         public Exception getError() {
             return this.error;
+        }
+
+        @Override
+        public String toString() {
+            return "Error{" +
+                    "error=" + error +
+                    '}';
         }
     }
 }

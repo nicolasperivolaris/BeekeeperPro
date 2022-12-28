@@ -24,10 +24,12 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     public static final DataSource dataSource = new DataSource();
+    public static MainActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
         //todo temp
         new Thread(()->{
             LoginViewModel loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())

@@ -1,24 +1,21 @@
 package com.beekeeperpro.ui.home;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.beekeeperpro.R;
 
 public class ApiaryFragment extends Fragment {
 
-    private ApiaryViewModel mViewModel;
-
-    public static ApiaryFragment newInstance() {
+    private ApiaryViewModel ViewModel;
+    public static ApiaryFragment newInstance(int apiaryId) {
         return new ApiaryFragment();
     }
 
@@ -29,10 +26,9 @@ public class ApiaryFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ApiaryViewModel.class);
-        // TODO: Use the ViewModel
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ViewModel = new ViewModelProvider(this).get(ApiaryViewModel.class);
+        ViewModel.setApiaryId(getArguments().getInt("id"));
     }
-
 }

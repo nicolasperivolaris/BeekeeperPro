@@ -10,10 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.beekeeperpro.MainActivity;
-import com.beekeeperpro.data.ApiaryRepository;
 import com.beekeeperpro.databinding.FragmentHomeBinding;
-import com.google.android.gms.common.api.Api;
 
 public class HomeFragment extends Fragment {
 
@@ -25,9 +22,9 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        ApiariesAdapter adapter = new ApiariesAdapter();
+        ApiariesAdapter adapter = new ApiariesAdapter(getActivity());
         binding.ApiaryList.setAdapter(adapter);
-        homeViewModel.getApiaries().observe(getViewLifecycleOwner(), adapter::setApiaries);
+        homeViewModel.getData().observe(getViewLifecycleOwner(), adapter::setApiaries);
 
         return root;
     }
