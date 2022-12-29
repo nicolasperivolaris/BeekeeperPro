@@ -1,4 +1,4 @@
-package com.beekeeperpro.ui.home;
+package com.beekeeperpro.ui.apiary;
 
 import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Hive;

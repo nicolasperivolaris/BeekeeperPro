@@ -30,14 +30,14 @@ public class DataSource {
             preparedStatement.setString(1, username.toLowerCase(Locale.ROOT));
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 User user = new User(resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getString(3));
 
                 preparedStatement.close();
                 return new Result.Success<User>(user);
-            }else {
+            } else {
                 return new Result.Error(new LoginException());
             }
 
@@ -49,18 +49,21 @@ public class DataSource {
         }
     }
 
-    public Result getApiaries(User user){
-        try{
+    public Result getApiaries(User user) {
+        try {
             String queryStmt = "Select * from dbo.[Apiary] where user_id = " + user.getUserId();
             Connection connect = ConnectionHelper.CONN();
 
             ResultSet resultSet = connect.createStatement().executeQuery(queryStmt);
             List<Apiary> list = new ArrayList<>();
-            while(resultSet.next()) {
-                Apiary apiary = new Apiary(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(7), resultSet.getInt(6));
+            while (resultSet.next()) {
+                Apiary apiary = new Apiary(resultSet.getInt(1),
+                                            resultSet.getString(2),
+                                            resultSet.getString(7),
+                                            resultSet.getInt(6));
                 list.add(apiary);
             }
-                return new Result.Success<>(list);
+            return new Result.Success<>(list);
         } catch (SQLException e) {
             e.printStackTrace();
             return new Result.Error(new IOException("Error SQL", e));
@@ -71,18 +74,22 @@ public class DataSource {
 
     public void logout() {
         // TODO: revoke authentication
-        throw new RuntimeException("Not implemented");
+        ConnectionHelper.Disconnect();
     }
 
     public Result getHives(int apiaryId) {
-        try{
+        try {
             String queryStmt = "Select * from dbo.[Hive] where apiary_id = " + apiaryId;
             Connection connect = ConnectionHelper.CONN();
 
             ResultSet resultSet = connect.createStatement().executeQuery(queryStmt);
             List<Hive> list = new ArrayList<>();
-            while(resultSet.next()) {
-                Hive hive = new Hive(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
+            while (resultSet.next()) {
+                Hive hive = new Hive(resultSet.getInt(1),
+                                        resultSet.getString(2),
+                                        resultSet.getString(3),
+                                        resultSet.getInt(6),
+                                        resultSet.getDate(7));
                 list.add(hive);
             }
             return new Result.Success<>(list);

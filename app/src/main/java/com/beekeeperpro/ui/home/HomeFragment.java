@@ -9,20 +9,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import com.beekeeperpro.R;
 import com.beekeeperpro.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
 
-    private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        com.beekeeperpro.databinding.FragmentHomeBinding binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        ApiariesAdapter adapter = new ApiariesAdapter(getActivity());
+        ApiaryAdapter adapter = new ApiaryAdapter();
+        adapter.getClickedId().observe(getViewLifecycleOwner(), this::onClick);
         binding.ApiaryList.setAdapter(adapter);
         homeViewModel.getData().observe(getViewLifecycleOwner(), adapter::setApiaries);
 
@@ -35,10 +39,12 @@ public class HomeFragment extends Fragment {
         homeViewModel.update();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    private void onClick(int id) {
+        //int position = adapter.getAdapterPosition();
+        //int id = apiaries.get(position).getId();
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+        Bundle args = new Bundle();
+        args.putInt("id", id);
+        navController.navigate(R.id.action_nav_home_to_apiaryFragment, args);
     }
-
 }

@@ -1,18 +1,13 @@
 package com.beekeeperpro.ui.home;
 
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.beekeeperpro.R;
@@ -21,14 +16,14 @@ import com.beekeeperpro.data.model.Apiary;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApiariesAdapter extends RecyclerView.Adapter<ApiariesAdapter.ViewHolder> {
+public class ApiaryAdapter extends RecyclerView.Adapter<ApiaryAdapter.ViewHolder> {
 
     private List<Apiary> apiaries;
-    private Activity activity;
+    private final MutableLiveData<Integer> clickedId;
 
-    public ApiariesAdapter(Activity activity) {
+    public ApiaryAdapter() {
         apiaries = new ArrayList<>();
-        this.activity = activity;
+        clickedId = new MutableLiveData<>();
     }
 
     // Create new views (invoked by the layout manager)
@@ -38,12 +33,16 @@ public class ApiariesAdapter extends RecyclerView.Adapter<ApiariesAdapter.ViewHo
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.apiary_row_item, viewGroup, false);
 
-        return new ViewHolder(view, activity);
+        return new ViewHolder(view);
     }
 
     public void setApiaries(List<Apiary> apiaries) {
         this.apiaries = apiaries;
         notifyDataSetChanged();
+    }
+
+    public MutableLiveData<Integer> getClickedId() {
+        return clickedId;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -58,20 +57,20 @@ public class ApiariesAdapter extends RecyclerView.Adapter<ApiariesAdapter.ViewHo
         return apiaries.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private int id;
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        private Integer id;
         private final ImageView image;
         private final TextView apiaryName;
         private final TextView apiaryLocation;
         private final TextView hiveCount;
 
-        public ViewHolder(View view, Activity activity) {
+        public ViewHolder(View view) {
             super(view);
             image = view.findViewById(R.id.apiaryImage);
             apiaryName = view.findViewById(R.id.apiaryName);
             apiaryLocation = view.findViewById(R.id.apiaryLocation);
             hiveCount = view.findViewById(R.id.hiveCount);
-            view.setOnClickListener(this);
+            view.setOnClickListener(v -> clickedId.postValue(id));
         }
 
         public void bind(Apiary apiary){
@@ -79,16 +78,6 @@ public class ApiariesAdapter extends RecyclerView.Adapter<ApiariesAdapter.ViewHo
             apiaryName.setText(apiary.getName());
             apiaryLocation.setText(apiary.getLocation());
             hiveCount.setText(String.valueOf(apiary.getHivesCount()));
-        }
-
-        @Override
-        public void onClick(View view) {
-            //int position = getAdapterPosition();
-            //int id = apiaries.get(position).getId();
-            NavController navController = Navigation.findNavController(activity, R.id.nav_host_fragment_content_main);
-            Bundle args = new Bundle();
-            args.putInt("id", id);
-            navController.navigate(R.id.action_nav_home_to_apiaryFragment, args);
         }
     }
 

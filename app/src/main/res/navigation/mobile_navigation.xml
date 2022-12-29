@@ -28,7 +28,7 @@
         tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/apiaryFragment"
-        android:name="com.beekeeperpro.ui.home.ApiaryFragment"
+        android:name="com.beekeeperpro.ui.apiary.ApiaryFragment"
         android:label="fragment_apiary"
         tools:layout="@layout/fragment_apiary" >
         <argument

@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.beekeeperpro.data.ConnectionHelper;
 import com.beekeeperpro.data.DataSource;
 import com.beekeeperpro.databinding.ActivityMainBinding;
 import com.beekeeperpro.ui.login.LoginViewModel;
@@ -60,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        dataSource.logout();
     }
 
     @Override
