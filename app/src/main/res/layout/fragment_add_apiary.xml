@@ -80,7 +80,7 @@
                 android:textSize="20sp" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/locationBt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Locate" />

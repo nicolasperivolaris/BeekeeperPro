@@ -2,7 +2,6 @@ package com.beekeeperpro;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -12,13 +11,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.beekeeperpro.data.ConnectionHelper;
 import com.beekeeperpro.data.DataSource;
 import com.beekeeperpro.databinding.ActivityMainBinding;
 import com.beekeeperpro.ui.login.LoginViewModel;
 import com.beekeeperpro.ui.login.LoginViewModelFactory;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 

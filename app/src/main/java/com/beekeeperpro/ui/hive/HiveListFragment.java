@@ -1,4 +1,4 @@
-package com.beekeeperpro.ui.apiary;
+package com.beekeeperpro.ui.hive;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.beekeeperpro.databinding.FragmentApiaryBinding;
+import com.beekeeperpro.databinding.FragmentHiveListBinding;
 
-public class ApiaryFragment extends Fragment {
+public class HiveListFragment extends Fragment {
 
-    private ApiaryViewModel viewModel;
+    private HiveListViewModel viewModel;
 
-    public ApiaryFragment() {}
+    public HiveListFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        viewModel = new ViewModelProvider(this).get(ApiaryViewModel.class);
+        viewModel = new ViewModelProvider(this).get(HiveListViewModel.class);
         viewModel.setApiaryId(getArguments().getInt("id"));
-        FragmentApiaryBinding binding = FragmentApiaryBinding.inflate(inflater, container, false);
+        FragmentHiveListBinding binding = FragmentHiveListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        HiveAdapter adapter = new HiveAdapter();
+        HiveListAdapter adapter = new HiveListAdapter();
         adapter.getClickedId().observe(getViewLifecycleOwner(), integer -> {});
         binding.hiveList.setAdapter(adapter);
         viewModel.getData().observe(getViewLifecycleOwner(), adapter::setHiveList);

@@ -6,30 +6,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.beekeeperpro.R;
-import com.beekeeperpro.databinding.FragmentHomeBinding;
+import com.beekeeperpro.databinding.FragmentApiaryListBinding;
 
-public class HomeFragment extends Fragment{
+public class ApiaryListFragment extends Fragment{
 
-    private HomeViewModel homeViewModel;
+    private ApiaryListViewModel apiaryListViewModel;
 
-    public HomeFragment(){}
+    public ApiaryListFragment(){}
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        apiaryListViewModel = new ViewModelProvider(this).get(ApiaryListViewModel.class);
 
-        com.beekeeperpro.databinding.FragmentHomeBinding binding = FragmentHomeBinding.inflate(inflater, container, false);
+        FragmentApiaryListBinding binding = FragmentApiaryListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        ApiaryAdapter adapter = new ApiaryAdapter();
+        ApiaryListAdapter adapter = new ApiaryListAdapter();
         adapter.getClickedId().observe(getViewLifecycleOwner(), this::onClick);
         binding.ApiaryList.setAdapter(adapter);
-        homeViewModel.getData().observe(getViewLifecycleOwner(), adapter::setApiaries);
+        apiaryListViewModel.getData().observe(getViewLifecycleOwner(), adapter::setApiaries);
         return root;
     }
 
@@ -46,6 +45,12 @@ public class HomeFragment extends Fragment{
         getActivity().findViewById(R.id.fab).setOnClickListener(v -> {
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_nav_home_to_addApiaryFragment);
         });
-        homeViewModel.update();
+        apiaryListViewModel.update();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().findViewById(R.id.fab).setOnClickListener(null);
     }
 }

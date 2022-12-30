@@ -7,6 +7,10 @@ public class Location extends android.location.Location {
         super("provider");
     }
 
+    public Location(android.location.Location location){
+        super(location);
+    }
+
     @NonNull
     @Override
     public String toString() {

@@ -16,12 +16,12 @@ import com.beekeeperpro.data.model.Apiary;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApiaryAdapter extends RecyclerView.Adapter<ApiaryAdapter.ViewHolder> {
+public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.ViewHolder> {
 
     private List<Apiary> apiaries;
     private final MutableLiveData<Integer> clickedId;
 
-    public ApiaryAdapter() {
+    public ApiaryListAdapter() {
         apiaries = new ArrayList<>();
         clickedId = new MutableLiveData<>();
     }

@@ -1,4 +1,4 @@
-package com.beekeeperpro.ui.apiary;
+package com.beekeeperpro.ui.hive;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +15,12 @@ import com.beekeeperpro.data.model.Hive;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HiveAdapter extends RecyclerView.Adapter<HiveAdapter.HiveViewHolder> {
+public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveViewHolder> {
 
     private List<Hive> hiveList;
     private final MutableLiveData<Integer> clickedId;
 
-    public HiveAdapter() {
+    public HiveListAdapter() {
         this.hiveList = new ArrayList<>();
         clickedId = new MutableLiveData<>();
     }
