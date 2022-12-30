@@ -2,36 +2,40 @@ package com.beekeeperpro.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Apiary;
+import com.beekeeperpro.ui.ConnectedViewModel;
 
-public class AddApiaryViewModel  extends ViewModel {
-    private Apiary current;
-    private MutableLiveData<String> error;
+public class AddApiaryViewModel  extends ConnectedViewModel<Apiary> {
+
+    private MutableLiveData<String> validationError;
 
     public AddApiaryViewModel() {
-        current = new Apiary();
-        error = new MutableLiveData<>();
+        validationError = new MutableLiveData<>();
+        data.setValue(new Apiary());
     }
 
-    public Apiary getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(Apiary current) {
-        this.current = current;
-    }
-
-    public LiveData<String> getError() {
-        return error;
+    public LiveData<String> getValidationError() {
+        return validationError;
     }
 
     public boolean save() {
-        if(current.getName().trim().equals("")){
-            error.postValue("Name can't be empty.");
+        if(data.getValue().getName().trim().equals("")){
+            validationError.postValue("Name can't be empty.");
             return false;
         }
+        insert(data.getValue());
         return true;
+    }
+
+    @Override
+    public MutableLiveData<Apiary> getData() {
+        return data;
+    }
+
+    @Override
+    protected Result insertIntoSource(Apiary data) {
+        return dataSource.insert(data);
     }
 }

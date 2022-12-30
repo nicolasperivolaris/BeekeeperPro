@@ -14,7 +14,7 @@ public class ApiaryViewModel extends ConnectedViewModel<List<Hive>> {
     }
 
     @Override
-    protected Result getDataFromSource() {
+    protected Result getFromSource() {
         return dataSource.getHives(apiaryId);
     }
 }

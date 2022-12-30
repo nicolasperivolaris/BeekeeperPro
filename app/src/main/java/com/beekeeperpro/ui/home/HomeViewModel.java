@@ -10,7 +10,7 @@ import java.util.List;
 public class HomeViewModel extends ConnectedViewModel<List<Apiary>> {
 
     @Override
-    protected Result getDataFromSource() {
+    protected Result getFromSource() {
         return dataSource.getApiaries(LoginRepository.getLoggedInUser());
     }
 }

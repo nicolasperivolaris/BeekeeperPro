@@ -30,19 +30,10 @@ public class HomeFragment extends Fragment{
         adapter.getClickedId().observe(getViewLifecycleOwner(), this::onClick);
         binding.ApiaryList.setAdapter(adapter);
         homeViewModel.getData().observe(getViewLifecycleOwner(), adapter::setApiaries);
-
         return root;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        homeViewModel.update();
-    }
-
     private void onClick(int id) {
-        //int position = adapter.getAdapterPosition();
-        //int id = apiaries.get(position).getId();
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
         Bundle args = new Bundle();
         args.putInt("id", id);
@@ -55,5 +46,6 @@ public class HomeFragment extends Fragment{
         getActivity().findViewById(R.id.fab).setOnClickListener(v -> {
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_nav_home_to_addApiaryFragment);
         });
+        homeViewModel.update();
     }
 }

@@ -1,11 +1,12 @@
 package com.beekeeperpro.data.model;
 
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+
+import com.beekeeperpro.utils.Location;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class Apiary implements Parcelable {
     public Apiary(){
         name = "";
         location = "";
-        coordinate = new Location("provider");
+        coordinate = new Location();
     }
 
     public Apiary(int id, String name, String location, int hivesCount){
@@ -83,7 +84,7 @@ public class Apiary implements Parcelable {
         this.coordinate = coordinate;
     }
     public void setCoordinate(double lat, double lon) {
-        this.coordinate = new Location("provider");
+        this.coordinate = new Location();
         this.coordinate.setLatitude(lat);
         this.coordinate.setLongitude(lon);
     }

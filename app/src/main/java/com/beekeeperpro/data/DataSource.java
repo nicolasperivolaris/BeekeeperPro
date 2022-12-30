@@ -43,9 +43,9 @@ public class DataSource {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Result.Error(new IOException("Error logging in", e));
+            return new Result.Error(new IOException("Error logging in :", e));
         } catch (Exception e) {
-            return new Result.Error(new IOException("Unknown error at logging", e));
+            return new Result.Error(new IOException("Unknown error at logging :", e));
         }
     }
 
@@ -66,9 +66,9 @@ public class DataSource {
             return new Result.Success<>(list);
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Result.Error(new IOException("Error SQL", e));
+            return new Result.Error(new IOException("Error SQL :", e));
         } catch (Exception e) {
-            return new Result.Error(new IOException("Unknown error at getting apiary from db", e));
+            return new Result.Error(new IOException("Unknown error at getting apiary from db :", e));
         }
     }
 
@@ -95,9 +95,25 @@ public class DataSource {
             return new Result.Success<>(list);
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Result.Error(new IOException("Error SQL", e));
+            return new Result.Error(new IOException("Error SQL :", e));
         } catch (Exception e) {
-            return new Result.Error(new IOException("Unknown error at getting hive from db", e));
+            return new Result.Error(new IOException("Unknown error at getting hive from db :", e));
+        }
+    }
+
+    public Result insert(Apiary apiary){
+        try {
+            String queryStmt = "INSERT INTO BeekeeperPro.dbo.Apiary (name, coordinate, user_id, location)" +
+                    "VALUES ('" + apiary.getName() + "', geography::STGeomFromText('POINT(" + apiary.getCoordinate() +
+                    ")', 4326), " + LoginRepository.getLoggedInUser().getUserId() +", '" + apiary.getLocation() + "');";
+            Connection connect = ConnectionHelper.CONN();
+
+            return new Result.Success<>(connect.createStatement().execute(queryStmt));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Result.Error(new IOException("Error SQL :", e));
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Unknown error when inserting apiary :", e));
         }
     }
 }
