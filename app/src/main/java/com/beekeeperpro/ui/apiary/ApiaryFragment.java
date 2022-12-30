@@ -16,6 +16,8 @@ public class ApiaryFragment extends Fragment {
 
     private ApiaryViewModel viewModel;
 
+    public ApiaryFragment() {}
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {

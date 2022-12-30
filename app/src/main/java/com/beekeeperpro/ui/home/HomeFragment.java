@@ -19,6 +19,7 @@ public class HomeFragment extends Fragment{
 
     private HomeViewModel homeViewModel;
 
+    public HomeFragment(){}
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -46,5 +47,13 @@ public class HomeFragment extends Fragment{
         Bundle args = new Bundle();
         args.putInt("id", id);
         navController.navigate(R.id.action_nav_home_to_apiaryFragment, args);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().findViewById(R.id.fab).setOnClickListener(v -> {
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_nav_home_to_addApiaryFragment);
+        });
     }
 }

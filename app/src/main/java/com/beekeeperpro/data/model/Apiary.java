@@ -1,18 +1,27 @@
 package com.beekeeperpro.data.model;
 
 import android.graphics.Bitmap;
-import android.graphics.Point;
+import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
-public class Apiary {
+public class Apiary implements Parcelable {
     private int id;
     private String name;
     private String location;
-    private Point coordinate;
-    private List<Hive> hives;
+    private Location coordinate;
     private int hivesCount;
     private Bitmap picture;
+
+    public Apiary(){
+        name = "";
+        location = "";
+        coordinate = new Location("provider");
+    }
 
     public Apiary(int id, String name, String location, int hivesCount){
         this.id = id;
@@ -20,6 +29,27 @@ public class Apiary {
         this.location = location;
         this.hivesCount = hivesCount;
     }
+
+    protected Apiary(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        location = in.readString();
+        coordinate = in.readParcelable(Location.class.getClassLoader());
+        hivesCount = in.readInt();
+        picture = in.readParcelable(Bitmap.class.getClassLoader());
+    }
+
+    public static final Creator<Apiary> CREATOR = new Creator<Apiary>() {
+        @Override
+        public Apiary createFromParcel(Parcel in) {
+            return new Apiary(in);
+        }
+
+        @Override
+        public Apiary[] newArray(int size) {
+            return new Apiary[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -45,20 +75,17 @@ public class Apiary {
         this.location = location;
     }
 
-    public Point getCoordinate() {
+    public Location getCoordinate() {
         return coordinate;
     }
 
-    public void setCoordinate(Point coordinate) {
+    public void setCoordinate(Location coordinate) {
         this.coordinate = coordinate;
     }
-
-    public List<Hive> getHives() {
-        return hives;
-    }
-
-    public void setHives(List<Hive> hives) {
-        this.hives = hives;
+    public void setCoordinate(double lat, double lon) {
+        this.coordinate = new Location("provider");
+        this.coordinate.setLatitude(lat);
+        this.coordinate.setLongitude(lon);
     }
 
     public Bitmap getPicture() {
@@ -75,5 +102,20 @@ public class Apiary {
 
     public void setHivesCount(int hivesCount) {
         this.hivesCount = hivesCount;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(location);
+        dest.writeParcelable(coordinate, flags);
+        dest.writeInt(hivesCount);
+        dest.writeParcelable(picture, flags);
     }
 }

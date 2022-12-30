@@ -8,14 +8,12 @@ import com.beekeeperpro.MainActivity;
 import com.beekeeperpro.data.DataSource;
 import com.beekeeperpro.data.Result;
 
-import java.util.List;
-
-public abstract class BPViewModel<T> extends ViewModel {
+public abstract class ConnectedViewModel<T> extends ViewModel {
     protected final DataSource dataSource;
     protected final MutableLiveData<T> data;
     protected final MutableLiveData<Result.Error> error;
 
-    protected BPViewModel() {
+    protected ConnectedViewModel() {
         this.dataSource = MainActivity.dataSource;
         data = new MutableLiveData<>();
         error = new MutableLiveData<>();
