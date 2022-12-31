@@ -6,6 +6,7 @@ import com.beekeeperpro.data.model.User;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -101,14 +102,42 @@ public class DataSource {
         }
     }
 
-    public Result insert(Apiary apiary){
+    public Result<Boolean> insert(Apiary apiary){
         try {
-            String queryStmt = "INSERT INTO BeekeeperPro.dbo.Apiary (name, coordinate, user_id, location)" +
-                    "VALUES ('" + apiary.getName() + "', geography::STGeomFromText('POINT(" + apiary.getCoordinate() +
-                    ")', 4326), " + LoginRepository.getLoggedInUser().getUserId() +", '" + apiary.getLocation() + "');";
             Connection connect = ConnectionHelper.CONN();
+            String sql = "INSERT INTO BeekeeperPro.dbo.Apiary (name, coordinate, user_id, location) VALUES (?, ?, ?, ?)";
+            PreparedStatement statement = connect.prepareStatement(sql);
 
-            return new Result.Success<>(connect.createStatement().execute(queryStmt));
+            statement.setString(1, apiary.getName());
+            statement.setObject(2, "geography::STGeomFromText('POINT(" + apiary.getCoordinate() + ")', 4326)");
+            statement.setInt(3, LoginRepository.getLoggedInUser().getUserId());
+            statement.setString(4, apiary.getLocation());
+
+            int result = statement.executeUpdate();
+            return new Result.Success<Boolean>(result > 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Result.Error(new IOException("Error SQL :", e));
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Unknown error when inserting apiary :", e));
+        }
+    }
+
+    public Result<Boolean> insert(Hive hive){
+        try {
+            String queryStmt = "INSERT INTO BeekeeperPro.dbo.Apiary (name, code, apiary_id, user_id, strength, hiving_date, acquisition_date)" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?);";
+            Connection connect = ConnectionHelper.CONN();
+            PreparedStatement preparedStatement = connect.prepareStatement(queryStmt);
+            preparedStatement.setString(1, hive.getName());
+            preparedStatement.setString(2, hive.getCode());
+            preparedStatement.setInt(3, (hive.getApiary() == null ? 0 : hive.getApiary().getId()));
+            preparedStatement.setInt(4, LoginRepository.getLoggedInUser().getUserId());
+            preparedStatement.setInt(5, hive.getStrength());
+            preparedStatement.setDate(6, new Date(hive.getHivingDate().getTime()));
+            preparedStatement.setDate(7, new Date(hive.getAcquisitionDate().getTime()));
+            int result = preparedStatement.executeUpdate();
+            return new Result.Success<Boolean>(result > 0);
         } catch (SQLException e) {
             e.printStackTrace();
             return new Result.Error(new IOException("Error SQL :", e));
