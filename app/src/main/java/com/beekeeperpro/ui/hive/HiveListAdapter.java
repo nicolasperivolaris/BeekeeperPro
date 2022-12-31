@@ -71,7 +71,7 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
             textViewName.setText(hive.getName());
             textViewCode.setText(hive.getCode());
             textViewStrength.setText(String.valueOf(hive.getStrength()));
-            textViewCreationDate.setText(hive.getCreationDate().toString());
+            textViewCreationDate.setText(hive.getHivingDate().toString());
         }
     }
 }

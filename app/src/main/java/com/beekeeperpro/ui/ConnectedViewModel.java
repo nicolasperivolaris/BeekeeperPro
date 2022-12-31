@@ -60,7 +60,7 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
         return new Result.Error(new UnsupportedOperationException());
     }
 
-    protected Result insertIntoSource(T data){
+    protected Result<Boolean> insertIntoSource(T data){
         return new Result.Error(new UnsupportedOperationException());
     }
 

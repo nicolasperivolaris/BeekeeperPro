@@ -125,7 +125,7 @@ public class DataSource {
 
     public Result<Boolean> insert(Hive hive){
         try {
-            String queryStmt = "INSERT INTO BeekeeperPro.dbo.Apiary (name, code, apiary_id, user_id, strength, hiving_date, acquisition_date)" +
+            String queryStmt = "INSERT INTO BeekeeperPro.dbo.Hive (name, code, apiary_id, user_id, strength, hiving_date, acquisition_date)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?);";
             Connection connect = ConnectionHelper.CONN();
             PreparedStatement preparedStatement = connect.prepareStatement(queryStmt);
@@ -134,8 +134,8 @@ public class DataSource {
             preparedStatement.setInt(3, (hive.getApiary() == null ? 0 : hive.getApiary().getId()));
             preparedStatement.setInt(4, LoginRepository.getLoggedInUser().getUserId());
             preparedStatement.setInt(5, hive.getStrength());
-            preparedStatement.setDate(6, new Date(hive.getHivingDate().getTime()));
-            preparedStatement.setDate(7, new Date(hive.getAcquisitionDate().getTime()));
+            preparedStatement.setDate(6, (hive.getHivingDate() != null ? new Date(hive.getHivingDate().getTime()): null));
+            preparedStatement.setDate(7, (hive.getAcquisitionDate() != null ? new Date(hive.getAcquisitionDate().getTime()): null));
             int result = preparedStatement.executeUpdate();
             return new Result.Success<Boolean>(result > 0);
         } catch (SQLException e) {

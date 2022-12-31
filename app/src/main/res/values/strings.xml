@@ -33,4 +33,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="save">Save</string>
+    <string name="hive_name">Hive name</string>
+    <string name="hive_code">Hive code</string>
+    <string name="hiveStrength">Strength</string>
+    <string name="hiving_date">Hiving date</string>
+    <string name="acquisition_date">Acquisition date</string>
+    <string name="code">Code</string>
 </resources>

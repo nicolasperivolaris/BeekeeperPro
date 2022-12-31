@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
+import com.beekeeperpro.R;
 import com.beekeeperpro.databinding.FragmentHiveListBinding;
 
 public class HiveListFragment extends Fragment {
@@ -23,6 +25,7 @@ public class HiveListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(HiveListViewModel.class);
         viewModel.setApiaryId(getArguments().getInt("id"));
+        viewModel.setApiaryId(getArguments().getInt("id"));
         FragmentHiveListBinding binding = FragmentHiveListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         HiveListAdapter adapter = new HiveListAdapter();
@@ -33,8 +36,14 @@ public class HiveListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
+        requireActivity().findViewById(R.id.fab).setOnClickListener(v->{
+            Bundle arg = new Bundle();
+            arg.putInt("apiaryId", viewModel.getApiaryId());
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_hives_list_to_add_hive_fragment, arg);
+        });
         viewModel.update();
     }
+
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="strength_bar_values">
+        <item>Empty</item>
+        <item>Swarmed</item>
+        <item>Weak</item>
+        <item>Ok</item>
+        <item>Strong</item>
+    </string-array>
+</resources>

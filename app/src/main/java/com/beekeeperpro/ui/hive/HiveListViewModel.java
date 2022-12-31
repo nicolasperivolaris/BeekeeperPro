@@ -13,6 +13,10 @@ public class HiveListViewModel extends ConnectedViewModel<List<Hive>> {
         apiaryId = id;
     }
 
+    public int getApiaryId() {
+        return apiaryId;
+    }
+
     @Override
     protected Result getFromSource() {
         return dataSource.getHives(apiaryId);

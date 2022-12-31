@@ -35,7 +35,7 @@ public class AddApiaryViewModel  extends ConnectedViewModel<Apiary> {
     }
 
     @Override
-    protected Result insertIntoSource(Apiary data) {
+    protected Result<Boolean> insertIntoSource(Apiary data) {
         return dataSource.insert(data);
     }
 }

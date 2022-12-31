@@ -17,7 +17,7 @@ import com.beekeeperpro.ui.login.LoginViewModel;
 import com.beekeeperpro.ui.login.LoginViewModelFactory;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;

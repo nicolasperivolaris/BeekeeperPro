@@ -8,9 +8,8 @@ import androidx.annotation.NonNull;
 
 import com.beekeeperpro.utils.Location;
 
-import java.util.List;
-
 public class Apiary implements Parcelable {
+    public final static Apiary Stock = new Apiary(0, "Stock", "Stock", 0);;
     private int id;
     private String name;
     private String location;
@@ -35,9 +34,9 @@ public class Apiary implements Parcelable {
         id = in.readInt();
         name = in.readString();
         location = in.readString();
-        coordinate = in.readParcelable(Location.class.getClassLoader());
+        //coordinate = in.readParcelable(Location.class.getClassLoader());
         hivesCount = in.readInt();
-        picture = in.readParcelable(Bitmap.class.getClassLoader());
+        //picture = in.readParcelable(Bitmap.class.getClassLoader());
     }
 
     public static final Creator<Apiary> CREATOR = new Creator<Apiary>() {
@@ -115,8 +114,8 @@ public class Apiary implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(location);
-        dest.writeParcelable(coordinate, flags);
+        //dest.writeParcelable(coordinate, flags);
         dest.writeInt(hivesCount);
-        dest.writeParcelable(picture, flags);
+        //dest.writeParcelable(picture, flags);
     }
 }
