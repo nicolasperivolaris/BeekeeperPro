@@ -7,16 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.beekeeperpro.R;
 import com.beekeeperpro.data.model.Hive;
-import com.beekeeperpro.ui.MenuProviderFragment;
+import com.beekeeperpro.ui.menu.SaveMenuProvider;
 import com.beekeeperpro.utils.BPSeekbar;
 
 import java.text.DateFormat;
@@ -24,9 +26,11 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddHiveFragment extends MenuProviderFragment {
+public class AddHiveFragment extends Fragment {
 
+    private SaveMenuProvider saveMenu;
     private AddHiveViewModel viewModel;
+    private boolean saving = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -34,18 +38,39 @@ public class AddHiveFragment extends MenuProviderFragment {
         viewModel = new ViewModelProvider(this).get(AddHiveViewModel.class);
         viewModel.setCurrentApiary(getArguments().getInt("apiaryId"));
         View view = inflater.inflate(R.layout.fragment_add_hive, container, false);
+        view.findViewById(R.id.hiveHivingDate).setOnClickListener(view1 -> initDatePicker(view.findViewById(R.id.hiveHivingDate)));
 
         BPSeekbar strengthBar = view.findViewById(R.id.hiveSeekbar);
         strengthBar.setValues(getResources().getStringArray(R.array.strength_bar_values));
         strengthBar.setMin(0);
         strengthBar.setMax(getResources().getStringArray(R.array.strength_bar_values).length-1);
 
-        view.findViewById(R.id.hiveHivingDate).setOnClickListener(view1 -> initDatePicker(view.findViewById(R.id.hiveHivingDate)));
+
+        viewModel.getData().observe(getViewLifecycleOwner(), hive -> {
+            if(saving) {
+                NavController nav = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+                nav.popBackStack();
+                Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
+                saving = false;
+            }
+        });
+        viewModel.getErrors().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), "Internal error", Toast.LENGTH_LONG).show());
+        viewModel.getValidationError().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show());
+
+        saveMenu = new SaveMenuProvider() {
+            @Override
+            protected void onSaveButton() {
+                saveToViewModel();
+                if(viewModel.save()){
+                    saving = true;
+                }
+            }
+        };
+
         return view;
     }
 
     private void initDatePicker(EditText field){
-        // Récupère la date actuelle
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -73,7 +98,7 @@ public class AddHiveFragment extends MenuProviderFragment {
         super.onResume();
         loadFromViewModel();
         requireActivity().findViewById(R.id.fab).setVisibility(View.GONE);
-        requireActivity().addMenuProvider(this);
+        requireActivity().addMenuProvider(saveMenu);
     }
 
     @Override
@@ -81,7 +106,7 @@ public class AddHiveFragment extends MenuProviderFragment {
         super.onPause();
         saveToViewModel();
         requireActivity().findViewById(R.id.fab).setVisibility(View.VISIBLE);
-        requireActivity().removeMenuProvider(this);
+        requireActivity().removeMenuProvider(saveMenu);
     }
 
     private void loadFromViewModel() {
@@ -114,12 +139,13 @@ public class AddHiveFragment extends MenuProviderFragment {
         viewModel.getData().setValue(hive);
     }
 
-    @Override
-    protected void onSaveButton() {
-        saveToViewModel();
-        if (viewModel.save()) {
-            NavController nav = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-            nav.popBackStack();
+    private class SaveMenu extends SaveMenuProvider {
+        @Override
+        protected void onSaveButton(){
+            saveToViewModel();
+            if(viewModel.save()){
+                saving = true;
+            }
         }
     }
 }

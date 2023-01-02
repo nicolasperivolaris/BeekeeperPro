@@ -37,7 +37,7 @@ public class AddHiveViewModel extends ConnectedViewModel<Hive> {
     }
 
     @Override
-    protected Result<Boolean> insertIntoSource(Hive hive) {
+    protected Result insertIntoSource(Hive hive) {
         return dataSource.insert(hive);
     }
 

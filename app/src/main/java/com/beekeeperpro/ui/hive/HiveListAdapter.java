@@ -3,6 +3,7 @@ package com.beekeeperpro.ui.hive;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,12 +18,15 @@ import java.util.List;
 
 public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveViewHolder> {
 
+    private boolean editMode = false;
     private List<Hive> hiveList;
-    private final MutableLiveData<Integer> clickedId;
+    private final MutableLiveData<Hive> onClickedItem;
+    private final MutableLiveData<Hive> onDeleteItem;
 
     public HiveListAdapter() {
         this.hiveList = new ArrayList<>();
-        clickedId = new MutableLiveData<>();
+        onClickedItem = new MutableLiveData<>();
+        onDeleteItem = new MutableLiveData<>();
     }
 
     @NonNull
@@ -37,8 +41,12 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
         notifyDataSetChanged();
     }
 
-    public MutableLiveData<Integer> getClickedId() {
-        return clickedId;
+    public MutableLiveData<Hive> getOnClickedItem() {
+        return onClickedItem;
+    }
+
+    public MutableLiveData<Hive> getOnDeleteItem() {
+        return onDeleteItem;
     }
 
     @Override
@@ -51,12 +59,18 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
         return hiveList.size();
     }
 
+    void setEditMode(boolean editMode){
+        this.editMode = editMode;
+        notifyDataSetChanged();
+    }
+
     public class HiveViewHolder extends RecyclerView.ViewHolder {
-        private Integer id;
+        private Hive hive;
         private final TextView textViewName;
         private final TextView textViewCode;
         private final TextView textViewStrength;
         private final TextView textViewCreationDate;
+        private final ImageButton delete;
 
         public HiveViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,14 +78,19 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
             textViewCode = itemView.findViewById(R.id.text_view_code);
             textViewStrength = itemView.findViewById(R.id.text_view_strength);
             textViewCreationDate = itemView.findViewById(R.id.text_view_creation_date);
-            itemView.setOnClickListener(v->clickedId.postValue(id));
+            delete = itemView.findViewById(R.id.action_delete);
+            //if you click on a row
+            itemView.setOnClickListener(v-> onClickedItem.postValue(hive));
+            delete.setOnClickListener(v -> onDeleteItem.postValue(hive));
         }
 
-        public void bind(Hive hive){
+        void bind(Hive hive) {
+            this.hive = hive;
             textViewName.setText(hive.getName());
             textViewCode.setText(hive.getCode());
             textViewStrength.setText(String.valueOf(hive.getStrength()));
             textViewCreationDate.setText(hive.getHivingDate().toString());
+            delete.setVisibility(editMode ? View.VISIBLE:View.GONE);
         }
     }
 }

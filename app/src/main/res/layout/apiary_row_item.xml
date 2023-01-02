@@ -18,7 +18,7 @@
             app:srcCompat="@drawable/ic_menu_gallery" />
 
         <TableLayout
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="parent">
@@ -69,5 +69,14 @@
                     android:textSize="20dp" />
             </TableRow>
         </TableLayout>
+
+        <ImageButton
+            android:id="@+id/action_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:scaleType="fitEnd"
+            app:srcCompat="@android:drawable/ic_delete" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </FrameLayout>

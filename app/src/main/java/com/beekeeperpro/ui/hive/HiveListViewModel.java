@@ -21,4 +21,9 @@ public class HiveListViewModel extends ConnectedViewModel<List<Hive>> {
     protected Result getFromSource() {
         return dataSource.getHives(apiaryId);
     }
+
+    public void delete(Hive hive) {
+        update(() -> dataSource.delete(hive));
+        update();
+    }
 }

@@ -1,4 +1,4 @@
-package com.beekeeperpro.ui;
+package com.beekeeperpro.ui.menu;
 
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -6,28 +6,27 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.MenuProvider;
-import androidx.fragment.app.Fragment;
 
+import com.beekeeperpro.MainActivity;
 import com.beekeeperpro.R;
 
-public abstract class MenuProviderFragment extends Fragment implements MenuProvider {
-
+public abstract class SaveMenuProvider implements MenuProvider{
     protected abstract void onSaveButton();
-
+    public final int saveId = 1;
     @Override
     public void onPrepareMenu(@NonNull Menu menu) {
         MenuProvider.super.onPrepareMenu(menu);
-        menu.findItem(R.id.save_button).setVisible(true);
     }
 
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-
+        menu.add(Menu.NONE, saveId, Menu.NONE, R.string.action_save)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if( menuItem.getItemId() == R.id.save_button) {
+        if( menuItem.getItemId() == saveId) {
             onSaveButton();
             return true;
         }

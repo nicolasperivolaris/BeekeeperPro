@@ -4,32 +4,32 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.beekeeperpro.R;
 import com.beekeeperpro.data.model.Apiary;
-import com.beekeeperpro.ui.MenuProviderFragment;
+import com.beekeeperpro.ui.menu.SaveMenuProvider;
 import com.beekeeperpro.utils.Location;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
-public class AddApiaryFragment extends MenuProviderFragment implements View.OnClickListener {
+public class AddApiaryFragment extends Fragment implements View.OnClickListener {
 
+    private SaveMenuProvider saveMenu;
     private AddApiaryViewModel viewModel;
     private FusedLocationProviderClient fusedLocationClient;
+    private boolean saving = false;
 
-    public AddApiaryFragment() {
-    }
+    public AddApiaryFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,25 +37,30 @@ public class AddApiaryFragment extends MenuProviderFragment implements View.OnCl
         viewModel = new ViewModelProvider(this).get(AddApiaryViewModel.class);
         viewModel.getValidationError().observe(getViewLifecycleOwner(), s -> Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show());
         viewModel.getErrors().observe(getViewLifecycleOwner(), s -> Toast.makeText(getContext(), s.getError().toString(), Toast.LENGTH_LONG).show());
+        viewModel.getData().observe(getViewLifecycleOwner(), apiary -> {
+            if(saving) {
+                saving = false;
+                NavController nav = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+                nav.popBackStack();
+                Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
+            }
+        });
+
         View view = inflater.inflate(R.layout.fragment_add_apiary, container, false);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         view.findViewById(R.id.locationBt).setOnClickListener(this);
-        return view;
-    }
 
-    private void addSaveButton() {
-        MenuItem saveBt = ((Toolbar) requireActivity().findViewById(R.id.toolbar)).getMenu().findItem(R.id.save_button);
-        saveBt.setVisible(true);
-        saveBt.setOnMenuItemClickListener(item -> {
-            saveToViewModel();
-            if(viewModel.save()){
-                NavController nav = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-                Bundle args = new Bundle();
-                args.putParcelable("apiary", viewModel.getData().getValue());
-                nav.navigate(R.id.action_addApiaryFragment_to_nav_home, args);
+        saveMenu = new SaveMenuProvider() {
+            @Override
+            protected void onSaveButton() {
+                saveToViewModel();
+                if(viewModel.save()){
+                    saving = true;
+                }
             }
-            return true;
-        });
+        };
+
+        return view;
     }
 
     @Override
@@ -63,6 +68,7 @@ public class AddApiaryFragment extends MenuProviderFragment implements View.OnCl
         super.onResume();
         loadFromViewModel();
         requireActivity().findViewById(R.id.fab).setVisibility(View.GONE);
+        requireActivity().addMenuProvider(saveMenu);
     }
 
     private void loadFromViewModel() {
@@ -88,14 +94,7 @@ public class AddApiaryFragment extends MenuProviderFragment implements View.OnCl
         super.onPause();
         saveToViewModel();
         requireActivity().findViewById(R.id.fab).setVisibility(View.VISIBLE);
-        requireActivity().invalidateOptionsMenu();
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
+        requireActivity().removeMenuProvider(saveMenu);
     }
 
     @Override
@@ -113,16 +112,5 @@ public class AddApiaryFragment extends MenuProviderFragment implements View.OnCl
                         loadFromViewModel();
                     }
                 });
-    }
-
-    @Override
-    protected void onSaveButton(){
-        saveToViewModel();
-        if(viewModel.save()){
-            NavController nav = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-            Bundle args = new Bundle();
-            args.putParcelable("apiary", viewModel.getData().getValue());
-            nav.navigate(R.id.action_addApiaryFragment_to_nav_home, args);
-        }
     }
 }

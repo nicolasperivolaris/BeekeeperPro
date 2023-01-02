@@ -39,4 +39,12 @@
     <string name="hiving_date">Hiving date</string>
     <string name="acquisition_date">Acquisition date</string>
     <string name="code">Code</string>
+    <string name="hive_creation_date">Hive creation date</string>
+    <string name="add_apiary_label">Add Apiary</string>
+    <string name="add_hive_label">Add hive</string>
+    <string name="hive_list">Hive list</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_finish">finish</string>
 </resources>

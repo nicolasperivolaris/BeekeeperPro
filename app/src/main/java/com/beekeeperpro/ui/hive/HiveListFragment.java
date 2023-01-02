@@ -13,9 +13,11 @@ import androidx.navigation.Navigation;
 
 import com.beekeeperpro.R;
 import com.beekeeperpro.databinding.FragmentHiveListBinding;
+import com.beekeeperpro.ui.menu.EditMenuProvider;
 
 public class HiveListFragment extends Fragment {
 
+    EditMenuProvider editMenu;
     private HiveListViewModel viewModel;
 
     public HiveListFragment() {}
@@ -25,14 +27,33 @@ public class HiveListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(HiveListViewModel.class);
         viewModel.setApiaryId(getArguments().getInt("id"));
-        viewModel.setApiaryId(getArguments().getInt("id"));
+
         FragmentHiveListBinding binding = FragmentHiveListBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+
         HiveListAdapter adapter = new HiveListAdapter();
-        adapter.getClickedId().observe(getViewLifecycleOwner(), integer -> {});
+        adapter.getOnClickedItem().observe(getViewLifecycleOwner(), integer -> {});
+        adapter.getOnDeleteItem().observe(getViewLifecycleOwner(), hive -> viewModel.delete(hive));
         binding.hiveList.setAdapter(adapter);
         viewModel.getData().observe(getViewLifecycleOwner(), adapter::setHiveList);
-        return root;
+
+        editMenu = getEditMenu(adapter);
+        return binding.getRoot();
+    }
+
+
+    @NonNull
+    private EditMenuProvider getEditMenu(HiveListAdapter adapter) {
+        return new EditMenuProvider() {
+            @Override
+            protected void onEditButton() {
+                adapter.setEditMode(true);
+            }
+
+            @Override
+            protected void onFinishButton() {
+                adapter.setEditMode(false);
+            }
+        };
     }
 
     @Override
@@ -44,6 +65,12 @@ public class HiveListFragment extends Fragment {
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_hives_list_to_add_hive_fragment, arg);
         });
         viewModel.update();
+        requireActivity().addMenuProvider(editMenu);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        requireActivity().removeMenuProvider(editMenu);
+    }
 }

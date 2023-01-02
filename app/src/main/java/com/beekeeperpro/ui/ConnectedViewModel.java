@@ -26,14 +26,14 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
         return error;
     }
     public void update(){
-        request(() -> getFromSource());
+        update(() -> getFromSource());
     }
 
     public void insert(T data){
-        request(() -> insertIntoSource(data));
+        update(() -> insertIntoSource(data));
     }
 
-    public void request(Requester requester){
+    protected void update(Requester requester){
         Thread t = new Thread(() ->{
             //todo remove the while
             boolean ok = false;
@@ -60,11 +60,11 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
         return new Result.Error(new UnsupportedOperationException());
     }
 
-    protected Result<Boolean> insertIntoSource(T data){
+    protected Result insertIntoSource(T data){
         return new Result.Error(new UnsupportedOperationException());
     }
 
-    private interface Requester{
+    protected interface Requester{
         Result request();
     }
 }
