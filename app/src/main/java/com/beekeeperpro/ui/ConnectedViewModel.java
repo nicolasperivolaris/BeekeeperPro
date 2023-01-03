@@ -1,5 +1,6 @@
 package com.beekeeperpro.ui;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -8,16 +9,27 @@ import com.beekeeperpro.MainActivity;
 import com.beekeeperpro.data.DataSource;
 import com.beekeeperpro.data.Result;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public abstract class ConnectedViewModel<T> extends ViewModel {
     protected final DataSource dataSource;
     protected final MutableLiveData<T> data;
     protected final MutableLiveData<Result.Error> error;
 
-    protected ConnectedViewModel() {
+    protected ConnectedViewModel(Class<T> c) {
         this.dataSource = MainActivity.dataSource;
         data = new MutableLiveData<>();
         error = new MutableLiveData<>();
+        try{
+            T t = (T) c.getConstructor().newInstance();
+            data.setValue(t);
+        }catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e){
+            System.err.println("No default constructor for class " + getClass().getSuperclass().getTypeParameters()[0]);
+            System.err.println(e);
+        }
     }
+    @NonNull
     public LiveData<T> getData(){
         return data;
     }

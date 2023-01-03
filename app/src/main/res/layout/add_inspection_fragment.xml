@@ -1,108 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TableRow>
-        <TextView
-            android:text="@string/inspection_date" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/inspection_date"
-            android:importantForAutofill="no"
-            android:inputType="date"
-            android:minHeight="48dp" />
+        <TableRow>
 
-        <TextView
-            android:text="@string/temper" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/inspection_date" />
 
-        <Spinner
-            android:id="@+id/temper_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/temper_values"
-            android:minHeight="48dp"
-            android:spinnerMode="dropdown" />
-    </TableRow>
+            <EditText
+                android:id="@+id/inspection_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inspection_date"
+                android:importantForAutofill="no"
+                android:inputType="date"
+                android:minHeight="48dp" />
 
-    <TableRow>
-        <TextView
-            android:text="@string/hive_condition" />
+            <TextView android:text="@string/temper" />
 
-        <Spinner
-            android:id="@+id/hive_condition_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/hive_condition_values"
-            android:minHeight="48dp" />
+            <Spinner
+                android:id="@+id/temper_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/temper_values"
+                android:minHeight="48dp"
+                android:spinnerMode="dropdown" />
+        </TableRow>
 
-        <EditText
-            android:id="@+id/queen_condition_remarks3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/hive_condition_remarks"
-            android:inputType="textShortMessage|none"
-            android:minHeight="48dp" />
-    </TableRow>
+        <TableRow>
 
-    <TableRow>
-        <TextView
-            android:text="@string/queen_condition" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/hive_condition" />
 
-        <Spinner
-            android:id="@+id/queen_condition_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/queen_condition_values"
-            android:minHeight="48dp" />
+            <Spinner
+                android:id="@+id/hive_condition_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/hive_condition_values"
+                android:minHeight="48dp" />
 
-        <EditText
-            android:id="@+id/queen_condition_remarks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/queen_condition_remarks"
-            android:inputType="textShortMessage|none"
-            android:minHeight="48dp" />
-    </TableRow>
+            <EditText
+                android:id="@+id/hive_condition_remarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hive_condition_remarks"
+                android:inputType="textShortMessage|none"
+                android:minHeight="48dp" />
+        </TableRow>
 
-    <TableRow>
-        <TextView
-            android:text="@string/phytosanitary_used" />
+        <TableRow>
 
-        <Spinner
-            android:id="@+id/phytosanitary_used_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/phytosanitary_values"
-            android:minHeight="48dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/queen_condition" />
 
-        <EditText
-            android:id="@+id/pesticides_used_remarks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/phytosanitary_used_remarks"
-            android:inputType="textShortMessage|none"
-            android:minHeight="48dp" />
-    </TableRow>
+            <Spinner
+                android:id="@+id/queen_condition_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/queen_condition_values"
+                android:minHeight="48dp" />
 
-    <TableRow>
-        <TextView
-            android:text="@string/attention_points" />
-    </TableRow>
-    <TableRow>
+            <EditText
+                android:id="@+id/queen_condition_remarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/queen_condition_remarks"
+                android:inputType="textShortMessage|none"
+                android:minHeight="48dp" />
+        </TableRow>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/attention_points_chipgroup"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:singleSelection="false" />
-    </TableRow>
-</TableLayout>
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/phytosanitary_used" />
+
+            <Spinner
+                android:id="@+id/phytosanitary_used_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/phytosanitary_values"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/phytosanitay_used_remarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/phytosanitary_used_remarks"
+                android:inputType="textShortMessage|none"
+                android:minHeight="48dp" />
+        </TableRow>
+    </TableLayout>
+    <TextView
+        android:text="@string/attention_points"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/attention_points_chipgroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:singleSelection="false" />
+</androidx.appcompat.widget.LinearLayoutCompat>

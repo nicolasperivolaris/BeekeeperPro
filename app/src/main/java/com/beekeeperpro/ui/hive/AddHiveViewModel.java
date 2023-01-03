@@ -14,8 +14,8 @@ public class AddHiveViewModel extends ConnectedViewModel<Hive> {
     private Apiary apiary;
 
     public AddHiveViewModel() {
+        super(Hive.class);
         validationError = new MutableLiveData<>();
-        data.setValue(new Hive());
     }
 
     public LiveData<String> getValidationError() {

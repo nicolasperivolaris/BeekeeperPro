@@ -42,7 +42,10 @@
             app:destination="@id/add_hive_fragment" />
         <action
             android:id="@+id/action_hives_list_fragment_to_addInspection"
-            app:destination="@id/addInspection" />
+            app:destination="@id/add_Inspection_fragment" />
+        <action
+            android:id="@+id/action_hives_list_fragment_to_inspectionListFragment"
+            app:destination="@id/inspection_list_fragment" />
     </fragment>
     <fragment
         android:id="@+id/add_apiary_fragment"
@@ -55,9 +58,17 @@
         android:label="@string/add_hive_label"
         tools:layout="@layout/add_hive_fragment" />
     <fragment
-        android:id="@+id/addInspection"
-        android:name="com.beekeeperpro.ui.inspection.AddInspection"
+        android:id="@+id/add_Inspection_fragment"
+        android:name="com.beekeeperpro.ui.inspection.AddInspectionFragment"
         tools:layout="@layout/add_inspection_fragment">
+        <argument
+            android:name="hive"
+            app:argType="com.beekeeperpro.data.model.Hive" />
+    </fragment>
+    <fragment
+        android:id="@+id/inspection_list_fragment"
+        android:name="com.beekeeperpro.InspectionListFragment"
+        tools:layout="@layout/inspection_list_fragment" >
         <argument
             android:name="hive"
             app:argType="com.beekeeperpro.data.model.Hive" />

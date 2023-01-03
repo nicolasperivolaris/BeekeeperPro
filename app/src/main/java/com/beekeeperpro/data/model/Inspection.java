@@ -1,21 +1,33 @@
 package com.beekeeperpro.data.model;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 
 public class Inspection {
+    private int id;
     private Date inspectionDate;
     private String temper;
     private String hiveCondition;
     private String queenCondition;
     private String phytosanitaryUsed;
-    private List<String> attentionPoints;
+    private HashSet<String> attentionPoints;
     private String hiveConditionRemarks;
     private String queenConditionRemarks;
-    private String pesticidesUsedRemarks;
+    private String phytosanitaryUsedRemarks;
     private Hive hive;
 
-    public Inspection() {}
+    public Inspection() {
+        inspectionDate = new Date();
+        attentionPoints = new HashSet<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Date getInspectionDate() {
         return inspectionDate;
@@ -57,7 +69,7 @@ public class Inspection {
         this.phytosanitaryUsed = phytosanitaryUsed;
     }
 
-    public List<String> getAttentionPoints() {
+    public HashSet<String> getAttentionPoints() {
         return attentionPoints;
     }
 
@@ -69,7 +81,7 @@ public class Inspection {
         return hive;
     }
 
-    public void setAttentionPoints(List<String> attentionPoints) {
+    public void setAttentionPoints(HashSet<String> attentionPoints) {
         this.attentionPoints = attentionPoints;
     }
 
@@ -89,12 +101,12 @@ public class Inspection {
         this.queenConditionRemarks = queenConditionRemarks;
     }
 
-    public String getPesticidesUsedRemarks() {
-        return pesticidesUsedRemarks;
+    public String getPhytosanitaryRemarks() {
+        return phytosanitaryUsedRemarks;
     }
 
-    public void setPesticidesUsedRemarks(String pesticidesUsedRemarks) {
-        this.pesticidesUsedRemarks = pesticidesUsedRemarks;
+    public void setPhytosanitaryRemarks(String pesticidesUsedRemarks) {
+        this.phytosanitaryUsedRemarks = pesticidesUsedRemarks;
     }
 }
 

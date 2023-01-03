@@ -7,8 +7,14 @@ import com.beekeeperpro.ui.ConnectedViewModel;
 
 import java.util.List;
 
-public class HiveListViewModel extends ConnectedViewModel<List<Hive>> {
+import kotlin.jvm.internal.TypeReference;
+
+public class HiveListViewModel extends ConnectedViewModel<List> {
     private Apiary apiary;
+
+    public HiveListViewModel() {
+        super(List.class);
+    }
 
     public void setApiary(Apiary apiary){
         this.apiary = apiary;

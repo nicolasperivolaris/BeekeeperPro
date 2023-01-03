@@ -2,11 +2,13 @@ package com.beekeeperpro.data;
 
 import com.beekeeperpro.data.model.Apiary;
 import com.beekeeperpro.data.model.Hive;
+import com.beekeeperpro.data.model.Inspection;
 import com.beekeeperpro.data.model.User;
 import com.beekeeperpro.utils.Location;
 import com.google.android.gms.common.api.Api;
 
 import java.io.IOException;
+import java.nio.charset.MalformedInputException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -62,9 +64,9 @@ public class DataSource {
             List<Apiary> list = new ArrayList<>();
             while (resultSet.next()) {
                 Apiary apiary = new Apiary(resultSet.getInt(1),
-                                            resultSet.getString(2),
-                                            resultSet.getString(7),
-                                            resultSet.getInt(6));
+                        resultSet.getString(2),
+                        resultSet.getString(7),
+                        resultSet.getInt(6));
                 list.add(apiary);
             }
             return new Result.Success<>(list);
@@ -90,10 +92,10 @@ public class DataSource {
             List<Hive> list = new ArrayList<>();
             while (resultSet.next()) {
                 Hive hive = new Hive(resultSet.getInt(1),
-                                        resultSet.getString(2),
-                                        resultSet.getString(3),
-                                        resultSet.getInt(6),
-                                        resultSet.getDate(7));
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getInt(6),
+                        resultSet.getDate(7));
                 hive.setApiary(apiary);
                 list.add(hive);
             }
@@ -106,11 +108,11 @@ public class DataSource {
         }
     }
 
-    public Result<Boolean> insert(Apiary apiary){
+    public Result insert(Apiary apiary) {
         try {
             String queryStmt = "INSERT INTO BeekeeperPro.dbo.Apiary (name, coordinate, user_id, location)" +
                     "VALUES ('" + apiary.getName() + "', geography::STGeomFromText('POINT(" + apiary.getCoordinate() +
-                    ")', 4326), " + LoginRepository.getLoggedInUser().getUserId() +", '" + apiary.getLocation() + "');";
+                    ")', 4326), " + LoginRepository.getLoggedInUser().getUserId() + ", '" + apiary.getLocation() + "');";
             Connection connect = ConnectionHelper.CONN();
 //todo change to prepared statements
             /*String sql = "INSERT INTO BeekeeperPro.dbo.Apiary (name, coordinate, user_id, location) VALUES (?, ?, ?, ?)";
@@ -123,7 +125,7 @@ public class DataSource {
 
             int result = statement.executeUpdate();*/
             Statement statement = connect.createStatement();
-            if(statement.executeUpdate(queryStmt)>0){
+            if (statement.executeUpdate(queryStmt) > 0) {
                 Apiary result = new Apiary();
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
@@ -140,7 +142,7 @@ public class DataSource {
                     }
                 }
                 return new Result.Success<>(result);
-            }else{
+            } else {
                 return new Result.Error(new SQLException());
             }
         } catch (SQLException e) {
@@ -151,7 +153,7 @@ public class DataSource {
         }
     }
 
-    public Result insert(Hive hive){
+    public Result insert(Hive hive) {
         try {
             String queryStmt = "INSERT INTO BeekeeperPro.dbo.Hive (name, code, apiary_id, user_id, strength, hiving_date, acquisition_date)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?);";
@@ -162,10 +164,10 @@ public class DataSource {
             preparedStatement.setInt(3, (hive.getApiary() == null ? 0 : hive.getApiary().getId()));
             preparedStatement.setInt(4, LoginRepository.getLoggedInUser().getUserId());
             preparedStatement.setInt(5, hive.getStrength());
-            preparedStatement.setDate(6, (hive.getHivingDate() != null ? new Date(hive.getHivingDate().getTime()): null));
-            preparedStatement.setDate(7, (hive.getAcquisitionDate() != null ? new Date(hive.getAcquisitionDate().getTime()): null));
+            preparedStatement.setDate(6, (hive.getHivingDate() != null ? new Date(hive.getHivingDate().getTime()) : null));
+            preparedStatement.setDate(7, (hive.getAcquisitionDate() != null ? new Date(hive.getAcquisitionDate().getTime()) : null));
 
-            if(preparedStatement.executeUpdate()>0) {
+            if (preparedStatement.executeUpdate() > 0) {
                 Hive result = new Hive();
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
                 if (generatedKeys.next()) {
@@ -183,7 +185,7 @@ public class DataSource {
                     }
                 }
                 return new Result.Success<Hive>(result);
-            }else{
+            } else {
                 return new Result.Error(new SQLException());
             }
         } catch (SQLException e) {
@@ -237,4 +239,57 @@ public class DataSource {
             return new Result.Error(e);
         }
     }
+
+    public Result insert(Inspection inspection) throws SQLException {
+        Connection connect = ConnectionHelper.CONN();
+        try {
+            String queryStmt = "INSERT INTO BeekeeperPro.dbo.Inspection (date, temper, hive_condition, queen_condition, phytosanitary_used, hive_condition_remarks, queen_condition_remarks, phytosanitary_used_remarks, hive_id, user_id)" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            connect.setAutoCommit(false);
+            PreparedStatement preparedStatement = connect.prepareStatement(queryStmt, Statement.RETURN_GENERATED_KEYS);
+            if(inspection.getInspectionDate() != null)
+                preparedStatement.setDate(1, new Date(inspection.getInspectionDate().getTime()));
+            else throw new Exception("No date provided");
+
+            preparedStatement.setString(2, inspection.getTemper());
+            preparedStatement.setString(3, inspection.getHiveCondition());
+            preparedStatement.setString(4, inspection.getQueenCondition());
+            preparedStatement.setString(5, inspection.getPhytosanitaryUsed());
+            preparedStatement.setString(6, inspection.getHiveConditionRemarks());
+            preparedStatement.setString(7, inspection.getQueenConditionRemarks());
+            preparedStatement.setString(8, inspection.getPhytosanitaryRemarks());
+            preparedStatement.setInt(9, inspection.getHive().getId());
+            preparedStatement.setInt(10, LoginRepository.getLoggedInUser().getUserId());
+
+            if (preparedStatement.executeUpdate() > 0) {
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int id = generatedKeys.getInt(1);
+                    inspection.setId(id);
+                }
+                for (String point: inspection.getAttentionPoints()) {
+                    String pointsInsert = "INSERT INTO BeekeeperPro.dbo.Inspection_AttentionPoints (inspection_id, name)" +
+                            "VALUES (?, ?);";
+                    PreparedStatement pIPrepStat = connect.prepareStatement(pointsInsert, Statement.RETURN_GENERATED_KEYS);
+                    pIPrepStat.setInt(1, inspection.getId());
+                    pIPrepStat.setString(2, point);
+                    if(pIPrepStat.executeUpdate() == 0) throw new SQLException("Error while inserting AttentionPoint");
+                }
+
+                connect.commit();
+                return new Result.Success<>(inspection);
+            } else {
+                throw new SQLException("Error while inserting Inspection");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            connect.rollback();
+            return new Result.Error(new SQLException("Error SQL :", e));
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Unknown error when inserting inspection :", e));
+        } finally {
+            connect.setAutoCommit(true);
+        }
+    }
+
 }

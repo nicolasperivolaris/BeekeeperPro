@@ -7,7 +7,11 @@ import com.beekeeperpro.ui.ConnectedViewModel;
 
 import java.util.List;
 
-public class ApiaryListViewModel extends ConnectedViewModel<List<Apiary>> {
+public class ApiaryListViewModel extends ConnectedViewModel<List> {
+
+    public ApiaryListViewModel() {
+        super(List.class);
+    }
 
     @Override
     protected Result getFromSource() {

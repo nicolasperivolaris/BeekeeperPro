@@ -6,20 +6,25 @@ import androidx.lifecycle.MutableLiveData;
 import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Apiary;
 import com.beekeeperpro.ui.ConnectedViewModel;
+import com.google.android.gms.common.api.Api;
 
 public class AddApiaryViewModel  extends ConnectedViewModel<Apiary> {
 
     private MutableLiveData<String> validationError;
 
     public AddApiaryViewModel() {
+        super(Apiary.class);
         validationError = new MutableLiveData<>();
-        data.setValue(new Apiary());
     }
 
     public LiveData<String> getValidationError() {
         return validationError;
     }
 
+    /**
+     * Save in db if no validation error
+     * @return true if no validation error
+     */
     public boolean save() {
         if(data.getValue().getName().trim().equals("")){
             validationError.postValue("Name can't be empty.");
@@ -35,7 +40,7 @@ public class AddApiaryViewModel  extends ConnectedViewModel<Apiary> {
     }
 
     @Override
-    protected Result<Boolean> insertIntoSource(Apiary data) {
+    protected Result insertIntoSource(Apiary data) {
         return dataSource.insert(data);
     }
 }

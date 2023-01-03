@@ -8,9 +8,9 @@
         <item>Strong</item>
     </string-array>
     <string-array name="temper_values">
-        <item>calm</item>
-        <item>nervous</item>
-        <item>aggressive</item>
+        <item>Calm</item>
+        <item>Nervous</item>
+        <item>Aggressive</item>
     </string-array>
     <string-array name="hive_condition_values">
         <item>Normal</item>

@@ -20,6 +20,7 @@ import com.beekeeperpro.R;
 import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.ui.menu.SaveMenuProvider;
 import com.beekeeperpro.utils.BPSeekbar;
+import com.beekeeperpro.utils.Utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -54,8 +55,8 @@ public class AddHiveFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(AddHiveViewModel.class);
         viewModel.setApiary(getArguments().getParcelable("apiary"));
 
-        view.findViewById(R.id.hiveHivingDate).setOnClickListener(view1 -> initDatePicker((EditText) view1));
-        view.findViewById(R.id.hiveAcquisitionDate).setOnClickListener(view1 -> initDatePicker((EditText) view1));
+        view.findViewById(R.id.hiveHivingDate).setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
+        view.findViewById(R.id.hiveAcquisitionDate).setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
 
         BPSeekbar strengthBar = view.findViewById(R.id.hiveSeekbar);
         strengthBar.setValues(getResources().getStringArray(R.array.strength_bar_values));
@@ -73,29 +74,6 @@ public class AddHiveFragment extends Fragment {
         viewModel.getErrors().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), "Internal error", Toast.LENGTH_LONG).show());
         viewModel.getValidationError().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show());
 
-    }
-
-    private void initDatePicker(EditText field){
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // Crée un date picker dans le format de date local
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                getContext(),
-                (datePicker, year1, month1, day1) -> {
-                    // Mise à jour du champ de date avec la date sélectionnée
-                    Calendar calendar1 = Calendar.getInstance();
-                    calendar1.set(Calendar.YEAR, year1);
-                    calendar1.set(Calendar.MONTH, month1);
-                    calendar1.set(Calendar.DAY_OF_MONTH, day1);
-                    Date date = calendar1.getTime();
-                    field.setText(dateFormat.format(date));
-                },
-                year, month, day);
-        datePickerDialog.show();
     }
 
     @Override
