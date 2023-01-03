@@ -35,16 +35,32 @@ public class AddHiveFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        saveMenu = new SaveMenuProvider() {
+            @Override
+            protected void onSaveButton() {
+                saveToViewModel();
+                if(viewModel.save()){
+                    saving = true;
+                }
+            }
+        };
+
+        return inflater.inflate(R.layout.add_hive_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(AddHiveViewModel.class);
-        viewModel.setCurrentApiary(getArguments().getInt("apiaryId"));
-        View view = inflater.inflate(R.layout.add_hive_fragment, container, false);
-        view.findViewById(R.id.hiveHivingDate).setOnClickListener(view1 -> initDatePicker(view.findViewById(R.id.hiveHivingDate)));
+        viewModel.setApiary(getArguments().getParcelable("apiary"));
+
+        view.findViewById(R.id.hiveHivingDate).setOnClickListener(view1 -> initDatePicker((EditText) view1));
+        view.findViewById(R.id.hiveAcquisitionDate).setOnClickListener(view1 -> initDatePicker((EditText) view1));
 
         BPSeekbar strengthBar = view.findViewById(R.id.hiveSeekbar);
         strengthBar.setValues(getResources().getStringArray(R.array.strength_bar_values));
         strengthBar.setMin(0);
         strengthBar.setMax(getResources().getStringArray(R.array.strength_bar_values).length-1);
-
 
         viewModel.getData().observe(getViewLifecycleOwner(), hive -> {
             if(saving) {
@@ -57,17 +73,6 @@ public class AddHiveFragment extends Fragment {
         viewModel.getErrors().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), "Internal error", Toast.LENGTH_LONG).show());
         viewModel.getValidationError().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show());
 
-        saveMenu = new SaveMenuProvider() {
-            @Override
-            protected void onSaveButton() {
-                saveToViewModel();
-                if(viewModel.save()){
-                    saving = true;
-                }
-            }
-        };
-
-        return view;
     }
 
     private void initDatePicker(EditText field){
@@ -137,15 +142,5 @@ public class AddHiveFragment extends Fragment {
             hive.setAcquisitionDate(null);
         }
         viewModel.getData().setValue(hive);
-    }
-
-    private class SaveMenu extends SaveMenuProvider {
-        @Override
-        protected void onSaveButton(){
-            saveToViewModel();
-            if(viewModel.save()){
-                saving = true;
-            }
-        }
     }
 }

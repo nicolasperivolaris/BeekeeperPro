@@ -1,4 +1,4 @@
-package com.beekeeperpro.ui.home;
+package com.beekeeperpro.ui.apiary;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,6 +36,9 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.add_apiary_fragment, container, false);
+
+        super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(AddApiaryViewModel.class);
         viewModel.getValidationError().observe(getViewLifecycleOwner(), s -> Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show());
         viewModel.getErrors().observe(getViewLifecycleOwner(), s -> Toast.makeText(getContext(), s.getError().toString(), Toast.LENGTH_LONG).show());
@@ -46,10 +51,8 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
             }
         });
 
-        View view = inflater.inflate(R.layout.add_apiary_fragment, container, false);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         view.findViewById(R.id.locationBt).setOnClickListener(this);
-
         saveMenu = new SaveMenuProvider() {
             @Override
             protected void onSaveButton() {
@@ -62,13 +65,30 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
 
         return view;
     }
-
     @Override
     public void onResume() {
         super.onResume();
-        loadFromViewModel();
         requireActivity().findViewById(R.id.fab).setVisibility(View.GONE);
         requireActivity().addMenuProvider(saveMenu);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        requireActivity().findViewById(R.id.fab).setVisibility(View.VISIBLE);
+        requireActivity().removeMenuProvider(saveMenu);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        loadFromViewModel();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        saveToViewModel();
     }
 
     private void loadFromViewModel() {
@@ -87,14 +107,6 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
         apiary.setCoordinate(Double.parseDouble(((TextView)requireView().findViewById(R.id.apiaryLat)).getText().toString()),
                 Double.parseDouble(((TextView)requireView().findViewById(R.id.apiaryLat)).getText().toString()));
         viewModel.getData().setValue(apiary);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        saveToViewModel();
-        requireActivity().findViewById(R.id.fab).setVisibility(View.VISIBLE);
-        requireActivity().removeMenuProvider(saveMenu);
     }
 
     @Override

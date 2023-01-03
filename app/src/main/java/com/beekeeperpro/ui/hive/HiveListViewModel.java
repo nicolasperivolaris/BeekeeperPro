@@ -1,25 +1,26 @@
 package com.beekeeperpro.ui.hive;
 
 import com.beekeeperpro.data.Result;
+import com.beekeeperpro.data.model.Apiary;
 import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.ui.ConnectedViewModel;
 
 import java.util.List;
 
 public class HiveListViewModel extends ConnectedViewModel<List<Hive>> {
-    private int apiaryId;
+    private Apiary apiary;
 
-    public void setApiaryId(int id){
-        apiaryId = id;
+    public void setApiary(Apiary apiary){
+        this.apiary = apiary;
     }
 
-    public int getApiaryId() {
-        return apiaryId;
+    public Apiary getApiary() {
+        return apiary;
     }
 
     @Override
     protected Result getFromSource() {
-        return dataSource.getHives(apiaryId);
+        return dataSource.getHives(apiary);
     }
 
     public void delete(Hive hive) {

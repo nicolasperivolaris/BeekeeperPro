@@ -1,4 +1,4 @@
-package com.beekeeperpro.ui.home;
+package com.beekeeperpro.ui.apiary;
 
 
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.beekeeperpro.R;
 import com.beekeeperpro.data.model.Apiary;
-import com.google.android.gms.common.api.Api;
 
 import java.util.ArrayList;
 import java.util.List;

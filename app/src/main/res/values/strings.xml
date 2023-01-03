@@ -30,8 +30,6 @@
     <string name="apiary_location">Apiary Location</string>
     <string name="location">Location</string>
     <string name="longitude">Long :</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="save">Save</string>
     <string name="hive_name">Hive name</string>
     <string name="hive_code">Hive code</string>
@@ -47,4 +45,16 @@
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="action_finish">finish</string>
+    <string name="inspection_date">Inspection date</string>
+    <string name="temper">Temper</string>
+    <string name="hive_condition">Hive Condition</string>
+    <string name="queen_condition">Queen condition</string>
+    <string name="hive_condition_remarks">Hive condition remarks…</string>
+    <string name="queen_condition_remarks">Queen condition remarks…</string>
+    <string name="disease">Disease</string>
+    <string name="phytosanitary_used">Phytosanitary used</string>
+    <string name="phytosanitary_used_remarks">Phytosanitary remarks…</string>
+    <string name="attention_points">Attention points for next inspection :</string>
+    <string name="hive_inspection_title">Inspection on hive %1$s in apiary %2$s</string>
+    <string name="add_inspection">Add inspection</string>
 </resources>

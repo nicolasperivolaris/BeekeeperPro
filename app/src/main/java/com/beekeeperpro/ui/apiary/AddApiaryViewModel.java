@@ -1,4 +1,4 @@
-package com.beekeeperpro.ui.home;
+package com.beekeeperpro.ui.apiary;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

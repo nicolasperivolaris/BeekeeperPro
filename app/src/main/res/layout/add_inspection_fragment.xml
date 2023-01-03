@@ -1,13 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.inspection.AddInspection">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+    <TableRow>
+        <TextView
+            android:text="@string/inspection_date" />
 
-</FrameLayout>
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/inspection_date"
+            android:importantForAutofill="no"
+            android:inputType="date"
+            android:minHeight="48dp" />
+
+        <TextView
+            android:text="@string/temper" />
+
+        <Spinner
+            android:id="@+id/temper_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/temper_values"
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/hive_condition" />
+
+        <Spinner
+            android:id="@+id/hive_condition_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/hive_condition_values"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/queen_condition_remarks3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/hive_condition_remarks"
+            android:inputType="textShortMessage|none"
+            android:minHeight="48dp" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/queen_condition" />
+
+        <Spinner
+            android:id="@+id/queen_condition_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/queen_condition_values"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/queen_condition_remarks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/queen_condition_remarks"
+            android:inputType="textShortMessage|none"
+            android:minHeight="48dp" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/phytosanitary_used" />
+
+        <Spinner
+            android:id="@+id/phytosanitary_used_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/phytosanitary_values"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/pesticides_used_remarks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/phytosanitary_used_remarks"
+            android:inputType="textShortMessage|none"
+            android:minHeight="48dp" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/attention_points" />
+    </TableRow>
+    <TableRow>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/attention_points_chipgroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:singleSelection="false" />
+    </TableRow>
+</TableLayout>

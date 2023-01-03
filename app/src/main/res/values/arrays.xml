@@ -4,7 +4,41 @@
         <item>Empty</item>
         <item>Swarmed</item>
         <item>Weak</item>
-        <item>Ok</item>
+        <item>OK</item>
         <item>Strong</item>
+    </string-array>
+    <string-array name="temper_values">
+        <item>calm</item>
+        <item>nervous</item>
+        <item>aggressive</item>
+    </string-array>
+    <string-array name="hive_condition_values">
+        <item>Normal</item>
+        <item>Damaged</item>
+        <item>Dead bees</item>
+        <item>Mold</item>
+        <item>Moisture</item>
+    </string-array>
+    <string-array name="queen_condition_values">
+        <item>OK</item>
+        <item>No eggs</item>
+        <item>Attention</item>
+    </string-array>
+    <string-array name="phytosanitary_values">
+        <item>None</item>
+        <item>Oxalic acid</item>
+        <item>Formic acid</item>
+        <item>Thymol</item>
+        <item>Thymovar</item>
+        <item>Apivar</item>
+        <item>Apistan</item>
+        <item>Amitraz</item>
+    </string-array>
+    <string-array name="attention_points">
+        <item>Queen presence</item>
+        <item>Queen laying</item>
+        <item>Reserve</item>
+        <item>Swarming</item>
+        <item>Add frames</item>
     </string-array>
 </resources>

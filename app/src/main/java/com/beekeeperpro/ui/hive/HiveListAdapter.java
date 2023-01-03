@@ -3,6 +3,7 @@ package com.beekeeperpro.ui.hive;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -22,11 +23,13 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
     private List<Hive> hiveList;
     private final MutableLiveData<Hive> onClickedItem;
     private final MutableLiveData<Hive> onDeleteItem;
+    private final MutableLiveData<Hive> onAddInspectionItem;
 
     public HiveListAdapter() {
         this.hiveList = new ArrayList<>();
         onClickedItem = new MutableLiveData<>();
         onDeleteItem = new MutableLiveData<>();
+        onAddInspectionItem = new MutableLiveData<>();
     }
 
     @NonNull
@@ -47,6 +50,10 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
 
     public MutableLiveData<Hive> getOnDeleteItem() {
         return onDeleteItem;
+    }
+
+    public MutableLiveData<Hive> getOnAddInspectionItem() {
+        return onAddInspectionItem;
     }
 
     @Override
@@ -70,6 +77,7 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
         private final TextView textViewCode;
         private final TextView textViewStrength;
         private final TextView textViewCreationDate;
+        private final Button addInspection;
         private final ImageButton delete;
 
         public HiveViewHolder(@NonNull View itemView) {
@@ -79,9 +87,11 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
             textViewStrength = itemView.findViewById(R.id.text_view_strength);
             textViewCreationDate = itemView.findViewById(R.id.text_view_creation_date);
             delete = itemView.findViewById(R.id.action_delete);
+            addInspection = itemView.findViewById(R.id.inspection_bt);
             //if you click on a row
             itemView.setOnClickListener(v-> onClickedItem.postValue(hive));
             delete.setOnClickListener(v -> onDeleteItem.postValue(hive));
+            addInspection.setOnClickListener(v -> onAddInspectionItem.postValue(hive));
         }
 
         void bind(Hive hive) {

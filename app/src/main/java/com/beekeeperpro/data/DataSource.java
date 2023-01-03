@@ -81,9 +81,9 @@ public class DataSource {
         ConnectionHelper.Disconnect();
     }
 
-    public Result getHives(int apiaryId) {
+    public Result getHives(Apiary apiary) {
         try {
-            String queryStmt = "Select * from dbo.[Hive] where apiary_id = " + apiaryId;
+            String queryStmt = "Select * from dbo.[Hive] where apiary_id = " + apiary.getId();
             Connection connect = ConnectionHelper.CONN();
 
             ResultSet resultSet = connect.createStatement().executeQuery(queryStmt);
@@ -94,6 +94,7 @@ public class DataSource {
                                         resultSet.getString(3),
                                         resultSet.getInt(6),
                                         resultSet.getDate(7));
+                hive.setApiary(apiary);
                 list.add(hive);
             }
             return new Result.Success<>(list);
@@ -217,7 +218,7 @@ public class DataSource {
     }
 
     public Result delete(Hive hive) {
-        int apiaryId = hive.getApiary().getId();
+        Apiary apiary = hive.getApiary();
         Connection connect = ConnectionHelper.CONN();
 
         try {
@@ -227,7 +228,7 @@ public class DataSource {
 
             int rows = statement.executeUpdate();
             if (rows > 0) {
-                return getHives(apiaryId);
+                return getHives(apiary);
             } else {
                 return new Result.Error(new SQLException());
             }
