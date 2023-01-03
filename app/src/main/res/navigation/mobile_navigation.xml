@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_apiary_list">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_apiary_list"
         android:name="com.beekeeperpro.ui.home.ApiaryListFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_apiary_list" >
+        tools:layout="@layout/apiary_list_fragment">
         <action
             android:id="@+id/action_nav_home_to_apiaryFragment"
             app:destination="@id/hives_list_fragment" />
@@ -33,24 +33,32 @@
         android:id="@+id/hives_list_fragment"
         android:name="com.beekeeperpro.ui.hive.HiveListFragment"
         android:label="@string/hive_list"
-        tools:layout="@layout/fragment_hive_list" >
+        tools:layout="@layout/hive_list_fragment" >
         <argument
             android:name="id"
             app:argType="integer" />
         <action
             android:id="@+id/action_hives_list_to_add_hive_fragment"
             app:destination="@id/add_hive_fragment" />
+        <action
+            android:id="@+id/action_hives_list_fragment_to_addInspection"
+            app:destination="@id/addInspection" />
     </fragment>
     <fragment
         android:id="@+id/add_apiary_fragment"
         android:name="com.beekeeperpro.ui.home.AddApiaryFragment"
         android:label="@string/add_apiary_label"
-        tools:layout="@layout/fragment_add_apiary" />
+        tools:layout="@layout/add_apiary_fragment" />
     <fragment
         android:id="@+id/add_hive_fragment"
         android:name="com.beekeeperpro.ui.hive.AddHiveFragment"
         android:label="@string/add_hive_label"
-        tools:layout="@layout/fragment_add_hive" />
+        tools:layout="@layout/add_hive_fragment" />
+    <fragment
+        android:id="@+id/addInspection"
+        android:name="com.beekeeperpro.ui.inspection.AddInspection"
+        android:label="add_inspection_fragment"
+        tools:layout="@layout/add_inspection_fragment" />
 
 
 </navigation>

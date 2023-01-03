@@ -37,7 +37,7 @@ public class AddHiveFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(AddHiveViewModel.class);
         viewModel.setCurrentApiary(getArguments().getInt("apiaryId"));
-        View view = inflater.inflate(R.layout.fragment_add_hive, container, false);
+        View view = inflater.inflate(R.layout.add_hive_fragment, container, false);
         view.findViewById(R.id.hiveHivingDate).setOnClickListener(view1 -> initDatePicker(view.findViewById(R.id.hiveHivingDate)));
 
         BPSeekbar strengthBar = view.findViewById(R.id.hiveSeekbar);

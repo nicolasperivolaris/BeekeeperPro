@@ -46,7 +46,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
             }
         });
 
-        View view = inflater.inflate(R.layout.fragment_add_apiary, container, false);
+        View view = inflater.inflate(R.layout.add_apiary_fragment, container, false);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         view.findViewById(R.id.locationBt).setOnClickListener(this);
 
