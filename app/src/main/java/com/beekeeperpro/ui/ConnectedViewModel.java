@@ -18,16 +18,18 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
     protected final MutableLiveData<Result.Error> error;
 
     protected ConnectedViewModel(Class<T> c) {
+        MutableLiveData<T> dataTemp;
         this.dataSource = MainActivity.dataSource;
-        data = new MutableLiveData<>();
+
         error = new MutableLiveData<>();
         try{
-            T t = (T) c.getConstructor().newInstance();
-            data.setValue(t);
+            dataTemp = new MutableLiveData<>((T) c.getConstructor().newInstance());
         }catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e){
             System.err.println("No default constructor for class " + getClass().getSuperclass().getTypeParameters()[0]);
             System.err.println(e);
+            dataTemp = new MutableLiveData<>();
         }
+        data = dataTemp;
     }
     @NonNull
     public LiveData<T> getData(){

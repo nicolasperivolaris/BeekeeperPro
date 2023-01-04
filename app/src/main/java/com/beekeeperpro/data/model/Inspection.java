@@ -1,9 +1,14 @@
 package com.beekeeperpro.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 import java.util.HashSet;
 
-public class Inspection {
+public class Inspection implements Parcelable {
     private int id;
     private Date inspectionDate;
     private String temper;
@@ -20,6 +25,30 @@ public class Inspection {
         inspectionDate = new Date();
         attentionPoints = new HashSet<>();
     }
+
+    protected Inspection(Parcel in) {
+        id = in.readInt();
+        temper = in.readString();
+        hiveCondition = in.readString();
+        queenCondition = in.readString();
+        phytosanitaryUsed = in.readString();
+        hiveConditionRemarks = in.readString();
+        queenConditionRemarks = in.readString();
+        phytosanitaryUsedRemarks = in.readString();
+        hive = in.readParcelable(Hive.class.getClassLoader());
+    }
+
+    public static final Creator<Inspection> CREATOR = new Creator<Inspection>() {
+        @Override
+        public Inspection createFromParcel(Parcel in) {
+            return new Inspection(in);
+        }
+
+        @Override
+        public Inspection[] newArray(int size) {
+            return new Inspection[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -107,6 +136,24 @@ public class Inspection {
 
     public void setPhytosanitaryRemarks(String pesticidesUsedRemarks) {
         this.phytosanitaryUsedRemarks = pesticidesUsedRemarks;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(temper);
+        dest.writeString(hiveCondition);
+        dest.writeString(queenCondition);
+        dest.writeString(phytosanitaryUsed);
+        dest.writeString(hiveConditionRemarks);
+        dest.writeString(queenConditionRemarks);
+        dest.writeString(phytosanitaryUsedRemarks);
+        dest.writeParcelable(hive, flags);
     }
 }
 

@@ -30,7 +30,7 @@ public class ApiaryListFragment extends Fragment{
         ApiaryListAdapter adapter = new ApiaryListAdapter();
         adapter.getClickedId().observe(getViewLifecycleOwner(), this::onClick);
         adapter.getOnDeleteItem().observe(getViewLifecycleOwner(), id -> viewModel.delete(id));
-        binding.ApiaryList.setAdapter(adapter);
+        binding.apiaryList.setAdapter(adapter);
         viewModel.getData().observe(getViewLifecycleOwner(), adapter::setApiaries);
         editMenu = getEditMenu(adapter);
         return binding.getRoot();

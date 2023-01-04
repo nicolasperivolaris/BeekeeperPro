@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/inspection_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:hint="@string/inspection_date"
+        android:textColorHint="#757575" />
+
+    <TextView
+        android:id="@+id/inspection_temper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:hint="@string/temper"
+        android:textColorHint="#757575" />
+
+    <TextView
+        android:id="@+id/inspection_queen_condition"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:hint="@string/queen_condition"
+        android:textColorHint="#757575" />
+
+    <TextView
+        android:id="@+id/inspection_hive_condition"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:hint="@string/hive_condition"
+        android:textColorHint="#757575" />
+
+    <ImageView
+        android:id="@+id/phyto_used"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:contentDescription="@string/phytosanitary_used"
+        app:srcCompat="@android:drawable/radiobutton_on_background" />
+
+    <ImageButton
+        android:id="@+id/action_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/action_delete"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:srcCompat="@android:drawable/ic_delete" />
+
+</TableRow>

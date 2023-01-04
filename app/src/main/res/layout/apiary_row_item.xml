@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:layout_anchorGravity="end">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -33,10 +34,11 @@
                     android:layout_height="wrap_content"
                     android:layout_span="2"
                     android:layout_weight="1"
-                    android:contentDescription="@string/apiaryName"
-                    android:hint="Name"
+                    android:hint="@string/apiaryName"
                     android:paddingStart="5dp"
-                    android:textSize="40dp" />
+                    android:paddingEnd="5dp"
+                    android:textColorHint="#78909C"
+                    android:textSize="40sp" />
             </TableRow>
 
             <TableRow
@@ -49,7 +51,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/apiary_location"
                     android:padding="5dp"
-                    android:textSize="20dp" />
+                    android:textColorHint="#78909C"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/lblHiveCount"
@@ -57,16 +60,17 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:text="@string/hives_count"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/hiveCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="0"
+                    android:hint="@string/_0"
                     android:padding="5dp"
-                    android:textSize="20dp" />
+                    android:textColorHint="#78909C"
+                    android:textSize="20sp" />
             </TableRow>
         </TableLayout>
 
@@ -76,6 +80,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/action_delete"
+            android:minHeight="48dp"
             android:scaleType="fitEnd"
             app:srcCompat="@android:drawable/ic_delete" />
     </androidx.appcompat.widget.LinearLayoutCompat>

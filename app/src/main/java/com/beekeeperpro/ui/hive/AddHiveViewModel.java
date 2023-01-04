@@ -33,11 +33,6 @@ public class AddHiveViewModel extends ConnectedViewModel<Hive> {
     }
 
     @Override
-    public MutableLiveData<Hive> getData() {
-        return data;
-    }
-
-    @Override
     protected Result insertIntoSource(Hive hive) {
         return dataSource.insert(hive);
     }

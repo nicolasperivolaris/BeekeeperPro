@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -31,7 +32,7 @@ public class AddHiveFragment extends Fragment {
 
     private SaveMenuProvider saveMenu;
     private AddHiveViewModel viewModel;
-    private boolean saving = false;
+    private boolean savePushed = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -40,9 +41,7 @@ public class AddHiveFragment extends Fragment {
             @Override
             protected void onSaveButton() {
                 saveToViewModel();
-                if(viewModel.save()){
-                    saving = true;
-                }
+                savePushed = viewModel.save();
             }
         };
 
@@ -64,15 +63,17 @@ public class AddHiveFragment extends Fragment {
         strengthBar.setMax(getResources().getStringArray(R.array.strength_bar_values).length-1);
 
         viewModel.getData().observe(getViewLifecycleOwner(), hive -> {
-            if(saving) {
-                NavController nav = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-                nav.popBackStack();
-                Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
-                saving = false;
-            }
+            if(!savePushed) return;
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
+            Toast.makeText(getContext(), "Saved !", Toast.LENGTH_SHORT).show();
         });
-        viewModel.getErrors().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), "Internal error", Toast.LENGTH_LONG).show());
-        viewModel.getValidationError().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show());
+        viewModel.getErrors().observe(getViewLifecycleOwner(), error -> {
+            savePushed = false;
+            Toast.makeText(getContext(), "Internal error", Toast.LENGTH_LONG).show();
+        });
+        viewModel.getValidationError().observe(getViewLifecycleOwner(), error -> {
+            Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+        });
 
     }
 
@@ -104,7 +105,7 @@ public class AddHiveFragment extends Fragment {
     }
 
     private void saveToViewModel() {
-        Hive hive = new Hive();
+        Hive hive = viewModel.getData().getValue();
         hive.setName(((TextView)requireView().findViewById(R.id.hiveName)).getText().toString());
         hive.setCode(((TextView)requireView().findViewById(R.id.hiveCode)).getText().toString());
         hive.setStrength(((BPSeekbar)requireView().findViewById(R.id.hiveSeekbar)).getProgress());
@@ -119,6 +120,5 @@ public class AddHiveFragment extends Fragment {
         } catch (ParseException e) {
             hive.setAcquisitionDate(null);
         }
-        viewModel.getData().setValue(hive);
     }
 }

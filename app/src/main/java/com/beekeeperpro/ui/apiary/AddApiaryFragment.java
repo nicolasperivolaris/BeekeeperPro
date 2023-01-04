@@ -29,7 +29,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
     private SaveMenuProvider saveMenu;
     private AddApiaryViewModel viewModel;
     private FusedLocationProviderClient fusedLocationClient;
-    private boolean saving = false;
+    private boolean savePushed = false;
 
     public AddApiaryFragment() { }
 
@@ -41,14 +41,14 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(AddApiaryViewModel.class);
         viewModel.getValidationError().observe(getViewLifecycleOwner(), s -> Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show());
-        viewModel.getErrors().observe(getViewLifecycleOwner(), s -> Toast.makeText(getContext(), s.getError().toString(), Toast.LENGTH_LONG).show());
+        viewModel.getErrors().observe(getViewLifecycleOwner(), s -> {
+            savePushed = false;
+            Toast.makeText(getContext(), s.getError().toString(), Toast.LENGTH_LONG).show();
+        });
         viewModel.getData().observe(getViewLifecycleOwner(), apiary -> {
-            if(saving) {
-                saving = false;
-                NavController nav = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-                nav.popBackStack();
+            if(!savePushed) return;
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
                 Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
-            }
         });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
@@ -57,9 +57,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
             @Override
             protected void onSaveButton() {
                 saveToViewModel();
-                if(viewModel.save()){
-                    saving = true;
-                }
+                savePushed = viewModel.save();
             }
         };
 
@@ -101,12 +99,16 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
     }
 
     private void saveToViewModel() {
-        Apiary apiary = new Apiary();
+        Apiary apiary = viewModel.getData().getValue();
         apiary.setName(((TextView)requireView().findViewById(R.id.apiaryName)).getText().toString());
         apiary.setLocation(((TextView)requireView().findViewById(R.id.apiaryLocation)).getText().toString());
-        apiary.setCoordinate(Double.parseDouble(((TextView)requireView().findViewById(R.id.apiaryLat)).getText().toString()),
-                Double.parseDouble(((TextView)requireView().findViewById(R.id.apiaryLat)).getText().toString()));
-        viewModel.getData().setValue(apiary);
+        try {
+            apiary.setCoordinate(Double.parseDouble(((TextView) requireView().findViewById(R.id.apiaryLat)).getText().toString()),
+                    Double.parseDouble(((TextView) requireView().findViewById(R.id.apiaryLat)).getText().toString()));
+        }catch (NumberFormatException e){
+            System.err.println(e);
+            Toast.makeText(getContext(), "Bad coordinate format", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

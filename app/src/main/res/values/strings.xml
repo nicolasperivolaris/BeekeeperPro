@@ -57,4 +57,5 @@
     <string name="attention_points">Attention points for next inspection :</string>
     <string name="hive_inspection_title">Inspection on hive %1$s in apiary %2$s</string>
     <string name="add_inspection">Add inspection</string>
+    <string name="_0">0</string>
 </resources>

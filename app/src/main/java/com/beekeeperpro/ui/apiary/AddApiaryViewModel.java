@@ -35,11 +35,6 @@ public class AddApiaryViewModel  extends ConnectedViewModel<Apiary> {
     }
 
     @Override
-    public MutableLiveData<Apiary> getData() {
-        return data;
-    }
-
-    @Override
     protected Result insertIntoSource(Apiary data) {
         return dataSource.insert(data);
     }

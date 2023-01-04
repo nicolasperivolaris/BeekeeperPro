@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 public class AddInspectionFragment extends Fragment {
-
+    private boolean savePushed = false;
     private AddInspectionViewModel viewModel;
     private SaveMenuProvider saveMenu;
     private AddInspectionFragmentBinding binding;
@@ -49,7 +51,7 @@ public class AddInspectionFragment extends Fragment {
             @Override
             protected void onSaveButton() {
                 saveToViewModel();
-                viewModel.save();
+                savePushed = viewModel.save();
             }
         };
 
@@ -89,6 +91,12 @@ public class AddInspectionFragment extends Fragment {
             }
         }).get(AddInspectionViewModel.class);
         viewModel.getValidationError().observe(getViewLifecycleOwner(), s -> Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show());
+        viewModel.getData().observe(getViewLifecycleOwner(), hive -> {
+            if(!savePushed) return;
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
+            Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
+        });
+        viewModel.getErrors().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), "Internal error", Toast.LENGTH_LONG).show());
         binding.inspectionDate.setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
 
     }
@@ -96,8 +104,6 @@ public class AddInspectionFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-
-
         Hive hive = getArguments().getParcelable("hive");
         String hiveName = hive.getName().equals("") ? hive.getCode() : hive.getName();
         ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.hive_inspection_title, hiveName, hive.getApiary().getName()));

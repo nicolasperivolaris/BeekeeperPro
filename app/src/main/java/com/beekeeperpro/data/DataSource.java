@@ -25,7 +25,8 @@ import javax.security.auth.login.LoginException;
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
 public class DataSource {
-
+//todo check not to delete data to other user
+    //todo limit data transfer when getting list
     public Result<User> login(String username, String password) {
         try {
             Connection connect = ConnectionHelper.CONN();
@@ -98,6 +99,36 @@ public class DataSource {
                         resultSet.getDate(7));
                 hive.setApiary(apiary);
                 list.add(hive);
+            }
+            return new Result.Success<>(list);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Result.Error(new SQLException("Error SQL :", e));
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Unknown error at getting hive from db :", e));
+        }
+    }
+
+    public Result getInspections(Hive hive) {
+        try {
+            String queryStmt = "Select * from dbo.[Inspection] where hive_id = " + hive.getId();
+            Connection connect = ConnectionHelper.CONN();
+
+            ResultSet resultSet = connect.createStatement().executeQuery(queryStmt);
+            List<Inspection> list = new ArrayList<>();
+            while (resultSet.next()) {
+                Inspection inspection = new Inspection();
+                inspection.setId(resultSet.getInt(resultSet.findColumn("id")));
+                inspection.setInspectionDate(resultSet.getDate(resultSet.findColumn("date")));
+                inspection.setTemper(resultSet.getString(resultSet.findColumn("temper")));
+                inspection.setHiveCondition(resultSet.getString(resultSet.findColumn("hive_condition")));
+                inspection.setQueenCondition(resultSet.getString(resultSet.findColumn("queen_condition")));
+                inspection.setPhytosanitaryUsed(resultSet.getString(resultSet.findColumn("phytosanitary_used")));
+                inspection.setHiveConditionRemarks(resultSet.getString(resultSet.findColumn("hive_condition_remarks")));
+                inspection.setQueenConditionRemarks(resultSet.getString(resultSet.findColumn("queen_condition_remarks")));
+                inspection.setPhytosanitaryRemarks(resultSet.getString(resultSet.findColumn("phytosanitary_used_remarks")));
+                inspection.setHive(hive);
+                list.add(inspection);
             }
             return new Result.Success<>(list);
         } catch (SQLException e) {
@@ -196,49 +227,7 @@ public class DataSource {
         }
     }
 
-    public Result delete(Apiary apiary) {
-        Connection connect = ConnectionHelper.CONN();
 
-        try {
-            String sql = "DELETE FROM BeekeeperPro.dbo.Apiary WHERE id = ?";
-            PreparedStatement statement = connect.prepareStatement(sql);
-            statement.setInt(1, apiary.getId());
-
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
-                System.out.println("Apiary deleted successfully.");
-                return getApiaries(LoginRepository.getLoggedInUser());
-            } else {
-                System.out.println("An error occurred while deleting the apiary.");
-                return new Result.Error(new SQLException());
-            }
-        } catch (Exception e) {
-            System.out.println("An error occurred while deleting the apiary.");
-            e.printStackTrace();
-            return new Result.Error(e);
-        }
-    }
-
-    public Result delete(Hive hive) {
-        Apiary apiary = hive.getApiary();
-        Connection connect = ConnectionHelper.CONN();
-
-        try {
-            String sql = "DELETE FROM BeekeeperPro.dbo.Hive WHERE id = ?";
-            PreparedStatement statement = connect.prepareStatement(sql);
-            statement.setInt(1, hive.getId());
-
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
-                return getHives(apiary);
-            } else {
-                return new Result.Error(new SQLException());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result.Error(e);
-        }
-    }
 
     public Result insert(Inspection inspection) throws SQLException {
         Connection connect = ConnectionHelper.CONN();
@@ -292,4 +281,68 @@ public class DataSource {
         }
     }
 
+    public Result delete(Apiary apiary) {
+        Connection connect = ConnectionHelper.CONN();
+
+        try {
+            String sql = "DELETE FROM BeekeeperPro.dbo.Apiary WHERE id = ?";
+            PreparedStatement statement = connect.prepareStatement(sql);
+            statement.setInt(1, apiary.getId());
+
+            int rows = statement.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Apiary deleted successfully.");
+                return getApiaries(LoginRepository.getLoggedInUser());
+            } else {
+                System.out.println("An error occurred while deleting the apiary.");
+                return new Result.Error(new SQLException());
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred while deleting the apiary.");
+            e.printStackTrace();
+            return new Result.Error(e);
+        }
+    }
+
+    public Result delete(Hive hive) {
+        Apiary apiary = hive.getApiary();
+        Connection connect = ConnectionHelper.CONN();
+
+        try {
+            String sql = "DELETE FROM BeekeeperPro.dbo.Hive WHERE id = ?";
+            PreparedStatement statement = connect.prepareStatement(sql);
+            statement.setInt(1, hive.getId());
+
+            int rows = statement.executeUpdate();
+            if (rows > 0) {
+                return getHives(apiary);
+            } else {
+                return new Result.Error(new SQLException());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result.Error(e);
+        }
+    }
+
+    public Result delete(Inspection inspection) {
+        Hive hive = inspection.getHive();
+        Connection connect = ConnectionHelper.CONN();
+
+        try {
+            String sql = "DELETE FROM BeekeeperPro.dbo.Inspection WHERE id = ?";
+            PreparedStatement statement = connect.prepareStatement(sql);
+            statement.setInt(1, inspection.getId());
+
+            int rows = statement.executeUpdate();
+            if (rows > 0) {
+                return getInspections(hive);
+            } else {
+                return new Result.Error(new SQLException());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result.Error(e);
+        }
+    }
 }

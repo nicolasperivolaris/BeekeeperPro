@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.beekeeperpro.MainActivity;
 import com.beekeeperpro.R;
 import com.beekeeperpro.data.model.Hive;
 
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveViewHolder> {
-
     private boolean editMode = false;
     private List<Hive> hiveList;
     private final MutableLiveData<Hive> onClickedItem;
@@ -98,8 +98,8 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
             this.hive = hive;
             textViewName.setText(hive.getName());
             textViewCode.setText(hive.getCode());
-            textViewStrength.setText(String.valueOf(hive.getStrength()));
-            textViewCreationDate.setText(hive.getHivingDate().toString());
+            textViewStrength.setText(MainActivity.instance.getResources().getStringArray(R.array.strength_bar_values)[hive.getStrength()]);
+            if(hive.getHivingDate() != null) textViewCreationDate.setText(hive.getHivingDate().toString());
             delete.setVisibility(editMode ? View.VISIBLE:View.GONE);
         }
     }
