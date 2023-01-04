@@ -1,22 +1,19 @@
 package com.beekeeperpro.ui.inspection;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.beekeeperpro.R;
 import com.beekeeperpro.data.model.Hive;
@@ -28,9 +25,7 @@ import com.google.android.material.chip.Chip;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class AddInspectionFragment extends Fragment {
@@ -74,8 +69,8 @@ public class AddInspectionFragment extends Fragment {
         inspection.setPhytosanitaryUsed(binding.phytosanitaryUsedSpinner.getSelectedItem().toString());
         inspection.setPhytosanitaryRemarks(binding.phytosanitayUsedRemarks.getText().toString());
         HashSet<String> attPoints = new HashSet<>();
-        for (int c: binding.attentionPointsChipgroup.getCheckedChipIds()) {
-            attPoints.add(((Chip)binding.getRoot().findViewById(c)).getText().toString());
+        for (int c : binding.attentionPointsChipgroup.getCheckedChipIds()) {
+            attPoints.add(((Chip) binding.getRoot().findViewById(c)).getText().toString());
         }
         inspection.setAttentionPoints(attPoints);
     }
@@ -92,7 +87,7 @@ public class AddInspectionFragment extends Fragment {
         }).get(AddInspectionViewModel.class);
         viewModel.getValidationError().observe(getViewLifecycleOwner(), s -> Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show());
         viewModel.getData().observe(getViewLifecycleOwner(), hive -> {
-            if(!savePushed) return;
+            if (!savePushed) return;
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
             Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
         });
@@ -123,7 +118,7 @@ public class AddInspectionFragment extends Fragment {
             Chip chip = new Chip(getContext());
             chip.setText(keyword);
             chip.setCheckable(true);
-            if(attPoints.contains(keyword))
+            if (attPoints.contains(keyword))
                 chip.setChecked(true);
             binding.attentionPointsChipgroup.addView(chip);
         }

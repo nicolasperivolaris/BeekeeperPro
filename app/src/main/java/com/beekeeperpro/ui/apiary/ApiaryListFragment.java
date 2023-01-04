@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -17,12 +16,14 @@ import com.beekeeperpro.data.model.Apiary;
 import com.beekeeperpro.databinding.ApiaryListFragmentBinding;
 import com.beekeeperpro.ui.menu.EditMenuProvider;
 
-public class ApiaryListFragment extends Fragment{
+public class ApiaryListFragment extends Fragment {
 
     private ApiaryListViewModel viewModel;
     private EditMenuProvider editMenu;
 
-    public ApiaryListFragment(){}
+    public ApiaryListFragment() {
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(ApiaryListViewModel.class);

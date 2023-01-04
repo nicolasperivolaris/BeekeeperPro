@@ -39,7 +39,7 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
         return new HiveViewHolder(view);
     }
 
-    public void setHiveList(List<Hive> hives){
+    public void setHiveList(List<Hive> hives) {
         this.hiveList = hives;
         notifyDataSetChanged();
     }
@@ -66,7 +66,7 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
         return hiveList.size();
     }
 
-    void setEditMode(boolean editMode){
+    void setEditMode(boolean editMode) {
         this.editMode = editMode;
         notifyDataSetChanged();
     }
@@ -89,7 +89,7 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
             delete = itemView.findViewById(R.id.action_delete);
             addInspection = itemView.findViewById(R.id.inspection_bt);
             //if you click on a row
-            itemView.setOnClickListener(v-> onClickedItem.postValue(hive));
+            itemView.setOnClickListener(v -> onClickedItem.postValue(hive));
             delete.setOnClickListener(v -> onDeleteItem.postValue(hive));
             addInspection.setOnClickListener(v -> onAddInspectionItem.postValue(hive));
         }
@@ -99,8 +99,9 @@ public class HiveListAdapter extends RecyclerView.Adapter<HiveListAdapter.HiveVi
             textViewName.setText(hive.getName());
             textViewCode.setText(hive.getCode());
             textViewStrength.setText(MainActivity.instance.getResources().getStringArray(R.array.strength_bar_values)[hive.getStrength()]);
-            if(hive.getHivingDate() != null) textViewCreationDate.setText(hive.getHivingDate().toString());
-            delete.setVisibility(editMode ? View.VISIBLE:View.GONE);
+            if (hive.getHivingDate() != null)
+                textViewCreationDate.setText(hive.getHivingDate().toString());
+            delete.setVisibility(editMode ? View.VISIBLE : View.GONE);
         }
     }
 }

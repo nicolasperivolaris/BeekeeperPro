@@ -18,8 +18,8 @@ public class ApiaryListViewModel extends ConnectedViewModel<List> {
         return dataSource.getApiaries(LoginRepository.getLoggedInUser());
     }
 
-    void delete(Apiary apiary){
-        update(() ->dataSource.delete(apiary));
+    void delete(Apiary apiary) {
+        update(() -> dataSource.delete(apiary));
         update();
     }
 }

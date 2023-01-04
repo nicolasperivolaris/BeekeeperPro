@@ -13,5 +13,5 @@
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/apiary_row_item"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 </FrameLayout>

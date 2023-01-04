@@ -3,7 +3,6 @@ package com.beekeeperpro.ui.inspection;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,18 +38,16 @@ public class InspectionListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_ITEM) {            // Here Inflating your recyclerview item layout
+        if (viewType == TYPE_ITEM) {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.inspection_row_item, parent, false);
             return new InspectionViewHolder(itemView);
-        } else if (viewType == TYPE_HEADER) {
-            // Here Inflating your header view
+        } else {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.inspection_row_header, parent, false);
             return new InspectionViewHolderHeader(itemView);
         }
-        else return null;
     }
 
-    public void setInspectionList(List<Inspection> inspections){
+    public void setInspectionList(List<Inspection> inspections) {
         this.inspectionList = inspections;
         notifyDataSetChanged();
     }
@@ -69,8 +66,8 @@ public class InspectionListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof InspectionViewHolder)
-            ((InspectionViewHolder)holder).bind(inspectionList.get(position-1));
+        if (holder instanceof InspectionViewHolder)
+            ((InspectionViewHolder) holder).bind(inspectionList.get(position - 1));
     }
 
     @Override
@@ -83,10 +80,10 @@ public class InspectionListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return inspectionList.size()+1;
+        return inspectionList.size() + 1;
     }
 
-    void setEditMode(boolean editMode){
+    void setEditMode(boolean editMode) {
         this.editMode = editMode;
         notifyDataSetChanged();
     }
@@ -118,12 +115,12 @@ public class InspectionListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             inspectionQueenCondition.setText(String.valueOf(inspection.getQueenCondition()));
             inspectionHiveCondition.setText(inspection.getHiveCondition());
             phytoUsed.setVisibility(inspection.getPhytosanitaryUsed().equals(
-                    MainActivity.instance.getResources().getStringArray(R.array.phytosanitary_values)[0]) ? View.INVISIBLE:View.VISIBLE);
-            delete.setVisibility(editMode ? View.VISIBLE:View.GONE);
+                    MainActivity.instance.getResources().getStringArray(R.array.phytosanitary_values)[0]) ? View.INVISIBLE : View.VISIBLE);
+            delete.setVisibility(editMode ? View.VISIBLE : View.GONE);
         }
     }
 
-    public class InspectionViewHolderHeader extends RecyclerView.ViewHolder {
+    public static class InspectionViewHolderHeader extends RecyclerView.ViewHolder {
         public InspectionViewHolderHeader(@NonNull View itemView) {
             super(itemView);
         }

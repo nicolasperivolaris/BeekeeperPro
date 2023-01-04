@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 
 import com.beekeeperpro.R;
@@ -23,7 +21,8 @@ public class HiveListFragment extends Fragment {
     EditMenuProvider editMenu;
     private HiveListViewModel viewModel;
 
-    public HiveListFragment() {}
+    public HiveListFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -71,7 +70,7 @@ public class HiveListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        requireActivity().findViewById(R.id.fab).setOnClickListener(v->{
+        requireActivity().findViewById(R.id.fab).setOnClickListener(v -> {
             Bundle arg = new Bundle();
             arg.putParcelable("apiary", viewModel.getApiary());
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_hives_list_to_add_hive_fragment, arg);

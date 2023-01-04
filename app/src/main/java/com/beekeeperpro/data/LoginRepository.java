@@ -29,15 +29,15 @@ public class LoginRepository {
         return instance;
     }
 
-    public static User getLoggedInUser(){
-        if(instance.isLoggingIn) {
+    public static User getLoggedInUser() {
+        if (instance.isLoggingIn) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if(user == null) throw new RuntimeException("User not logged");
+        if (user == null) throw new RuntimeException("User not logged");
         return user;
     }
 

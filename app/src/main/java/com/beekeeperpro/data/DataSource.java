@@ -5,10 +5,8 @@ import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.data.model.Inspection;
 import com.beekeeperpro.data.model.User;
 import com.beekeeperpro.utils.Location;
-import com.google.android.gms.common.api.Api;
 
 import java.io.IOException;
-import java.nio.charset.MalformedInputException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -25,7 +23,7 @@ import javax.security.auth.login.LoginException;
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
 public class DataSource {
-//todo check not to delete data to other user
+    //todo check not to delete data to other user
     //todo limit data transfer when getting list
     public Result<User> login(String username, String password) {
         try {
@@ -215,7 +213,7 @@ public class DataSource {
                         result.setAcquisitionDate(resultSet.getDate(5));
                     }
                 }
-                return new Result.Success<Hive>(result);
+                return new Result.Success<>(result);
             } else {
                 return new Result.Error(new SQLException());
             }
@@ -228,7 +226,6 @@ public class DataSource {
     }
 
 
-
     public Result insert(Inspection inspection) throws SQLException {
         Connection connect = ConnectionHelper.CONN();
         try {
@@ -236,7 +233,7 @@ public class DataSource {
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             connect.setAutoCommit(false);
             PreparedStatement preparedStatement = connect.prepareStatement(queryStmt, Statement.RETURN_GENERATED_KEYS);
-            if(inspection.getInspectionDate() != null)
+            if (inspection.getInspectionDate() != null)
                 preparedStatement.setDate(1, new Date(inspection.getInspectionDate().getTime()));
             else throw new Exception("No date provided");
 
@@ -256,13 +253,14 @@ public class DataSource {
                     int id = generatedKeys.getInt(1);
                     inspection.setId(id);
                 }
-                for (String point: inspection.getAttentionPoints()) {
+                for (String point : inspection.getAttentionPoints()) {
                     String pointsInsert = "INSERT INTO BeekeeperPro.dbo.Inspection_AttentionPoints (inspection_id, name)" +
                             "VALUES (?, ?);";
                     PreparedStatement pIPrepStat = connect.prepareStatement(pointsInsert, Statement.RETURN_GENERATED_KEYS);
                     pIPrepStat.setInt(1, inspection.getId());
                     pIPrepStat.setString(2, point);
-                    if(pIPrepStat.executeUpdate() == 0) throw new SQLException("Error while inserting AttentionPoint");
+                    if (pIPrepStat.executeUpdate() == 0)
+                        throw new SQLException("Error while inserting AttentionPoint");
                 }
 
                 connect.commit();

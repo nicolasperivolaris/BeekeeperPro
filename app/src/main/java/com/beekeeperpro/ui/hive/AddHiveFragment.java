@@ -55,10 +55,10 @@ public class AddHiveFragment extends Fragment {
         BPSeekbar strengthBar = view.findViewById(R.id.hiveSeekbar);
         strengthBar.setValues(getResources().getStringArray(R.array.strength_bar_values));
         strengthBar.setMin(0);
-        strengthBar.setMax(getResources().getStringArray(R.array.strength_bar_values).length-1);
+        strengthBar.setMax(getResources().getStringArray(R.array.strength_bar_values).length - 1);
 
         viewModel.getData().observe(getViewLifecycleOwner(), hive -> {
-            if(!savePushed) return;
+            if (!savePushed) return;
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
             Toast.makeText(getContext(), "Saved !", Toast.LENGTH_SHORT).show();
         });
@@ -66,9 +66,7 @@ public class AddHiveFragment extends Fragment {
             savePushed = false;
             Toast.makeText(getContext(), "Internal error", Toast.LENGTH_LONG).show();
         });
-        viewModel.getValidationError().observe(getViewLifecycleOwner(), error -> {
-            Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
-        });
+        viewModel.getValidationError().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show());
 
     }
 
@@ -90,28 +88,30 @@ public class AddHiveFragment extends Fragment {
 
     private void loadFromViewModel() {
         Hive hive = viewModel.getData().getValue();
-        if(hive == null) return;
-        ((TextView)requireView().findViewById(R.id.hiveName)).setText(hive.getName());
-        ((TextView)requireView().findViewById(R.id.hiveCode)).setText(hive.getCode());
+        if (hive == null) return;
+        ((TextView) requireView().findViewById(R.id.hiveName)).setText(hive.getName());
+        ((TextView) requireView().findViewById(R.id.hiveCode)).setText(hive.getCode());
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-        if(hive.getHivingDate() != null)((TextView)requireView().findViewById(R.id.hiveHivingDate)).setText(dateFormat.format(hive.getHivingDate()));
-        if(hive.getAcquisitionDate() != null)((TextView)requireView().findViewById(R.id.hiveAcquisitionDate)).setText(dateFormat.format(hive.getAcquisitionDate()));
-        ((BPSeekbar)requireView().findViewById(R.id.hiveSeekbar)).setProgress(hive.getStrength());
+        if (hive.getHivingDate() != null)
+            ((TextView) requireView().findViewById(R.id.hiveHivingDate)).setText(dateFormat.format(hive.getHivingDate()));
+        if (hive.getAcquisitionDate() != null)
+            ((TextView) requireView().findViewById(R.id.hiveAcquisitionDate)).setText(dateFormat.format(hive.getAcquisitionDate()));
+        ((BPSeekbar) requireView().findViewById(R.id.hiveSeekbar)).setProgress(hive.getStrength());
     }
 
     private void saveToViewModel() {
         Hive hive = viewModel.getData().getValue();
-        hive.setName(((TextView)requireView().findViewById(R.id.hiveName)).getText().toString());
-        hive.setCode(((TextView)requireView().findViewById(R.id.hiveCode)).getText().toString());
-        hive.setStrength(((BPSeekbar)requireView().findViewById(R.id.hiveSeekbar)).getProgress());
+        hive.setName(((TextView) requireView().findViewById(R.id.hiveName)).getText().toString());
+        hive.setCode(((TextView) requireView().findViewById(R.id.hiveCode)).getText().toString());
+        hive.setStrength(((BPSeekbar) requireView().findViewById(R.id.hiveSeekbar)).getProgress());
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
         try {
-            hive.setHivingDate(dateFormat.parse(((TextView)requireView().findViewById(R.id.hiveHivingDate)).getText().toString()));
+            hive.setHivingDate(dateFormat.parse(((TextView) requireView().findViewById(R.id.hiveHivingDate)).getText().toString()));
         } catch (ParseException e) {
             hive.setHivingDate(null);
         }
         try {
-            hive.setAcquisitionDate(dateFormat.parse(((TextView)requireView().findViewById(R.id.hiveAcquisitionDate)).getText().toString()));
+            hive.setAcquisitionDate(dateFormat.parse(((TextView) requireView().findViewById(R.id.hiveAcquisitionDate)).getText().toString()));
         } catch (ParseException e) {
             hive.setAcquisitionDate(null);
         }

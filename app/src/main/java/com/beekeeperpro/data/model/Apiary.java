@@ -9,7 +9,8 @@ import androidx.annotation.NonNull;
 import com.beekeeperpro.utils.Location;
 
 public class Apiary implements Parcelable {
-    public final static Apiary Stock = new Apiary(0, "Stock", "Stock", 0);;
+    public final static Apiary Stock = new Apiary(0, "Stock", "Stock", 0);
+
     private int id;
     private String name;
     private String location;
@@ -17,13 +18,13 @@ public class Apiary implements Parcelable {
     private int hivesCount;
     private Bitmap picture;
 
-    public Apiary(){
+    public Apiary() {
         name = "";
         location = "";
         coordinate = new Location();
     }
 
-    public Apiary(int id, String name, String location, int hivesCount){
+    public Apiary(int id, String name, String location, int hivesCount) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -82,6 +83,7 @@ public class Apiary implements Parcelable {
     public void setCoordinate(Location coordinate) {
         this.coordinate = coordinate;
     }
+
     public void setCoordinate(double lat, double lon) {
         this.coordinate = new Location();
         this.coordinate.setLatitude(lat);

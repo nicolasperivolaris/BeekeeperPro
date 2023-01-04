@@ -9,7 +9,6 @@ import com.beekeeperpro.MainActivity;
 import com.beekeeperpro.data.DataSource;
 import com.beekeeperpro.data.Result;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class ConnectedViewModel<T> extends ViewModel {
@@ -22,37 +21,39 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
         this.dataSource = MainActivity.dataSource;
 
         error = new MutableLiveData<>();
-        try{
+        try {
             dataTemp = new MutableLiveData<>((T) c.getConstructor().newInstance());
-        }catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e){
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             System.err.println("No default constructor for class " + getClass().getSuperclass().getTypeParameters()[0]);
             System.err.println(e);
             dataTemp = new MutableLiveData<>();
         }
         data = dataTemp;
     }
+
     @NonNull
-    public LiveData<T> getData(){
+    public LiveData<T> getData() {
         return data;
     }
 
-    public LiveData<Result.Error> getErrors(){
+    public LiveData<Result.Error> getErrors() {
         return error;
     }
-    public void update(){
-        update(() -> getFromSource());
+
+    public void update() {
+        update(this::getFromSource);
     }
 
-    public void insert(T data){
+    public void insert(T data) {
         update(() -> insertIntoSource(data));
     }
 
-    protected void update(Requester requester){
-        Thread t = new Thread(() ->{
+    protected void update(Requester requester) {
+        Thread t = new Thread(() -> {
             //todo remove the while
             boolean ok = false;
             Result result = null;
-            while(!ok) {
+            while (!ok) {
                 try {
                     result = requester.request();
                     ok = true;
@@ -60,9 +61,9 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
                     System.err.println(e);
                 }
             }
-            if(result instanceof Result.Success)
-                data.postValue(((Result.Success<T>)result).getData());
-            else{
+            if (result instanceof Result.Success)
+                data.postValue(((Result.Success<T>) result).getData());
+            else {
                 System.err.println(result.toString());
                 error.postValue((Result.Error) result);
             }
@@ -70,15 +71,15 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
         t.start();
     }
 
-    protected Result getFromSource(){
+    protected Result getFromSource() {
         return new Result.Error(new UnsupportedOperationException());
     }
 
-    protected Result insertIntoSource(T data){
+    protected Result insertIntoSource(T data) {
         return new Result.Error(new UnsupportedOperationException());
     }
 
-    protected interface Requester{
+    protected interface Requester {
         Result request();
     }
 }

@@ -9,9 +9,11 @@ import androidx.core.view.MenuProvider;
 
 import com.beekeeperpro.R;
 
-public abstract class EditMenuProvider implements MenuProvider{
+public abstract class EditMenuProvider implements MenuProvider {
     protected abstract void onEditButton();
+
     protected abstract void onFinishButton();
+
     public final int editId = 1;
     public final int finishId = 2;
     private Menu menu;
@@ -34,12 +36,12 @@ public abstract class EditMenuProvider implements MenuProvider{
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
         menuItem.setVisible(false);
-        if( menuItem.getItemId() == editId) {
+        if (menuItem.getItemId() == editId) {
             onEditButton();
             menu.findItem(finishId).setVisible(true);
             return true;
         }
-        if (menuItem.getItemId() == finishId){
+        if (menuItem.getItemId() == finishId) {
             onFinishButton();
             menu.findItem(editId).setVisible(true);
             return true;

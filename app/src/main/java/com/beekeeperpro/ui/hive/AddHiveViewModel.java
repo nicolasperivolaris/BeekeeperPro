@@ -7,10 +7,9 @@ import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Apiary;
 import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.ui.ConnectedViewModel;
-import com.google.android.gms.common.api.Api;
 
 public class AddHiveViewModel extends ConnectedViewModel<Hive> {
-    private MutableLiveData<String> validationError;
+    private final MutableLiveData<String> validationError;
     private Apiary apiary;
 
     public AddHiveViewModel() {
@@ -24,7 +23,7 @@ public class AddHiveViewModel extends ConnectedViewModel<Hive> {
 
     public boolean save() {
         data.getValue().setApiary(apiary);
-        if(data.getValue().getName().trim().equals("")){
+        if (data.getValue().getName().trim().equals("")) {
             validationError.postValue("Name can't be empty.");
             return false;
         }

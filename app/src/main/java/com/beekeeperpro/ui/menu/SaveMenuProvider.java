@@ -7,12 +7,13 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.core.view.MenuProvider;
 
-import com.beekeeperpro.MainActivity;
 import com.beekeeperpro.R;
 
-public abstract class SaveMenuProvider implements MenuProvider{
+public abstract class SaveMenuProvider implements MenuProvider {
     protected abstract void onSaveButton();
+
     public final int saveId = 1;
+
     @Override
     public void onPrepareMenu(@NonNull Menu menu) {
         MenuProvider.super.onPrepareMenu(menu);
@@ -26,7 +27,7 @@ public abstract class SaveMenuProvider implements MenuProvider{
 
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if( menuItem.getItemId() == saveId) {
+        if (menuItem.getItemId() == saveId) {
             onSaveButton();
             return true;
         }

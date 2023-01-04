@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +32,7 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
@@ -40,7 +42,7 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
         return new ViewHolder(view);
     }
 
-    void setEditMode(boolean editMode){
+    void setEditMode(boolean editMode) {
         this.editMode = editMode;
         notifyDataSetChanged();
     }
@@ -70,7 +72,7 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
         return apiaries.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private Apiary apiary;
         private final ImageView image;
         private final TextView apiaryName;
@@ -89,12 +91,12 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
             view.setOnClickListener(v -> clickedId.postValue(apiary));
         }
 
-        public void bind(Apiary apiary){
+        public void bind(Apiary apiary) {
             this.apiary = apiary;
             apiaryName.setText(apiary.getName());
             apiaryLocation.setText(apiary.getLocation());
             hiveCount.setText(String.valueOf(apiary.getHivesCount()));
-            delete.setVisibility(editMode ? View.VISIBLE:View.GONE);
+            delete.setVisibility(editMode ? View.VISIBLE : View.GONE);
         }
     }
 

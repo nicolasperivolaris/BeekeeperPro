@@ -30,7 +30,8 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
     private FusedLocationProviderClient fusedLocationClient;
     private boolean savePushed = false;
 
-    public AddApiaryFragment() { }
+    public AddApiaryFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,9 +46,9 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
             Toast.makeText(getContext(), s.getError().toString(), Toast.LENGTH_LONG).show();
         });
         viewModel.getData().observe(getViewLifecycleOwner(), apiary -> {
-            if(!savePushed) return;
-                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
-                Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
+            if (!savePushed) return;
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
+            Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
         });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
@@ -62,6 +63,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
 
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -90,21 +92,21 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
 
     private void loadFromViewModel() {
         Apiary apiary = viewModel.getData().getValue();
-        if(apiary == null) return;
-        ((TextView)requireView().findViewById(R.id.apiaryName)).setText(apiary.getName());
-        ((TextView)requireView().findViewById(R.id.apiaryLocation)).setText(apiary.getLocation());
-        ((TextView)requireView().findViewById(R.id.apiaryLat)).setText(apiary.getCoordinate().getLatitude()+"");
-        ((TextView)requireView().findViewById(R.id.apiaryLong)).setText(apiary.getCoordinate().getLongitude()+"");
+        if (apiary == null) return;
+        ((TextView) requireView().findViewById(R.id.apiaryName)).setText(apiary.getName());
+        ((TextView) requireView().findViewById(R.id.apiaryLocation)).setText(apiary.getLocation());
+        ((TextView) requireView().findViewById(R.id.apiaryLat)).setText(apiary.getCoordinate().getLatitude() + "");
+        ((TextView) requireView().findViewById(R.id.apiaryLong)).setText(apiary.getCoordinate().getLongitude() + "");
     }
 
     private void saveToViewModel() {
         Apiary apiary = viewModel.getData().getValue();
-        apiary.setName(((TextView)requireView().findViewById(R.id.apiaryName)).getText().toString());
-        apiary.setLocation(((TextView)requireView().findViewById(R.id.apiaryLocation)).getText().toString());
+        apiary.setName(((TextView) requireView().findViewById(R.id.apiaryName)).getText().toString());
+        apiary.setLocation(((TextView) requireView().findViewById(R.id.apiaryLocation)).getText().toString());
         try {
             apiary.setCoordinate(Double.parseDouble(((TextView) requireView().findViewById(R.id.apiaryLat)).getText().toString()),
                     Double.parseDouble(((TextView) requireView().findViewById(R.id.apiaryLat)).getText().toString()));
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.err.println(e);
             Toast.makeText(getContext(), "Bad coordinate format", Toast.LENGTH_SHORT).show();
         }

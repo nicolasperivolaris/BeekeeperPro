@@ -16,7 +16,7 @@ public class BPSeekbar extends androidx.appcompat.widget.AppCompatSeekBar {
         init();
     }
 
-    public void setValues(String[] values){
+    public void setValues(String[] values) {
         this.values = values;
     }
 
@@ -42,11 +42,11 @@ public class BPSeekbar extends androidx.appcompat.widget.AppCompatSeekBar {
         super.onDraw(canvas);
 
         // Dessin des traits
-        int width = getWidth()-getPaddingLeft()-getPaddingRight();
+        int width = getWidth() - getPaddingLeft() - getPaddingRight();
         int height = getHeight();
         int interval = width / (values.length - 1);
         for (int i = 0; i < values.length; i++) {
-            canvas.drawLine(i * interval+getPaddingLeft(), height/4f, i * interval+getPaddingLeft(), 3*height / 4f, mPaint);
+            canvas.drawLine(i * interval + getPaddingLeft(), height / 4f, i * interval + getPaddingLeft(), 3 * height / 4f, mPaint);
         }
 
         // Dessin des labels

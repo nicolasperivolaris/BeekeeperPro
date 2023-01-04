@@ -1,7 +1,5 @@
 package com.beekeeperpro.ui.inspection;
 
-import androidx.lifecycle.ViewModel;
-
 import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.data.model.Inspection;

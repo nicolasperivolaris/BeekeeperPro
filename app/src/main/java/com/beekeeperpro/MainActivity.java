@@ -17,10 +17,9 @@ import com.beekeeperpro.ui.login.LoginViewModel;
 import com.beekeeperpro.ui.login.LoginViewModelFactory;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
     public static final DataSource dataSource = new DataSource();
     public static MainActivity instance;
 
@@ -29,14 +28,14 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         instance = this;
         //todo temp
-        new Thread(()->{
+        new Thread(() -> {
             LoginViewModel loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                     .get(LoginViewModel.class);
             loginViewModel.login("testuser", "");
         }).start();
         //temp
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.beekeeperpro.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);

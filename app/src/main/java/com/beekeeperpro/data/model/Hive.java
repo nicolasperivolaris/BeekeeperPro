@@ -18,7 +18,7 @@ public class Hive implements Parcelable {
 
     private Apiary apiary = Apiary.Stock;
 
-    public Hive(){
+    public Hive() {
         name = "";
         code = "";
         hivingDate = Calendar.getInstance().getTime();

@@ -1,7 +1,6 @@
 package com.beekeeperpro.utils;
 
 import android.app.DatePickerDialog;
-import android.content.res.Resources;
 import android.widget.EditText;
 
 import com.beekeeperpro.MainActivity;
@@ -11,7 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Utils {
-    public static void initDatePicker(EditText field){
+    public static void initDatePicker(EditText field) {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -34,7 +33,7 @@ public class Utils {
         datePickerDialog.show();
     }
 
-    public static int convertStringToArrayPosition(String value, int arrayId){
+    public static int convertStringToArrayPosition(String value, int arrayId) {
         String[] array = MainActivity.instance.getResources().getStringArray(arrayId);
         for (int i = 0; i < array.length; i++) {
             if (array[i].equals(value)) {

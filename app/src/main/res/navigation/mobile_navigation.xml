@@ -33,7 +33,7 @@
         android:id="@+id/hives_list_fragment"
         android:name="com.beekeeperpro.ui.hive.HiveListFragment"
         android:label="@string/hive_list"
-        tools:layout="@layout/hive_list_fragment" >
+        tools:layout="@layout/hive_list_fragment">
         <argument
             android:name="apiary"
             app:argType="com.beekeeperpro.data.model.Apiary" />
@@ -68,7 +68,7 @@
     <fragment
         android:id="@+id/inspection_list_fragment"
         android:name="com.beekeeperpro.ui.inspection.InspectionListFragment"
-        tools:layout="@layout/inspection_list_fragment" >
+        tools:layout="@layout/inspection_list_fragment">
         <argument
             android:name="hive"
             app:argType="com.beekeeperpro.data.model.Hive" />

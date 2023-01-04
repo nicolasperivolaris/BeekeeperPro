@@ -19,6 +19,7 @@ public class User {
     public String getName() {
         return name;
     }
+
     public String getDisplayEmail() {
         return email;
     }
