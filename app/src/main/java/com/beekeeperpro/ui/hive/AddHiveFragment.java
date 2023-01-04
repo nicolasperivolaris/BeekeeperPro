@@ -1,6 +1,5 @@
 package com.beekeeperpro.ui.hive;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.beekeeperpro.R;
@@ -25,8 +22,6 @@ import com.beekeeperpro.utils.Utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 
 public class AddHiveFragment extends Fragment {
 
@@ -45,7 +40,7 @@ public class AddHiveFragment extends Fragment {
             }
         };
 
-        return inflater.inflate(R.layout.add_hive_fragment, container, false);
+        return inflater.inflate(R.layout.hive_add_fragment, container, false);
     }
 
     @Override

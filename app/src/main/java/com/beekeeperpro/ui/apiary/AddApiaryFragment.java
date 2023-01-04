@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.beekeeperpro.R;
@@ -36,7 +35,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_apiary_fragment, container, false);
+        View view = inflater.inflate(R.layout.apiary_add_fragment, container, false);
 
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(AddApiaryViewModel.class);

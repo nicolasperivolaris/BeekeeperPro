@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.beekeeperpro.R;
 import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.data.model.Inspection;
-import com.beekeeperpro.databinding.AddInspectionFragmentBinding;
+import com.beekeeperpro.databinding.InspectionAddFragmentBinding;
 import com.beekeeperpro.ui.menu.SaveMenuProvider;
 import com.beekeeperpro.utils.Utils;
 import com.google.android.material.chip.Chip;
@@ -37,7 +37,7 @@ public class AddInspectionFragment extends Fragment {
     private boolean savePushed = false;
     private AddInspectionViewModel viewModel;
     private SaveMenuProvider saveMenu;
-    private AddInspectionFragmentBinding binding;
+    private InspectionAddFragmentBinding binding;
 
     public static AddInspectionFragment newInstance() {
         return new AddInspectionFragment();
@@ -46,7 +46,7 @@ public class AddInspectionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = AddInspectionFragmentBinding.inflate(inflater, container, false);
+        binding = InspectionAddFragmentBinding.inflate(inflater, container, false);
         saveMenu = new SaveMenuProvider() {
             @Override
             protected void onSaveButton() {

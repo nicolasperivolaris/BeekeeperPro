@@ -51,16 +51,16 @@
         android:id="@+id/add_apiary_fragment"
         android:name="com.beekeeperpro.ui.apiary.AddApiaryFragment"
         android:label="@string/add_apiary_label"
-        tools:layout="@layout/add_apiary_fragment" />
+        tools:layout="@layout/apiary_add_fragment" />
     <fragment
         android:id="@+id/add_hive_fragment"
         android:name="com.beekeeperpro.ui.hive.AddHiveFragment"
         android:label="@string/add_hive_label"
-        tools:layout="@layout/add_hive_fragment" />
+        tools:layout="@layout/hive_add_fragment" />
     <fragment
         android:id="@+id/add_Inspection_fragment"
         android:name="com.beekeeperpro.ui.inspection.AddInspectionFragment"
-        tools:layout="@layout/add_inspection_fragment">
+        tools:layout="@layout/inspection_add_fragment">
         <argument
             android:name="hive"
             app:argType="com.beekeeperpro.data.model.Hive" />
