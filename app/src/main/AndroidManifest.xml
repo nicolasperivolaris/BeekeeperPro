@@ -30,6 +30,11 @@
             android:exported="false"
             android:label="@string/title_activity_login">
         </activity>
+        <receiver android:name=".utils.VoiceRecognitionReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.speech.action.RECOGNIZE_SPEECH" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
