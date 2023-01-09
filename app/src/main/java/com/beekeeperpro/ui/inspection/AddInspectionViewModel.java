@@ -30,15 +30,6 @@ public class AddInspectionViewModel extends ConnectedViewModel<Inspection> {
         return true;
     }
 
-    protected Result insertIntoSource(Inspection inspection) {
-        try {
-            return dataSource.insert(inspection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new Result.Error(e);
-        }
-    }
-
     public LiveData<String> getValidationError() {
         return validationError;
     }

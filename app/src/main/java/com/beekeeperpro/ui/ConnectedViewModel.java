@@ -6,20 +6,24 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.beekeeperpro.MainActivity;
-import com.beekeeperpro.data.DataSource;
+import com.beekeeperpro.data.model.ApiaryEntity;
+import com.beekeeperpro.data.model.DataSource;
 import com.beekeeperpro.data.Result;
+import com.beekeeperpro.data.model.Inspection;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 
 public abstract class ConnectedViewModel<T> extends ViewModel {
     protected final DataSource dataSource;
     protected final MutableLiveData<T> data;
+    protected final MutableLiveData<Boolean> done;
     protected final MutableLiveData<Result.Error> error;
 
     protected ConnectedViewModel(Class<T> c) {
         MutableLiveData<T> dataTemp;
         this.dataSource = MainActivity.dataSource;
-
+        done = new MutableLiveData<>();
         error = new MutableLiveData<>();
         try {
             dataTemp = new MutableLiveData<>((T) c.getConstructor().newInstance());
@@ -40,19 +44,27 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
         return error;
     }
 
-    public void update() {
-        update(this::getFromSource);
+    public void select() {
+        execute(this::getFromSource);
     }
 
-    public void insert(T data) {
-        update(() -> insertIntoSource(data));
+    public void insert(ApiaryEntity data) {
+        execute(() -> insertIntoSource(data));
     }
 
-    protected void update(Requester requester) {
+    public void update(ApiaryEntity data){
+        execute(() -> updateInSource(data));
+    }
+
+    public void delete(ApiaryEntity data){
+        execute(() -> deleteFromSource(data));
+    }
+
+    protected void execute(Requester requester) {
         Thread t = new Thread(() -> {
             //todo remove the while
             boolean ok = false;
-            Result result = null;
+            Object result = null;
             while (!ok) {
                 try {
                     result = requester.request();
@@ -61,8 +73,11 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
                     System.err.println(e);
                 }
             }
-            if (result instanceof Result.Success)
-                data.postValue(((Result.Success<T>) result).getData());
+            if (result instanceof Result.Success) {
+                Object o = ((Result.Success) result).getData();
+                if(o instanceof Boolean) done.postValue((boolean)o);
+                else data.postValue((T) o);
+            }
             else {
                 System.err.println(result.toString());
                 error.postValue((Result.Error) result);
@@ -71,15 +86,55 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
         t.start();
     }
 
+    /**
+     * Don't use it, overload it.
+     * @return
+     */
     protected Result getFromSource() {
-        return new Result.Error(new UnsupportedOperationException());
+        throw new UnsupportedOperationException();
     }
 
-    protected Result insertIntoSource(T data) {
-        return new Result.Error(new UnsupportedOperationException());
+    /**
+     * Don't use it, overload it.
+     * @return
+     */
+    protected Result insertIntoSource(ApiaryEntity data){
+        try {
+            return new Result.Success<>(data.insert());
+        } catch (SQLException e) {
+            return new Result.Error(e);
+        }
     }
 
-    protected interface Requester {
-        Result request();
+    /**
+     * Don't use it, overload it.
+     * @return
+     */
+    protected Result updateInSource(ApiaryEntity data){
+        try {
+            return new Result.Success<>(data.update());
+        } catch (SQLException e) {
+            return new Result.Error(e);
+        }
+    }
+
+    /**
+     * Don't use it, overload it.
+     * @return
+     */
+    protected Result deleteFromSource(ApiaryEntity data) {
+        try {
+            return new Result.Success<>(data.delete());
+        } catch (SQLException e) {
+            return new Result.Error(e);
+        }
+    }
+
+    public LiveData<Boolean> getDone() {
+        return done;
+    }
+
+    public interface Requester {
+        Object request();
     }
 }

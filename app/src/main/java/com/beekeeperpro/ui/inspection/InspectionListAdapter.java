@@ -83,7 +83,7 @@ public class InspectionListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return inspectionList.size() + 1;
     }
 
-    void setEditMode(boolean editMode) {
+    public void setEditMode(boolean editMode) {
         this.editMode = editMode;
         notifyDataSetChanged();
     }

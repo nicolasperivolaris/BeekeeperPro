@@ -30,7 +30,7 @@ public class ApiaryListFragment extends Fragment {
         ApiaryListFragmentBinding binding = ApiaryListFragmentBinding.inflate(inflater, container, false);
         ApiaryListAdapter adapter = new ApiaryListAdapter();
         adapter.getClickedId().observe(getViewLifecycleOwner(), this::onClick);
-        adapter.getOnDeleteItem().observe(getViewLifecycleOwner(), id -> viewModel.delete(id));
+        adapter.getOnDeleteItem().observe(getViewLifecycleOwner(), apiary -> viewModel.delete(apiary));
         binding.apiaryList.setAdapter(adapter);
         viewModel.getData().observe(getViewLifecycleOwner(), adapter::setApiaries);
         editMenu = getEditMenu(adapter);
@@ -63,7 +63,7 @@ public class ApiaryListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().findViewById(R.id.fab).setOnClickListener(v -> Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_nav_home_to_addApiaryFragment));
-        viewModel.update();
+        viewModel.select();
         requireActivity().addMenuProvider(editMenu);
     }
 

@@ -18,11 +18,8 @@ import com.beekeeperpro.ui.menu.EditMenuProvider;
 
 public class HiveListFragment extends Fragment {
 
-    EditMenuProvider editMenu;
+    private EditMenuProvider editMenu;
     private HiveListViewModel viewModel;
-
-    public HiveListFragment() {
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -36,7 +33,7 @@ public class HiveListFragment extends Fragment {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
             Bundle args = new Bundle();
             args.putParcelable("hive", hive);
-            navController.navigate(R.id.action_hives_list_fragment_to_inspectionListFragment, args);
+            navController.navigate(R.id.action_hives_list_fragment_to_hive_fragment, args);
         });
         adapter.getOnDeleteItem().observe(getViewLifecycleOwner(), hive -> viewModel.delete(hive));
         adapter.getOnAddInspectionItem().observe(getViewLifecycleOwner(), hive -> {
@@ -75,7 +72,7 @@ public class HiveListFragment extends Fragment {
             arg.putParcelable("apiary", viewModel.getApiary());
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_hives_list_to_add_hive_fragment, arg);
         });
-        viewModel.update();
+        viewModel.select();
         requireActivity().addMenuProvider(editMenu);
     }
 

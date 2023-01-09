@@ -92,6 +92,11 @@ public class AddInspectionFragment extends Fragment {
             Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
         });
         viewModel.getErrors().observe(getViewLifecycleOwner(), error -> Toast.makeText(getContext(), "Internal error", Toast.LENGTH_LONG).show());
+        viewModel.getDone().observe(getViewLifecycleOwner(), saved -> {
+            if (!savePushed) return;
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
+            Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
+        });
         binding.inspectionDate.setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
 
     }

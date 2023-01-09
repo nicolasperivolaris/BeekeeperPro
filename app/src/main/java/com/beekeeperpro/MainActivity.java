@@ -11,7 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.beekeeperpro.data.DataSource;
+import com.beekeeperpro.data.model.DataSource;
 import com.beekeeperpro.databinding.ActivityMainBinding;
 import com.beekeeperpro.ui.login.LoginViewModel;
 import com.beekeeperpro.ui.login.LoginViewModelFactory;

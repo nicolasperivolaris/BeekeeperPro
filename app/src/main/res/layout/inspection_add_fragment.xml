@@ -116,6 +116,7 @@
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/attention_points_chipgroup"
+        style="@style/Theme.BeekeeperPro"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

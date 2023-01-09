@@ -31,11 +31,6 @@ public class AddHiveViewModel extends ConnectedViewModel<Hive> {
         return true;
     }
 
-    @Override
-    protected Result insertIntoSource(Hive hive) {
-        return dataSource.insert(hive);
-    }
-
     public Apiary getApiary() {
         return apiary;
     }

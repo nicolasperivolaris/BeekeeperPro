@@ -1,5 +1,6 @@
 package com.beekeeperpro.data;
 
+import com.beekeeperpro.data.model.DataSource;
 import com.beekeeperpro.data.model.User;
 
 /**
@@ -56,10 +57,10 @@ public class LoginRepository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public Result<User> login(String username, String password) {
+    public Result login(String username, String password) {
         // handle login
         isLoggingIn = true;
-        Result<User> result = dataSource.login(username, password);
+        Result result = dataSource.login(username, password);
         if (result instanceof Result.Success) {
             setLoggedInUser(((Result.Success<User>) result).getData());
         }

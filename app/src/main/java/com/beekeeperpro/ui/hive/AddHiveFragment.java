@@ -52,12 +52,9 @@ public class AddHiveFragment extends Fragment {
         view.findViewById(R.id.hiveHivingDate).setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
         view.findViewById(R.id.hiveAcquisitionDate).setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
 
-        BPSeekbar strengthBar = view.findViewById(R.id.hiveSeekbar);
-        strengthBar.setValues(getResources().getStringArray(R.array.strength_bar_values));
-        strengthBar.setMin(0);
-        strengthBar.setMax(getResources().getStringArray(R.array.strength_bar_values).length - 1);
+        ((BPSeekbar)view.findViewById(R.id.hiveSeekbar)).setValues(getResources().getStringArray(R.array.strength_bar_values));
 
-        viewModel.getData().observe(getViewLifecycleOwner(), hive -> {
+        viewModel.getDone().observe(getViewLifecycleOwner(), hive -> {
             if (!savePushed) return;
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
             Toast.makeText(getContext(), "Saved !", Toast.LENGTH_SHORT).show();

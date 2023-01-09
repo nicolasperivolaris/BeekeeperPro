@@ -70,9 +70,9 @@ public class InspectionListFragment extends Fragment {
         requireActivity().findViewById(R.id.fab).setOnClickListener(v -> {
             Bundle arg = new Bundle();
             arg.putParcelable("hive", viewModel.getHive());
-            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_inspection_list_fragment_to_add_Inspection_fragment, arg);
+            //Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_inspection_list_fragment_to_add_Inspection_fragment, arg);
         });
-        viewModel.update();
+        viewModel.select();
         requireActivity().addMenuProvider(editMenu);
     }
 

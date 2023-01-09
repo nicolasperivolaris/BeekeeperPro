@@ -5,6 +5,7 @@ import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.data.model.Inspection;
 import com.beekeeperpro.ui.ConnectedViewModel;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class InspectionListViewModel extends ConnectedViewModel<List> {
@@ -23,12 +24,24 @@ public class InspectionListViewModel extends ConnectedViewModel<List> {
     }
 
     @Override
-    protected Result getFromSource() {
-        return dataSource.getInspections(hive);
+    public Result getFromSource() {
+        try {
+            return new Result.Success<>(hive.selectInspections());
+        } catch (SQLException e) {
+            return new Result.Error(e);
+        }
     }
 
     public void delete(Inspection inspection) {
-        update(() -> dataSource.delete(inspection));
-        update();
+        execute(() -> {
+            try {
+                Result r = new Result.Success<>(inspection.delete());
+                select();
+                return r;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return new Result.Error(e);
+            }
+        });
     }
 }

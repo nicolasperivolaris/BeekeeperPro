@@ -45,7 +45,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
             savePushed = false;
             Toast.makeText(getContext(), s.getError().toString(), Toast.LENGTH_LONG).show();
         });
-        viewModel.getData().observe(getViewLifecycleOwner(), apiary -> {
+        viewModel.getDone().observe(getViewLifecycleOwner(), apiary -> {
             if (!savePushed) return;
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).popBackStack();
             Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();

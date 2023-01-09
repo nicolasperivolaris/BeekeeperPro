@@ -7,6 +7,8 @@ import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Apiary;
 import com.beekeeperpro.ui.ConnectedViewModel;
 
+import java.util.List;
+
 public class AddApiaryViewModel extends ConnectedViewModel<Apiary> {
 
     private final MutableLiveData<String> validationError;
@@ -32,10 +34,5 @@ public class AddApiaryViewModel extends ConnectedViewModel<Apiary> {
         }
         insert(data.getValue());
         return true;
-    }
-
-    @Override
-    protected Result insertIntoSource(Apiary data) {
-        return dataSource.insert(data);
     }
 }

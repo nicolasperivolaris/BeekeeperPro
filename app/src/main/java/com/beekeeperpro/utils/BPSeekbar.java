@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 
+import com.beekeeperpro.R;
+
 public class BPSeekbar extends androidx.appcompat.widget.AppCompatSeekBar {
     private String[] values;
 
@@ -18,6 +20,7 @@ public class BPSeekbar extends androidx.appcompat.widget.AppCompatSeekBar {
 
     public void setValues(String[] values) {
         this.values = values;
+        setMax(values.length - 1);
     }
 
     public BPSeekbar(Context context, AttributeSet attrs) {
@@ -32,15 +35,14 @@ public class BPSeekbar extends androidx.appcompat.widget.AppCompatSeekBar {
 
     private void init() {
         mPaint = new Paint();
-        mPaint.setColor(Color.WHITE);
+        mPaint.setColor(Color.BLACK);
         mPaint.setTextSize(20);
         values = new String[0];
+        setMin(0);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
         // Dessin des traits
         int width = getWidth() - getPaddingLeft() - getPaddingRight();
         int height = getHeight();
@@ -57,5 +59,7 @@ public class BPSeekbar extends androidx.appcompat.widget.AppCompatSeekBar {
             float y = height / 2f + mPaint.getTextSize();
             canvas.drawText(label, x, y, mPaint);
         }
+        super.onDraw(canvas);
+
     }
 }

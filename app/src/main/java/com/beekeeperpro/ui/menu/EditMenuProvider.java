@@ -10,8 +10,8 @@ import androidx.core.view.MenuProvider;
 import com.beekeeperpro.R;
 
 public abstract class EditMenuProvider implements MenuProvider {
+    private boolean edition = false;
     protected abstract void onEditButton();
-
     protected abstract void onFinishButton();
 
     public final int editId = 1;
@@ -39,14 +39,20 @@ public abstract class EditMenuProvider implements MenuProvider {
         if (menuItem.getItemId() == editId) {
             onEditButton();
             menu.findItem(finishId).setVisible(true);
+            edition = true;
             return true;
         }
         if (menuItem.getItemId() == finishId) {
             onFinishButton();
             menu.findItem(editId).setVisible(true);
+            edition = false;
             return true;
         }
         return false;
+    }
+
+    public boolean isEdition() {
+        return edition;
     }
 
     @Override
