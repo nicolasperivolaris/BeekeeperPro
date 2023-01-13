@@ -2,28 +2,15 @@ package com.beekeeperpro.data.model;
 
 import com.beekeeperpro.data.ConnectionHelper;
 import com.beekeeperpro.data.Result;
-import com.beekeeperpro.data.model.Apiary;
-import com.beekeeperpro.data.model.ApiaryEntity;
-import com.beekeeperpro.data.model.Hive;
-import com.beekeeperpro.data.model.Inspection;
-import com.beekeeperpro.data.model.User;
-import com.beekeeperpro.utils.Location;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.security.auth.login.LoginException;
-
-import kotlin.NotImplementedError;
-import kotlin.TypeCastException;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.

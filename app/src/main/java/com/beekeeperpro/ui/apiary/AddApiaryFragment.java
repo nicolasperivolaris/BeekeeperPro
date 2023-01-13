@@ -2,13 +2,17 @@ package com.beekeeperpro.ui.apiary;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -18,17 +22,25 @@ import androidx.navigation.Navigation;
 
 import com.beekeeperpro.R;
 import com.beekeeperpro.data.model.Apiary;
+import com.beekeeperpro.databinding.ApiaryAddFragmentBinding;
 import com.beekeeperpro.ui.menu.SaveMenuProvider;
 import com.beekeeperpro.utils.Location;
+import com.beekeeperpro.utils.Utils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
-public class AddApiaryFragment extends Fragment implements View.OnClickListener {
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
+public class AddApiaryFragment extends Fragment implements View.OnClickListener {
     private SaveMenuProvider saveMenu;
     private AddApiaryViewModel viewModel;
     private FusedLocationProviderClient fusedLocationClient;
     private boolean savePushed = false;
+    private Uri photoFile;
+    private ApiaryAddFragmentBinding binding;
+    private ActivityResultLauncher<Uri> cameraLauncher;
 
     public AddApiaryFragment() {
     }
@@ -36,9 +48,8 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.apiary_add_fragment, container, false);
-
-        super.onViewCreated(view, savedInstanceState);
+        binding = ApiaryAddFragmentBinding.inflate(inflater, container, false);
+        super.onViewCreated(binding.getRoot(), savedInstanceState);
         viewModel = new ViewModelProvider(this).get(AddApiaryViewModel.class);
         viewModel.getValidationError().observe(getViewLifecycleOwner(), s -> Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show());
         viewModel.getErrors().observe(getViewLifecycleOwner(), s -> {
@@ -52,7 +63,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
         });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-        view.findViewById(R.id.locationBt).setOnClickListener(this);
+        binding.locationBt.setOnClickListener(this);
         saveMenu = new SaveMenuProvider() {
             @Override
             protected void onSaveButton() {
@@ -60,8 +71,30 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
                 savePushed = viewModel.save();
             }
         };
+        binding.image.setOnClickListener(v -> {
+            try {
+                photoFile = Utils.getEmptyPictureFile(requireContext());
+                cameraLauncher.launch(photoFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-        return view;
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(),
+                result -> {
+                    if (result) {
+                        try {
+                            InputStream inputStream = requireActivity().getContentResolver().openInputStream(photoFile);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            int tableWidth = binding.contentTable.getWidth();
+                            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, tableWidth, (tableWidth * bitmap.getHeight()) / bitmap.getWidth(), true);
+                            binding.image.setImageBitmap(bitmap);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        return binding.getRoot();
     }
 
     @Override
@@ -69,6 +102,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
         super.onResume();
         requireActivity().findViewById(R.id.fab).setVisibility(View.GONE);
         requireActivity().addMenuProvider(saveMenu);
+        loadFromViewModel();
     }
 
     @Override
@@ -93,19 +127,35 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
     private void loadFromViewModel() {
         Apiary apiary = viewModel.getData().getValue();
         if (apiary == null) return;
-        ((TextView) requireView().findViewById(R.id.apiaryName)).setText(apiary.getName());
-        ((TextView) requireView().findViewById(R.id.apiaryLocation)).setText(apiary.getLocation());
-        ((TextView) requireView().findViewById(R.id.apiaryLat)).setText(apiary.getCoordinate().getLatitude() + "");
-        ((TextView) requireView().findViewById(R.id.apiaryLong)).setText(apiary.getCoordinate().getLongitude() + "");
+        binding.apiaryName.setText(apiary.getName());
+        binding.apiaryLocation.setText(apiary.getLocation());
+        binding.apiaryLat.setText(apiary.getCoordinate().getLatitude() + "");
+        binding.apiaryLong.setText(apiary.getCoordinate().getLongitude() + "");
+        binding.contentTable.post(() -> {
+            if(apiary.getPicture() != null) {
+                int tableWidth = binding.contentTable.getWidth();
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(apiary.getPicture(), tableWidth, (tableWidth * apiary.getPicture().getHeight()) / apiary.getPicture().getWidth(), true);
+                binding.image.setImageBitmap(apiary.getPicture());
+            }
+        });
     }
 
     private void saveToViewModel() {
         Apiary apiary = viewModel.getData().getValue();
-        apiary.setName(((TextView) requireView().findViewById(R.id.apiaryName)).getText().toString());
-        apiary.setLocation(((TextView) requireView().findViewById(R.id.apiaryLocation)).getText().toString());
+        apiary.setName(binding.apiaryName.getText().toString());
+        apiary.setLocation(binding.apiaryLocation.getText().toString());
+        if(photoFile != null) {
+            try {
+                InputStream inputStream = requireActivity().getContentResolver().openInputStream(photoFile);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                apiary.setPicture(bitmap);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         try {
-            apiary.setCoordinate(Double.parseDouble(((TextView) requireView().findViewById(R.id.apiaryLat)).getText().toString()),
-                    Double.parseDouble(((TextView) requireView().findViewById(R.id.apiaryLat)).getText().toString()));
+            apiary.setCoordinate(Double.parseDouble(binding.apiaryLat.getText().toString()),
+                    Double.parseDouble(binding.apiaryLong.getText().toString()));
         } catch (NumberFormatException e) {
             System.err.println(e);
             Toast.makeText(getContext(), "Bad coordinate format", Toast.LENGTH_SHORT).show();

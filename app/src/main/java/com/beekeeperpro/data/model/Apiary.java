@@ -10,11 +10,11 @@ import com.beekeeperpro.data.ConnectionHelper;
 import com.beekeeperpro.data.LoginRepository;
 import com.beekeeperpro.utils.Location;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,41 +147,29 @@ public class Apiary extends ApiaryEntity implements Parcelable {
     }
 
     public boolean insert() throws SQLException {
-            String queryStmt = "INSERT INTO BeekeeperPro.dbo.Apiary (name, coordinate, user_id, location)" +
-                    "VALUES ('" + getName() + "', geography::STGeomFromText('POINT(" + getCoordinate() +
-                    ")', 4326), " + LoginRepository.getLoggedInUser().getUserId() + ", '" + getLocation() + "');";
-            Connection connect = ConnectionHelper.CONN();
-//todo change to prepared statements
-            /*String sql = "INSERT INTO BeekeeperPro.dbo.Apiary (name, coordinate, user_id, location) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connect.prepareStatement(sql);
+        Connection connect = ConnectionHelper.CONN();
+        String sql;
+        if(picture != null) sql = "INSERT INTO BeekeeperPro.dbo.Apiary (name, user_id, location, latitude, longitude, photo) VALUES (?, ?, ?, ?, ?, ?)";
+        else sql = "INSERT INTO BeekeeperPro.dbo.Apiary (name, user_id, location, latitude, longitude) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement statement = connect.prepareStatement(sql);
 
-            statement.setString(1, apiary.getName());
-            statement.setObject(2, "geography::STGeomFromText('POINT('" + apiary.getCoordinate() + "')', 4326)");
-            statement.setInt(3, LoginRepository.getLoggedInUser().getUserId());
-            statement.setString(4, apiary.getLocation());
+        statement.setString(1, getName());
+        statement.setInt(2, LoginRepository.getLoggedInUser().getUserId());
+        statement.setString(3, getLocation());
+        statement.setDouble(4, getCoordinate().getLatitude());
+        statement.setDouble(5, getCoordinate().getLongitude());
+        if(picture != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            picture.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            statement.setBytes(6, stream.toByteArray());
+        }
 
-            int result = statement.executeUpdate();*/
-            Statement statement = connect.createStatement();
-            if (statement.executeUpdate(queryStmt) > 0) {
-                Apiary result = new Apiary();
-                ResultSet generatedKeys = statement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    long id = generatedKeys.getLong(1);
-                    String selectQuery = "SELECT id, name, coordinate, location FROM BeekeeperPro.dbo.Apiary WHERE id = ?";
-                    PreparedStatement selectStatement = connect.prepareStatement(selectQuery);
-                    selectStatement.setLong(1, id);
-                    ResultSet resultSet = selectStatement.executeQuery();
-                    if (resultSet.next()) {
-                        result.setId(resultSet.getInt(1));
-                        result.setName(String.valueOf(resultSet.getString(2)));
-                        result.setCoordinate((Location) resultSet.getObject(3));
-                        result.setLocation(resultSet.getString(4));
-                    }
-                }
-                return true;
-            } else {
-                throw new SQLException();
-            }
+        int result = statement.executeUpdate();
+        if (result > 0) {
+            return true;
+        } else {
+            throw new SQLException();
+        }
     }
 
     public List<Hive> selectHives() throws SQLException {

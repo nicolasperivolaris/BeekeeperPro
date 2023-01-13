@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 
-import com.beekeeperpro.R;
-
 public class BPSeekbar extends androidx.appcompat.widget.AppCompatSeekBar {
     private String[] values;
 

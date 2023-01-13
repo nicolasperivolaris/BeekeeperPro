@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.beekeeperpro.data.ConnectionHelper;
 import com.beekeeperpro.data.LoginRepository;
-import com.beekeeperpro.data.Result;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

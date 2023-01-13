@@ -29,6 +29,16 @@
             android:name=".ui.login.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.beekeeperpro.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/images_path" />
+        </provider>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
