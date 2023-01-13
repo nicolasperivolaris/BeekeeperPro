@@ -149,4 +149,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="image_of_the_apiary">Image of the apiary</string>
+    <string name="edit">Edit</string>
 </resources>

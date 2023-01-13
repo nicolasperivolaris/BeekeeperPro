@@ -21,9 +21,6 @@ public class ApiaryListFragment extends Fragment {
     private ApiaryListViewModel viewModel;
     private EditMenuProvider editMenu;
 
-    public ApiaryListFragment() {
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(ApiaryListViewModel.class);
@@ -31,10 +28,18 @@ public class ApiaryListFragment extends Fragment {
         ApiaryListAdapter adapter = new ApiaryListAdapter();
         adapter.getClickedId().observe(getViewLifecycleOwner(), this::onClick);
         adapter.getOnDeleteItem().observe(getViewLifecycleOwner(), apiary -> viewModel.delete(apiary));
+        adapter.getOnEditItem().observe(getViewLifecycleOwner(), this::onEdit);
         binding.apiaryList.setAdapter(adapter);
         viewModel.getData().observe(getViewLifecycleOwner(), adapter::setApiaries);
         editMenu = getEditMenu(adapter);
         return binding.getRoot();
+    }
+
+    private void onEdit(Apiary apiary) {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+        Bundle args = new Bundle();
+        args.putParcelable("apiary", apiary);
+        navController.navigate(R.id.action_nav_apiary_list_to_edit_apiary, args);
     }
 
     @NonNull
@@ -56,13 +61,13 @@ public class ApiaryListFragment extends Fragment {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
         Bundle args = new Bundle();
         args.putParcelable("apiary", apiary);
-        navController.navigate(R.id.action_nav_home_to_apiaryFragment, args);
+        navController.navigate(R.id.action_nav_apiary_list_to_hive_list_fragment, args);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().findViewById(R.id.fab).setOnClickListener(v -> Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_nav_home_to_addApiaryFragment));
+        getActivity().findViewById(R.id.fab).setOnClickListener(v -> Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.action_nav_apiary_list_to_addApiaryFragment));
         viewModel.select();
         requireActivity().addMenuProvider(editMenu);
     }

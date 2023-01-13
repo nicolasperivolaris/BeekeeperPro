@@ -3,20 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_apiary_list">
-
-    <fragment
-        android:id="@+id/nav_apiary_list"
-        android:name="com.beekeeperpro.ui.apiary.ApiaryListFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/apiary_list_fragment">
-        <action
-            android:id="@+id/action_nav_home_to_apiaryFragment"
-            app:destination="@id/hives_list_fragment" />
-        <action
-            android:id="@+id/action_nav_home_to_addApiaryFragment"
-            app:destination="@id/add_apiary_fragment" />
-    </fragment>
+    app:startDestination="@id/apiary">
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -29,34 +16,6 @@
         android:name="com.beekeeperpro.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
-    <fragment
-        android:id="@+id/hives_list_fragment"
-        android:name="com.beekeeperpro.ui.hive.HiveListFragment"
-        android:label="@string/hive_list"
-        tools:layout="@layout/hive_list_fragment">
-        <argument
-            android:name="apiary"
-            app:argType="com.beekeeperpro.data.model.Apiary" />
-        <action
-            android:id="@+id/action_hives_list_to_add_hive_fragment"
-            app:destination="@id/add_hive_fragment" />
-        <action
-            android:id="@+id/action_hives_list_fragment_to_addInspection"
-            app:destination="@id/add_Inspection_fragment" />
-        <action
-            android:id="@+id/action_hives_list_fragment_to_hive_fragment"
-            app:destination="@id/hive_fragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/add_apiary_fragment"
-        android:name="com.beekeeperpro.ui.apiary.AddApiaryFragment"
-        android:label="@string/add_apiary_label"
-        tools:layout="@layout/apiary_add_fragment" />
-    <fragment
-        android:id="@+id/add_hive_fragment"
-        android:name="com.beekeeperpro.ui.hive.AddHiveFragment"
-        android:label="@string/add_hive_label"
-        tools:layout="@layout/hive_add_fragment" />
     <fragment
         android:id="@+id/add_Inspection_fragment"
         android:name="com.beekeeperpro.ui.inspection.AddInspectionFragment"
@@ -73,17 +32,78 @@
             android:name="hive"
             app:argType="com.beekeeperpro.data.model.Hive" />
     </fragment>
-    <fragment
-        android:id="@+id/hive_fragment"
-        android:name="com.beekeeperpro.ui.hive.HiveFragment"
-        tools:layout="@layout/hive_fragment" >
-        <action
-            android:id="@+id/action_hive_fragment_to_add_Inspection_fragment"
-            app:destination="@id/add_Inspection_fragment" />
-        <argument
-            android:name="hive"
-            app:argType="com.beekeeperpro.data.model.Hive" />
-    </fragment>
+    <navigation
+        android:id="@+id/apiary"
+        android:label="Apiary"
+        app:startDestination="@id/nav_apiary_list">
+        <fragment
+            android:id="@+id/nav_apiary_list"
+            android:name="com.beekeeperpro.ui.apiary.ApiaryListFragment"
+            android:label="@string/menu_home"
+            tools:layout="@layout/apiary_list_fragment">
+            <action
+                android:id="@+id/action_nav_apiary_list_to_hive_list_fragment"
+                app:destination="@id/hive" />
+            <action
+                android:id="@+id/action_nav_apiary_list_to_addApiaryFragment"
+                app:destination="@id/add_apiary_fragment" />
+            <action
+                android:id="@+id/action_nav_apiary_list_to_edit_apiary"
+                app:destination="@id/apiary_edit_fragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/add_apiary_fragment"
+            android:name="com.beekeeperpro.ui.apiary.AddApiaryFragment"
+            android:label="@string/add_apiary_label"
+            tools:layout="@layout/apiary_add_fragment" />
+        <fragment
+            android:id="@+id/apiary_edit_fragment"
+            android:name="com.beekeeperpro.ui.apiary.EditApiary"
+            tools:layout="@layout/apiary_edit_fragment" >
+            <argument
+                android:name="apiary"
+                app:argType="com.beekeeperpro.data.model.Apiary" />
+        </fragment>
+    </navigation>
+    <navigation
+        android:id="@+id/hive"
+        android:label="Hive"
+        app:startDestination="@id/hives_list_fragment">
+        <fragment
+            android:id="@+id/hives_list_fragment"
+            android:name="com.beekeeperpro.ui.hive.HiveListFragment"
+            android:label="@string/hive_list"
+            tools:layout="@layout/hive_list_fragment">
+            <argument
+                android:name="apiary"
+                app:argType="com.beekeeperpro.data.model.Apiary" />
+            <action
+                android:id="@+id/action_hives_list_to_add_hive_fragment"
+                app:destination="@id/add_hive_fragment" />
+            <action
+                android:id="@+id/action_hives_list_fragment_to_addInspection"
+                app:destination="@id/add_Inspection_fragment" />
+            <action
+                android:id="@+id/action_hives_list_fragment_to_hive_fragment"
+                app:destination="@id/hive_fragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/add_hive_fragment"
+            android:name="com.beekeeperpro.ui.hive.AddHiveFragment"
+            android:label="@string/add_hive_label"
+            tools:layout="@layout/hive_add_fragment" />
+        <fragment
+            android:id="@+id/hive_fragment"
+            android:name="com.beekeeperpro.ui.hive.HiveFragment"
+            tools:layout="@layout/hive_fragment">
+            <action
+                android:id="@+id/action_hive_fragment_to_add_Inspection_fragment"
+                app:destination="@id/add_Inspection_fragment" />
+            <argument
+                android:name="hive"
+                app:argType="com.beekeeperpro.data.model.Hive" />
+        </fragment>
+    </navigation>
 
 
 </navigation>

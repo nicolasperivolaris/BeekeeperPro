@@ -43,10 +43,13 @@ public class User {
         ResultSet resultSet = connect.createStatement().executeQuery(queryStmt);
         List<Apiary> list = new ArrayList<>();
         while (resultSet.next()) {
-            Apiary apiary = new Apiary(resultSet.getInt(1),
-                    resultSet.getString(2),
+            Apiary apiary = new Apiary(resultSet.getInt("id"),
+                    resultSet.getString("name"),
                     resultSet.getString(5),
                     resultSet.getInt(4));
+                    double lat = resultSet.getDouble(6);
+                    double lon = resultSet.getDouble(7);
+                    apiary.setCoordinate(lat, lon);
             byte[] imageBytes = resultSet.getBytes("photo");
             if(imageBytes != null) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);

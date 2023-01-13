@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,12 +27,14 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
     private List<Apiary> apiaries;
     private final MutableLiveData<Apiary> clickedId;
     private final MutableLiveData<Apiary> onDeleteItem;
+    private final MutableLiveData<Apiary> onEditItem;
     private boolean editMode = false;
 
     public ApiaryListAdapter() {
         apiaries = new ArrayList<>();
         clickedId = new MutableLiveData<>();
         onDeleteItem = new MutableLiveData<>();
+        onEditItem = new MutableLiveData<>();
     }
 
     // Create new views (invoked by the layout manager)
@@ -63,6 +66,10 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
         return onDeleteItem;
     }
 
+    public MutableLiveData<Apiary> getOnEditItem() {
+        return onEditItem;
+    }
+
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
@@ -81,6 +88,7 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
         private final TextView apiaryName;
         private final TextView apiaryLocation;
         private final TextView hiveCount;
+        private final Button edit;
         private final ImageButton delete;
 
         public ViewHolder(View view) {
@@ -89,6 +97,8 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
             apiaryName = view.findViewById(R.id.apiaryName);
             apiaryLocation = view.findViewById(R.id.apiaryLocation);
             hiveCount = view.findViewById(R.id.hiveCount);
+            edit = view.findViewById(R.id.apiaryEdit);
+            edit.setOnClickListener(v -> onEditItem.postValue(apiary));
             delete = itemView.findViewById(R.id.action_delete);
             delete.setOnClickListener(v -> onDeleteItem.postValue(apiary));
             view.setOnClickListener(v -> clickedId.postValue(apiary));
@@ -100,6 +110,7 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
             apiaryName.setText(apiary.getName());
             apiaryLocation.setText(apiary.getLocation());
             hiveCount.setText(String.valueOf(apiary.getHivesCount()));
+            edit.setVisibility(editMode ? View.VISIBLE : View.GONE);
             delete.setVisibility(editMode ? View.VISIBLE : View.GONE);
         }
     }

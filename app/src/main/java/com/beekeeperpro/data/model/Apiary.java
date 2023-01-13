@@ -38,6 +38,7 @@ public class Apiary extends ApiaryEntity implements Parcelable {
         this.id = id;
         this.name = name;
         this.location = location;
+        this.coordinate = new Location();
         this.hivesCount = hivesCount;
     }
 
@@ -193,6 +194,29 @@ public class Apiary extends ApiaryEntity implements Parcelable {
 
     @Override
     public boolean update() throws SQLException {
-        return false;
+        Connection connect = ConnectionHelper.CONN();
+        String sql;
+        if(picture != null) sql = "UPDATE BeekeeperPro.dbo.Apiary SET name = ?, location = ?, latitude = ?, longitude = ?, photo = ? WHERE id = ?";
+        else sql = "UPDATE BeekeeperPro.dbo.Apiary SET name = ?, location = ?, latitude = ?, longitude = ? WHERE id = ?";
+        PreparedStatement statement = connect.prepareStatement(sql);
+
+        statement.setString(1, getName());
+        statement.setString(2, getLocation());
+        statement.setDouble(3, getCoordinate().getLatitude());
+        statement.setDouble(4, getCoordinate().getLongitude());
+        if(picture != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            picture.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            statement.setBytes(5, stream.toByteArray());
+        }
+        statement.setInt(6,getId());
+
+        int result = statement.executeUpdate();
+        if (result > 0) {
+            return true;
+        } else {
+            throw new SQLException();
+        }
     }
+
 }
