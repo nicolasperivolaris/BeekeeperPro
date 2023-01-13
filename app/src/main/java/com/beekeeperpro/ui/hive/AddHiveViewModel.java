@@ -3,7 +3,6 @@ package com.beekeeperpro.ui.hive;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Apiary;
 import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.ui.ConnectedViewModel;

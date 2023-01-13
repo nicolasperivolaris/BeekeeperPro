@@ -3,8 +3,6 @@ package com.beekeeperpro.ui.apiary;
 import com.beekeeperpro.data.LoginRepository;
 import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Apiary;
-import com.beekeeperpro.data.model.ApiaryEntity;
-import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.ui.ConnectedViewModel;
 
 import java.sql.SQLException;

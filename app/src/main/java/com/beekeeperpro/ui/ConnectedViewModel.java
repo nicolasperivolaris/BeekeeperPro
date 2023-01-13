@@ -6,10 +6,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.beekeeperpro.MainActivity;
+import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.ApiaryEntity;
 import com.beekeeperpro.data.model.DataSource;
-import com.beekeeperpro.data.Result;
-import com.beekeeperpro.data.model.Inspection;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;

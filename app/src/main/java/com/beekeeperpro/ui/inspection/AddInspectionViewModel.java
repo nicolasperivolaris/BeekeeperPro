@@ -3,12 +3,9 @@ package com.beekeeperpro.ui.inspection;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Hive;
 import com.beekeeperpro.data.model.Inspection;
 import com.beekeeperpro.ui.ConnectedViewModel;
-
-import java.sql.SQLException;
 
 public class AddInspectionViewModel extends ConnectedViewModel<Inspection> {
     private final Hive hive;

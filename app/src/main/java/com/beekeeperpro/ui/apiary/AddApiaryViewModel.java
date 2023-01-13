@@ -3,11 +3,8 @@ package com.beekeeperpro.ui.apiary;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Apiary;
 import com.beekeeperpro.ui.ConnectedViewModel;
-
-import java.util.List;
 
 public class AddApiaryViewModel extends ConnectedViewModel<Apiary> {
 

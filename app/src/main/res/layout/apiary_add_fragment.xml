@@ -1,143 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <TableLayout
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TableLayout
+            android:id="@+id/contentTable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp">
 
-            <TextView
-                android:id="@+id/lblApiaryName"
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:labelFor="@id/apiaryName"
-                android:text="@string/apiaryName"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+                android:gravity="center_horizontal">
 
-            <EditText
-                android:id="@+id/apiaryName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
-        </TableRow>
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/image_of_the_apiary"
+                    android:cropToPadding="false"
+                    app:srcCompat="@drawable/ic_menu_gallery"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic[4]" />
+            </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/lblApiaryLocation"
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:labelFor="@id/apiaryLocation"
-                android:text="@string/location"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+                android:layout_height="match_parent">
 
-            <EditText
-                android:id="@+id/apiaryLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
-        </TableRow>
+                <TextView
+                    android:id="@+id/lblApiaryName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:labelFor="@id/apiaryName"
+                    android:text="@string/apiaryName"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/apiaryName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:ems="10"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lblCoordinate"
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/coordinate"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+                android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/locationBt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/locate" />
+                <TextView
+                    android:id="@+id/lblApiaryLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:labelFor="@id/apiaryLocation"
+                    android:text="@string/location"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
 
-        </TableRow>
+                <EditText
+                    android:id="@+id/apiaryLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:ems="10"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp" />
+            </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/lblLat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:labelFor="@id/apiaryLat"
-                android:text="@string/lat"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/lblCoordinate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/coordinate"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/apiaryLat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
-        </TableRow>
+                <Button
+                    android:id="@+id/locationBt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/locate" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lblLong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:labelFor="@id/apiaryLong"
-                android:text="@string/longitude"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <EditText
-                android:id="@+id/apiaryLong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
-        </TableRow>
+                <TextView
+                    android:id="@+id/lblLat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:labelFor="@id/apiaryLat"
+                    android:text="@string/lat"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
 
-    </TableLayout>
+                <EditText
+                    android:id="@+id/apiaryLat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:ems="10"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/lblLong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:labelFor="@id/apiaryLong"
+                    android:text="@string/longitude"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/apiaryLong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:ems="10"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp" />
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

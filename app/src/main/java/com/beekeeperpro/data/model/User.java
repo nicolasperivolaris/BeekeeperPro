@@ -1,5 +1,8 @@
 package com.beekeeperpro.data.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import com.beekeeperpro.data.ConnectionHelper;
 import com.beekeeperpro.data.LoginRepository;
 
@@ -34,7 +37,7 @@ public class User {
     }
 
     public List<Apiary> getApiaries() throws SQLException {
-        String queryStmt = "Select * from dbo.[Apiary] where user_id = " + LoginRepository.getLoggedInUser().getUserId();
+        String queryStmt = "Select id, name, photo, count, location, latitude, longitude from dbo.[Apiary] where user_id = " + LoginRepository.getLoggedInUser().getUserId();
         Connection connect = ConnectionHelper.CONN();
 
         ResultSet resultSet = connect.createStatement().executeQuery(queryStmt);
@@ -42,8 +45,13 @@ public class User {
         while (resultSet.next()) {
             Apiary apiary = new Apiary(resultSet.getInt(1),
                     resultSet.getString(2),
-                    resultSet.getString(7),
-                    resultSet.getInt(6));
+                    resultSet.getString(5),
+                    resultSet.getInt(4));
+            byte[] imageBytes = resultSet.getBytes("photo");
+            if(imageBytes != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                apiary.setPicture(bitmap);
+            }
             list.add(apiary);
         }
         return list;
