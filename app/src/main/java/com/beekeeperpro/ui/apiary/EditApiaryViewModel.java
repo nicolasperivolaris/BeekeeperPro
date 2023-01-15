@@ -3,7 +3,6 @@ package com.beekeeperpro.ui.apiary;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.beekeeperpro.data.Result;
 import com.beekeeperpro.data.model.Apiary;
 import com.beekeeperpro.ui.ConnectedViewModel;
 
@@ -15,7 +14,7 @@ public class EditApiaryViewModel extends ConnectedViewModel<Apiary> {
         validationError = new MutableLiveData<>();
     }
 
-    public void initWith(Apiary apiary){
+    public void initWith(Apiary apiary) {
         data.setValue(apiary);
     }
 

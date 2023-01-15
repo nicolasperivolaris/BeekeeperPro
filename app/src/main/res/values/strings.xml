@@ -19,7 +19,7 @@
 
     <string name="menu_home">Apiary List</string>
     <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="logout">Logout</string>
     <string name="apiary">Apiary</string>
     <string name="apiaryName">Apiary name</string>
     <string name="lat">Lat :</string>
@@ -150,4 +150,8 @@
     </string>
     <string name="image_of_the_apiary">Image of the apiary</string>
     <string name="edit">Edit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nfc_text">Place the device close to a hive\'s NFC tag of insert a hive code.</string>
+    <string name="search">Search</string>
 </resources>

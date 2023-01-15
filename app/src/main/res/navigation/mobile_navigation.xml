@@ -9,13 +9,7 @@
         android:id="@+id/nav_gallery"
         android:name="com.beekeeperpro.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.beekeeperpro.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/gallery_fragment" />
     <fragment
         android:id="@+id/add_Inspection_fragment"
         android:name="com.beekeeperpro.ui.inspection.AddInspectionFragment"
@@ -59,7 +53,7 @@
         <fragment
             android:id="@+id/apiary_edit_fragment"
             android:name="com.beekeeperpro.ui.apiary.EditApiary"
-            tools:layout="@layout/apiary_edit_fragment" >
+            tools:layout="@layout/apiary_edit_fragment">
             <argument
                 android:name="apiary"
                 app:argType="com.beekeeperpro.data.model.Apiary" />
@@ -102,6 +96,16 @@
             <argument
                 android:name="hive"
                 app:argType="com.beekeeperpro.data.model.Hive" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/find_hive_fragment"
+            android:name="com.beekeeperpro.ui.gallery.FindHiveFragment"
+            android:label="find_hive_fragment"
+            tools:layout="@layout/find_hive_fragment">
+            <action
+                android:id="@+id/action_findHiveFragment2_to_hive_fragment"
+                app:destination="@id/hive_fragment" />
         </fragment>
     </navigation>
 

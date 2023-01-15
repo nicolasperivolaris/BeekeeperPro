@@ -11,7 +11,9 @@ import com.beekeeperpro.R;
 
 public abstract class EditMenuProvider implements MenuProvider {
     private boolean edition = false;
+
     protected abstract void onEditButton();
+
     protected abstract void onFinishButton();
 
     public final int editId = 1;

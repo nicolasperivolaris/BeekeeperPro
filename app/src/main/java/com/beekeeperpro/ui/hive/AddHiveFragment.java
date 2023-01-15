@@ -52,7 +52,7 @@ public class AddHiveFragment extends Fragment {
         view.findViewById(R.id.hiveHivingDate).setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
         view.findViewById(R.id.hiveAcquisitionDate).setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
 
-        ((BPSeekbar)view.findViewById(R.id.hiveSeekbar)).setValues(getResources().getStringArray(R.array.strength_bar_values));
+        ((BPSeekbar) view.findViewById(R.id.hiveSeekbar)).setValues(getResources().getStringArray(R.array.strength_bar_values));
 
         viewModel.getDone().observe(getViewLifecycleOwner(), hive -> {
             if (!savePushed) return;

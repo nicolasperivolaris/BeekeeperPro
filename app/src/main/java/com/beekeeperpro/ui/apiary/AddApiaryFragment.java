@@ -130,7 +130,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
         binding.apiaryLat.setText(apiary.getCoordinate().getLatitude() + "");
         binding.apiaryLong.setText(apiary.getCoordinate().getLongitude() + "");
         binding.contentTable.post(() -> {
-            if(apiary.getPicture() != null) {
+            if (apiary.getPicture() != null) {
                 binding.image.setImageBitmap(apiary.getPicture());
             }
         });
@@ -140,7 +140,7 @@ public class AddApiaryFragment extends Fragment implements View.OnClickListener 
         Apiary apiary = viewModel.getData().getValue();
         apiary.setName(binding.apiaryName.getText().toString());
         apiary.setLocation(binding.apiaryLocation.getText().toString());
-        if(photoFile != null) {
+        if (photoFile != null) {
             try {
                 InputStream inputStream = requireActivity().getContentResolver().openInputStream(photoFile);
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);

@@ -53,13 +53,14 @@ public class HiveFragment extends Fragment {
             viewModel.delete(inspection);
         });
         binding.inspectionList.setAdapter(adapter);
-        viewModel.getData().observe(getViewLifecycleOwner(), hive -> {loadFromViewModel();});
+        viewModel.getData().observe(getViewLifecycleOwner(), hive -> {
+            loadFromViewModel();
+        });
         viewModel.getDone().observe(getViewLifecycleOwner(), saved -> {
-            if(deletedPushed){
+            if (deletedPushed) {
                 viewModel.select();
                 deletedPushed = false;
-            }
-            else loadFromViewModel();
+            } else loadFromViewModel();
             Toast.makeText(getContext(), "Saved !", Toast.LENGTH_LONG).show();
         });
         viewModel.getErrors().observe(getViewLifecycleOwner(), s -> {
@@ -74,7 +75,7 @@ public class HiveFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((BPSeekbar)view.findViewById(R.id.hiveSeekbar)).setValues(getResources().getStringArray(R.array.strength_bar_values));
+        ((BPSeekbar) view.findViewById(R.id.hiveSeekbar)).setValues(getResources().getStringArray(R.array.strength_bar_values));
 
         binding.hiveHivingDate.setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
         binding.hiveAcquisitionDate.setOnClickListener(view1 -> Utils.initDatePicker((EditText) view1));
@@ -99,7 +100,7 @@ public class HiveFragment extends Fragment {
         };
     }
 
-    private void setFieldEditable(boolean edit){
+    private void setFieldEditable(boolean edit) {
         binding.hiveName.setEnabled(edit);
         binding.hiveCode.setEnabled(edit);
         binding.hiveSeekbar.setEnabled(edit);
@@ -140,7 +141,7 @@ public class HiveFragment extends Fragment {
         if (hive.getAcquisitionDate() != null)
             ((TextView) requireView().findViewById(R.id.hiveAcquisitionDate)).setText(dateFormat.format(hive.getAcquisitionDate()));
         ((BPSeekbar) requireView().findViewById(R.id.hiveSeekbar)).setProgress(hive.getStrength());
-        ((InspectionListAdapter)binding.inspectionList.getAdapter()).setInspectionList((viewModel.getData().getValue()).getInspectionList());
+        ((InspectionListAdapter) binding.inspectionList.getAdapter()).setInspectionList((viewModel.getData().getValue()).getInspectionList());
     }
 
     private void saveToViewModel() {

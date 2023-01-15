@@ -51,11 +51,11 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
         execute(() -> insertIntoSource(data));
     }
 
-    public void update(ApiaryEntity data){
+    public void update(ApiaryEntity data) {
         execute(() -> updateInSource(data));
     }
 
-    public void delete(ApiaryEntity data){
+    public void delete(ApiaryEntity data) {
         execute(() -> deleteFromSource(data));
     }
 
@@ -74,10 +74,9 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
             }
             if (result instanceof Result.Success) {
                 Object o = ((Result.Success) result).getData();
-                if(o instanceof Boolean) done.postValue((boolean)o);
+                if (o instanceof Boolean) done.postValue((boolean) o);
                 else data.postValue((T) o);
-            }
-            else {
+            } else {
                 System.err.println(result.toString());
                 error.postValue((Result.Error) result);
             }
@@ -87,6 +86,7 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
 
     /**
      * Don't use it, overload it.
+     *
      * @return
      */
     protected Result getFromSource() {
@@ -95,9 +95,10 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
 
     /**
      * Don't use it, overload it.
+     *
      * @return
      */
-    protected Result insertIntoSource(ApiaryEntity data){
+    protected Result insertIntoSource(ApiaryEntity data) {
         try {
             return new Result.Success<>(data.insert());
         } catch (SQLException e) {
@@ -107,9 +108,10 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
 
     /**
      * Don't use it, overload it.
+     *
      * @return
      */
-    protected Result updateInSource(ApiaryEntity data){
+    protected Result updateInSource(ApiaryEntity data) {
         try {
             return new Result.Success<>(data.update());
         } catch (SQLException e) {
@@ -119,6 +121,7 @@ public abstract class ConnectedViewModel<T> extends ViewModel {
 
     /**
      * Don't use it, overload it.
+     *
      * @return
      */
     protected Result deleteFromSource(ApiaryEntity data) {

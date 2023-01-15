@@ -163,39 +163,39 @@ public class Hive extends ApiaryEntity implements Parcelable {
     }
 
     public boolean insert() throws SQLException {
-            String queryStmt = "INSERT INTO BeekeeperPro.dbo.Hive (name, code, apiary_id, user_id, strength, hiving_date, acquisition_date)" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?);";
-            Connection connect = ConnectionHelper.CONN();
-            PreparedStatement preparedStatement = connect.prepareStatement(queryStmt);
-            preparedStatement.setString(1, getName());
-            preparedStatement.setString(2, getCode());
-            preparedStatement.setInt(3, (getApiary() == null ? 0 : getApiary().getId()));
-            preparedStatement.setInt(4, LoginRepository.getLoggedInUser().getUserId());
-            preparedStatement.setInt(5, getStrength());
-            preparedStatement.setDate(6, (getHivingDate() != null ? new java.sql.Date(getHivingDate().getTime()) : null));
-            preparedStatement.setDate(7, (getAcquisitionDate() != null ? new java.sql.Date(getAcquisitionDate().getTime()) : null));
+        String queryStmt = "INSERT INTO BeekeeperPro.dbo.Hive (name, code, apiary_id, user_id, strength, hiving_date, acquisition_date)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        Connection connect = ConnectionHelper.CONN();
+        PreparedStatement preparedStatement = connect.prepareStatement(queryStmt);
+        preparedStatement.setString(1, getName());
+        preparedStatement.setString(2, getCode());
+        preparedStatement.setInt(3, (getApiary() == null ? 0 : getApiary().getId()));
+        preparedStatement.setInt(4, LoginRepository.getLoggedInUser().getUserId());
+        preparedStatement.setInt(5, getStrength());
+        preparedStatement.setDate(6, (getHivingDate() != null ? new java.sql.Date(getHivingDate().getTime()) : null));
+        preparedStatement.setDate(7, (getAcquisitionDate() != null ? new java.sql.Date(getAcquisitionDate().getTime()) : null));
 
-            if (preparedStatement.executeUpdate() > 0) {
-                Hive result = new Hive();
-                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    long id = generatedKeys.getLong(1);
-                    String selectQuery = "SELECT id, name, code, strength, hiving_date, acquisition_date FROM BeekeeperPro.dbo.Hive WHERE id = ?";
-                    PreparedStatement selectStatement = connect.prepareStatement(selectQuery);
-                    selectStatement.setLong(1, id);
-                    ResultSet resultSet = selectStatement.executeQuery();
-                    if (resultSet.next()) {
-                        result.setId(resultSet.getInt(1));
-                        result.setName(String.valueOf(resultSet.getString(2)));
-                        result.setCode(resultSet.getString(3));
-                        result.setHivingDate(resultSet.getDate(4));
-                        result.setAcquisitionDate(resultSet.getDate(5));
-                    }
+        if (preparedStatement.executeUpdate() > 0) {
+            Hive result = new Hive();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                long id = generatedKeys.getLong(1);
+                String selectQuery = "SELECT id, name, code, strength, hiving_date, acquisition_date FROM BeekeeperPro.dbo.Hive WHERE id = ?";
+                PreparedStatement selectStatement = connect.prepareStatement(selectQuery);
+                selectStatement.setLong(1, id);
+                ResultSet resultSet = selectStatement.executeQuery();
+                if (resultSet.next()) {
+                    result.setId(resultSet.getInt(1));
+                    result.setName(String.valueOf(resultSet.getString(2)));
+                    result.setCode(resultSet.getString(3));
+                    result.setHivingDate(resultSet.getDate(4));
+                    result.setAcquisitionDate(resultSet.getDate(5));
                 }
-                return true;
-            } else {
-                throw new SQLException();
             }
+            return true;
+        } else {
+            throw new SQLException();
+        }
     }
 
 
@@ -248,7 +248,7 @@ public class Hive extends ApiaryEntity implements Parcelable {
         String queryStmt = "Select * from dbo.[Hive] where id = " + id;
         Connection connect = ConnectionHelper.CONN();
         ResultSet resultSet = connect.createStatement().executeQuery(queryStmt);
-        if(!resultSet.next())
+        if (!resultSet.next())
             throw new SQLException("No hive with id " + id);
         hive.setId(resultSet.getInt(1));
         hive.setName(resultSet.getString(2));

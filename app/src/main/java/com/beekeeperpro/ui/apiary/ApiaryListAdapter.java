@@ -1,8 +1,6 @@
 package com.beekeeperpro.ui.apiary;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.beekeeperpro.R;
 import com.beekeeperpro.data.model.Apiary;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +103,7 @@ public class ApiaryListAdapter extends RecyclerView.Adapter<ApiaryListAdapter.Vi
 
         public void bind(Apiary apiary) {
             this.apiary = apiary;
-            if(apiary.getPicture() != null) image.setImageBitmap(apiary.getPicture());
+            if (apiary.getPicture() != null) image.setImageBitmap(apiary.getPicture());
             apiaryName.setText(apiary.getName());
             apiaryLocation.setText(apiary.getLocation());
             hiveCount.setText(String.valueOf(apiary.getHivesCount()));

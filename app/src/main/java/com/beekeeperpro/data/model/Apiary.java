@@ -134,24 +134,26 @@ public class Apiary extends ApiaryEntity implements Parcelable {
 
     public boolean delete() throws SQLException {
         Connection connect = ConnectionHelper.CONN();
-            String sql = "DELETE FROM BeekeeperPro.dbo.Apiary WHERE id = ?";
-            PreparedStatement statement = connect.prepareStatement(sql);
-            statement.setInt(1, getId());
+        String sql = "DELETE FROM BeekeeperPro.dbo.Apiary WHERE id = ?";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setInt(1, getId());
 
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
-                System.out.println("Apiary deleted successfully.");
-                return true;
-            } else {
-                throw new SQLException();
-            }
+        int rows = statement.executeUpdate();
+        if (rows > 0) {
+            System.out.println("Apiary deleted successfully.");
+            return true;
+        } else {
+            throw new SQLException();
+        }
     }
 
     public boolean insert() throws SQLException {
         Connection connect = ConnectionHelper.CONN();
         String sql;
-        if(picture != null) sql = "INSERT INTO BeekeeperPro.dbo.Apiary (name, user_id, location, latitude, longitude, photo) VALUES (?, ?, ?, ?, ?, ?)";
-        else sql = "INSERT INTO BeekeeperPro.dbo.Apiary (name, user_id, location, latitude, longitude) VALUES (?, ?, ?, ?, ?)";
+        if (picture != null)
+            sql = "INSERT INTO BeekeeperPro.dbo.Apiary (name, user_id, location, latitude, longitude, photo) VALUES (?, ?, ?, ?, ?, ?)";
+        else
+            sql = "INSERT INTO BeekeeperPro.dbo.Apiary (name, user_id, location, latitude, longitude) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement statement = connect.prepareStatement(sql);
 
         statement.setString(1, getName());
@@ -159,13 +161,14 @@ public class Apiary extends ApiaryEntity implements Parcelable {
         statement.setString(3, getLocation());
         statement.setDouble(4, getCoordinate().getLatitude());
         statement.setDouble(5, getCoordinate().getLongitude());
-        if(picture != null) {
+        if (picture != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             picture.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             statement.setBytes(6, stream.toByteArray());
         }
 
         int result = statement.executeUpdate();
+        statement.close();
         if (result > 0) {
             return true;
         } else {
@@ -196,20 +199,22 @@ public class Apiary extends ApiaryEntity implements Parcelable {
     public boolean update() throws SQLException {
         Connection connect = ConnectionHelper.CONN();
         String sql;
-        if(picture != null) sql = "UPDATE BeekeeperPro.dbo.Apiary SET name = ?, location = ?, latitude = ?, longitude = ?, photo = ? WHERE id = ?";
-        else sql = "UPDATE BeekeeperPro.dbo.Apiary SET name = ?, location = ?, latitude = ?, longitude = ? WHERE id = ?";
+        if (picture != null)
+            sql = "UPDATE BeekeeperPro.dbo.Apiary SET name = ?, location = ?, latitude = ?, longitude = ?, photo = ? WHERE id = ?";
+        else
+            sql = "UPDATE BeekeeperPro.dbo.Apiary SET name = ?, location = ?, latitude = ?, longitude = ? WHERE id = ?";
         PreparedStatement statement = connect.prepareStatement(sql);
 
         statement.setString(1, getName());
         statement.setString(2, getLocation());
         statement.setDouble(3, getCoordinate().getLatitude());
         statement.setDouble(4, getCoordinate().getLongitude());
-        if(picture != null) {
+        if (picture != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             picture.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             statement.setBytes(5, stream.toByteArray());
         }
-        statement.setInt(6,getId());
+        statement.setInt(6, getId());
 
         int result = statement.executeUpdate();
         if (result > 0) {

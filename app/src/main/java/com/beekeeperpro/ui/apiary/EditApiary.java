@@ -87,7 +87,7 @@ public class EditApiary extends Fragment implements View.OnClickListener {
                         try {
                             InputStream inputStream = requireActivity().getContentResolver().openInputStream(photoFile);
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            ((ImageView)view.findViewById(R.id.image)).setImageBitmap(bitmap);
+                            ((ImageView) view.findViewById(R.id.image)).setImageBitmap(bitmap);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -126,22 +126,22 @@ public class EditApiary extends Fragment implements View.OnClickListener {
     private void loadFromViewModel() {
         Apiary apiary = viewModel.getData().getValue();
         if (apiary == null) return;
-        ((TextView)binding.getRoot().findViewById(R.id.apiaryName)).setText(apiary.getName());
-        ((TextView)binding.getRoot().findViewById(R.id.apiaryLocation)).setText(apiary.getLocation());
-        ((TextView)binding.getRoot().findViewById(R.id.apiaryLat)).setText(apiary.getCoordinate().getLatitude() + "");
-        ((TextView)binding.getRoot().findViewById(R.id.apiaryLong)).setText(apiary.getCoordinate().getLongitude() + "");
+        ((TextView) binding.getRoot().findViewById(R.id.apiaryName)).setText(apiary.getName());
+        ((TextView) binding.getRoot().findViewById(R.id.apiaryLocation)).setText(apiary.getLocation());
+        ((TextView) binding.getRoot().findViewById(R.id.apiaryLat)).setText(apiary.getCoordinate().getLatitude() + "");
+        ((TextView) binding.getRoot().findViewById(R.id.apiaryLong)).setText(apiary.getCoordinate().getLongitude() + "");
         binding.getRoot().findViewById(R.id.contentTable).post(() -> {
-            if(apiary.getPicture() != null) {
-                ((ImageView)binding.getRoot().findViewById(R.id.image)).setImageBitmap(apiary.getPicture());
+            if (apiary.getPicture() != null) {
+                ((ImageView) binding.getRoot().findViewById(R.id.image)).setImageBitmap(apiary.getPicture());
             }
         });
     }
 
     private void saveToViewModel() {
         Apiary apiary = viewModel.getData().getValue();
-        apiary.setName(((TextView)binding.getRoot().findViewById(R.id.apiaryName)).getText().toString());
-        apiary.setLocation(((TextView)binding.getRoot().findViewById(R.id.apiaryLocation)).getText().toString());
-        if(photoFile != null) {
+        apiary.setName(((TextView) binding.getRoot().findViewById(R.id.apiaryName)).getText().toString());
+        apiary.setLocation(((TextView) binding.getRoot().findViewById(R.id.apiaryLocation)).getText().toString());
+        if (photoFile != null) {
             try {
                 InputStream inputStream = requireActivity().getContentResolver().openInputStream(photoFile);
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
@@ -151,8 +151,8 @@ public class EditApiary extends Fragment implements View.OnClickListener {
             }
         }
         try {
-            apiary.setCoordinate(Double.parseDouble(((TextView)binding.getRoot().findViewById(R.id.apiaryLat)).getText().toString()),
-                    Double.parseDouble(((TextView)binding.getRoot().findViewById(R.id.apiaryLong)).getText().toString()));
+            apiary.setCoordinate(Double.parseDouble(((TextView) binding.getRoot().findViewById(R.id.apiaryLat)).getText().toString()),
+                    Double.parseDouble(((TextView) binding.getRoot().findViewById(R.id.apiaryLong)).getText().toString()));
         } catch (NumberFormatException e) {
             System.err.println(e);
             Toast.makeText(getContext(), "Bad coordinate format", Toast.LENGTH_SHORT).show();

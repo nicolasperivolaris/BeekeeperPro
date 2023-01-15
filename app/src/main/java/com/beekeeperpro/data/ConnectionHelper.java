@@ -12,7 +12,7 @@ public class ConnectionHelper {
 
     public static Connection CONN() {
         try {
-            if (conn == null || conn.isClosed()) {
+            for (int i = 0; (conn == null || conn.isClosed()) && i < 10; i++) {
                 String _user = "sa";
                 String _pass = "DBdeBP22";
                 String _DB = "BeekeeperPro";
@@ -26,6 +26,8 @@ public class ConnectionHelper {
                         + _pass + ";";
                 conn = DriverManager.getConnection(ConnURL);
             }
+            if (conn.isClosed())
+                System.err.println("Connection closed");
         } catch (Exception se) {
             Log.e("ERRO", se.getMessage());
         }

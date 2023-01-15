@@ -47,11 +47,11 @@ public class User {
                     resultSet.getString("name"),
                     resultSet.getString(5),
                     resultSet.getInt(4));
-                    double lat = resultSet.getDouble(6);
-                    double lon = resultSet.getDouble(7);
-                    apiary.setCoordinate(lat, lon);
+            double lat = resultSet.getDouble(6);
+            double lon = resultSet.getDouble(7);
+            apiary.setCoordinate(lat, lon);
             byte[] imageBytes = resultSet.getBytes("photo");
-            if(imageBytes != null) {
+            if (imageBytes != null) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                 apiary.setPicture(bitmap);
             }
