@@ -28,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         instance = this;
         //todo temp
-        new Thread(() -> {
+        /*new Thread(() -> {
             LoginViewModel loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                     .get(LoginViewModel.class);
             loginViewModel.login("testuser", "");
-        }).start();
+        }).start();*/
         //temp
 
         com.beekeeperpro.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());

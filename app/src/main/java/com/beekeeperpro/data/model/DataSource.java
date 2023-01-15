@@ -22,8 +22,7 @@ public class DataSource {
     public Result login(String username, String password) {
         try {
             Connection connect = ConnectionHelper.CONN();
-
-            String queryStmt = "Select * from dbo.login(?, '');";
+            String queryStmt = "Select * from BeekeeperPro.dbo.login (?, '');";
             PreparedStatement preparedStatement = connect
                     .prepareStatement(queryStmt);
             preparedStatement.setString(1, username.toLowerCase(Locale.ROOT));

@@ -26,8 +26,8 @@
     <string name="_50_8476">50.8476</string>
     <string name="coordinate">Coordinate</string>
     <string name="picture">Picture</string>
-    <string name="hives_count">Hives count :</string>
-    <string name="apiary_location">Apiary Location</string>
+    <string name="hives_count">Hives :</string>
+    <string name="unknown_location">Unknown location</string>
     <string name="location">Location</string>
     <string name="longitude">Long :</string>
     <string name="save">Save</string>
