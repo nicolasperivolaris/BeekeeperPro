@@ -17,8 +17,12 @@ public class ApiaryListViewModel extends ConnectedViewModel<List> {
     @Override
     public Result getFromSource() {
         try {
-            return new Result.Success<>(LoginRepository.getLoggedInUser().getApiaries());
-        } catch (SQLException e) {
+            try {
+                return new Result.Success<>(LoginRepository.getLoggedInUser().getApiaries());
+            } catch (SQLException e) {
+                return new Result.Success<>(LoginRepository.getLoggedInUser().getApiaries());
+            }
+        }catch (SQLException e){
             return new Result.Error(e);
         }
     }

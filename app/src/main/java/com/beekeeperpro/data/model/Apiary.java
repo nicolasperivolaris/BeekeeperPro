@@ -166,6 +166,7 @@ public class Apiary extends ApiaryEntity implements Parcelable {
         }
 
         int result = statement.executeUpdate();
+        statement.close();
         if (result > 0) {
             return true;
         } else {
