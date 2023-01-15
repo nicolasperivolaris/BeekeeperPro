@@ -10,6 +10,7 @@ import java.util.List;
 
 public class HiveListViewModel extends ConnectedViewModel<List> {
     private Apiary apiary;
+    public boolean cameFromFindHive = false;
 
     public HiveListViewModel() {
         super(List.class);

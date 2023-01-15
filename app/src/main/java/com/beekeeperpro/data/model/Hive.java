@@ -258,4 +258,31 @@ public class Hive extends ApiaryEntity implements Parcelable {
         hive.setAcquisitionDate(resultSet.getDate(8));
         return hive;
     }
+
+    public static Hive select(String code) throws SQLException {
+        Hive hive = new Hive();
+        Apiary apiary = new Apiary();
+        String queryStmt = "SELECT Hive.*, a.id as aId, a.name as aName FROM dbo.[Hive] JOIN dbo.[Apiary] a ON dbo.[Hive].apiary_id = a.id WHERE Hive.code = ?";
+        Connection connect = ConnectionHelper.CONN();
+        PreparedStatement stmt = connect.prepareStatement(queryStmt);
+        stmt.setString(1, code);
+        ResultSet resultSet = stmt.executeQuery();
+        if (!resultSet.next()) {
+            throw new SQLException("No hive with code " + code);
+        } else {
+            hive.setCode(resultSet.getString("code"));
+            hive.setId(resultSet.getInt("id"));
+            hive.setName(resultSet.getString(3));
+            hive.setApiary(apiary);
+            hive.setStrength(resultSet.getInt(6));
+            hive.setHivingDate(resultSet.getDate(7));
+            hive.setAcquisitionDate(resultSet.getDate(8));
+            apiary.setId(resultSet.getInt("aId"));
+            apiary.setName(resultSet.getString("aName"));
+        }
+        resultSet.close();
+        stmt.close();
+        connect.close();
+        return hive;
+    }
 }

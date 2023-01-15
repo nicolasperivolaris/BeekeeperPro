@@ -80,6 +80,11 @@
             <action
                 android:id="@+id/action_hives_list_fragment_to_hive_fragment"
                 app:destination="@id/hive_fragment" />
+            <argument
+                android:name="hive"
+                app:argType="com.beekeeperpro.data.model.Hive"
+                app:nullable="true"
+                android:defaultValue="@null" />
         </fragment>
         <fragment
             android:id="@+id/add_hive_fragment"
@@ -98,16 +103,16 @@
                 app:argType="com.beekeeperpro.data.model.Hive" />
         </fragment>
 
-        <fragment
-            android:id="@+id/find_hive_fragment"
-            android:name="com.beekeeperpro.ui.gallery.FindHiveFragment"
-            android:label="find_hive_fragment"
-            tools:layout="@layout/find_hive_fragment">
-            <action
-                android:id="@+id/action_findHiveFragment2_to_hive_fragment"
-                app:destination="@id/hive_fragment" />
-        </fragment>
     </navigation>
+    <fragment
+        android:id="@+id/nav_find_hive"
+        android:name="com.beekeeperpro.ui.hive.FindHiveFragment"
+        android:label="Find hive"
+        tools:layout="@layout/find_hive_fragment">
+        <action
+            android:id="@+id/action_nav_find_hive_to_hive"
+            app:destination="@id/hive" />
+    </fragment>
 
 
 </navigation>

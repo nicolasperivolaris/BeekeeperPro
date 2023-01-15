@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.gallery.FindHiveFragment">
+    tools:context=".ui.hive.FindHiveFragment">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -21,18 +21,19 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/nfc_text"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:labelFor="@+id/hive_code"/>
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/hive_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="center"
+            android:hint="@string/hive_code"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:text="@string/hive_code" />
+            android:minHeight="48dp" />
 
         <Button
             android:id="@+id/search_bt"

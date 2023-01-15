@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -40,6 +41,10 @@ public class HiveFragment extends Fragment {
         binding = HiveFragmentBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(this).get(HiveViewModel.class);
         viewModel.initWith(getArguments().getParcelable("hive"));
+        Hive hive = getArguments().getParcelable("hive");
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.hive_view_title,
+                hive.getCode() == null ? hive.getName() : hive.getCode(),
+                hive.getApiary().getName()));
 
         InspectionListAdapter adapter = new InspectionListAdapter();
         /*adapter.getOnClickedItem().observe(getViewLifecycleOwner(), hive -> {
@@ -53,7 +58,7 @@ public class HiveFragment extends Fragment {
             viewModel.delete(inspection);
         });
         binding.inspectionList.setAdapter(adapter);
-        viewModel.getData().observe(getViewLifecycleOwner(), hive -> {
+        viewModel.getData().observe(getViewLifecycleOwner(), h -> {
             loadFromViewModel();
         });
         viewModel.getDone().observe(getViewLifecycleOwner(), saved -> {

@@ -56,6 +56,7 @@
     <string name="phytosanitary_used_remarks">Phytosanitary remarks…</string>
     <string name="attention_points">Attention points for next inspection :</string>
     <string name="hive_inspection_title">Inspection on hive %1$s in apiary %2$s</string>
+    <string name="hive_view_title">View of hive %1$s in apiary %2$s</string>
     <string name="add_inspection">Add inspection</string>
     <string name="_0">0</string>
     <string name="locate">Locate</string>
@@ -154,4 +155,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nfc_text">Place the device close to a hive\'s NFC tag of insert a hive code.</string>
     <string name="search">Search</string>
+    <string name="find_hive">Find hive</string>
 </resources>

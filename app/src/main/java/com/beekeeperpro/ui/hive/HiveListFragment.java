@@ -24,8 +24,22 @@ public class HiveListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        HiveListFragmentBinding binding = HiveListFragmentBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(this).get(HiveListViewModel.class);
+        if(getArguments().getParcelable("hive") != null){
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+
+            if(viewModel.cameFromFindHive) {
+                viewModel.cameFromFindHive = false;
+                navController.popBackStack();
+                return null;
+            }else
+                viewModel.cameFromFindHive = true;
+            Bundle args = new Bundle();
+            args.putParcelable("hive", getArguments().getParcelable("hive"));
+            navController.navigate(R.id.action_hives_list_fragment_to_hive_fragment, args);
+        }
+
+        HiveListFragmentBinding binding = HiveListFragmentBinding.inflate(inflater, container, false);
         viewModel.setApiary(getArguments().getParcelable("apiary"));
 
         HiveListAdapter adapter = new HiveListAdapter();

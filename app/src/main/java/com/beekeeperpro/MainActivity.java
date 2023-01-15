@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_apiary_list, R.id.nav_gallery, R.id.logout)
+                R.id.nav_apiary_list, R.id.nav_gallery, R.id.nav_find_hive, R.id.logout)
                 .setOpenableLayout(drawer)
                 .build();
 
